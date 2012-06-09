@@ -3,10 +3,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>..\output\bin\</OutDir>
+    <OutDir>.\output\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup>
-    <IntDir>..\output\obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <IntDir>.\output\obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
