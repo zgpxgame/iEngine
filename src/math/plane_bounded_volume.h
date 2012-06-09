@@ -37,7 +37,7 @@ Torus Knot Software Ltd.
 #include "math.h"
 #include "plane.h"
 
-namespace mathlib {
+namespace math {
 
     /** Represents a convex volume bounded by planes.
     */

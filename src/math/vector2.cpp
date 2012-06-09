@@ -30,7 +30,7 @@ Torus Knot Software Ltd.
 
 #include "vector2.h"
 
-namespace mathlib
+namespace math
 {
     const Vector2 Vector2::ZERO( 0, 0);
 

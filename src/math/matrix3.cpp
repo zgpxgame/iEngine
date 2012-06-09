@@ -33,7 +33,7 @@ Torus Knot Software Ltd.
 
 // Adapted from Matrix math by Wild Magic http://www.geometrictools.com/
 
-namespace mathlib
+namespace math
 {
     const Real Matrix3::EPSILON = 1e-06;
     const Matrix3 Matrix3::ZERO(0,0,0,0,0,0,0,0,0);

@@ -79,7 +79,7 @@ http://www.gnu.org/copyleft/lesser.txt
 #endif
 
 
-namespace mathlib {
+namespace math {
     // define the real number values to be used
     // default to use 'float' unless precompiler option set
     #if FLOAT_DOUBLE_PRECISION == 1

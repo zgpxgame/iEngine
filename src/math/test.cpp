@@ -2,9 +2,9 @@
 #include <iostream>
 using namespace std;
 
-#include "mathlib.h"
+#include "math/math_lib.h"
 
-using namespace mathlib;
+using namespace math;
 
 int main()
 {

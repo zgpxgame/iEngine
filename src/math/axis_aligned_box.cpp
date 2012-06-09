@@ -29,7 +29,7 @@ Torus Knot Software Ltd.
 
 #include "axis_aligned_box.h"
 
-namespace mathlib
+namespace math
 {
 	const AxisAlignedBox AxisAlignedBox::BOX_NULL;
 	const AxisAlignedBox AxisAlignedBox::BOX_INFINITE(AxisAlignedBox::EXTENT_INFINITE);

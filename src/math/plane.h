@@ -39,7 +39,7 @@ Torus Knot Software Ltd.
 
 #include "vector3.h"
 
-namespace mathlib {
+namespace math {
 
     /** Defines a plane in 3D space.
         @remarks
@@ -152,6 +152,6 @@ namespace mathlib {
 
     //typedef std::vector<Plane> PlaneList;
 
-} // namespace mathlib
+} // namespace math
 
 #endif

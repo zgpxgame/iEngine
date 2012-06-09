@@ -37,7 +37,7 @@ Torus Knot Software Ltd.
 #include "matrix3.h"
 #include "vector4.h"
 #include "plane.h"
-namespace mathlib
+namespace math
 {
     /** Class encapsulating a standard 4x4 homogeneous matrix.
         @remarks

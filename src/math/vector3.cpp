@@ -29,7 +29,7 @@ Torus Knot Software Ltd.
 
 #include "vector3.h"
 
-namespace mathlib
+namespace math
 {
     const Vector3 Vector3::ZERO( 0, 0, 0 );
 

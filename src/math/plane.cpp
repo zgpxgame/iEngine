@@ -31,7 +31,7 @@ Torus Knot Software Ltd.
 #include "matrix3.h"
 #include "axis_aligned_box.h" 
 
-namespace mathlib {
+namespace math {
 	//-----------------------------------------------------------------------
 	Plane::Plane ()
 	{
@@ -168,4 +168,4 @@ namespace mathlib {
 		o << "Plane(normal=" << p.normal << ", d=" << p.d << ")";
 		return o;
 	}
-} // namespace mathlib
+} // namespace math

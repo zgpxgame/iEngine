@@ -36,7 +36,7 @@ Torus Knot Software Ltd.
 #include "vector3.h"
 #include "matrix4.h"
 
-namespace mathlib {
+namespace math {
 
 	/** A 3D box aligned with the x/y/z axes.
 	@remarks
@@ -801,6 +801,6 @@ namespace mathlib {
 
 	};
 
-} // namespace mathlib
+} // namespace math
 
 #endif

@@ -48,7 +48,7 @@ Torus Knot Software Ltd.
 #include "math.h"
 
 
-namespace mathlib {
+namespace math {
 
     /** Implementation of a Quaternion, i.e. a rotation around an axis.
     */

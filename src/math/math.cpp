@@ -39,7 +39,7 @@ Torus Knot Software Ltd.
 #include "plane.h"
 
 
-namespace mathlib
+namespace math
 {
 
     const Real Math::POS_INFINITY = std::numeric_limits<Real>::infinity();

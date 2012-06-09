@@ -34,7 +34,7 @@ Torus Knot Software Ltd.
 #include "math_export.h"
 #include "vector3.h"
 
-namespace mathlib {
+namespace math {
 
 
     /** A sphere primitive, mostly used for bounds checking. 

@@ -33,7 +33,7 @@ Torus Knot Software Ltd.
 #include "math_export.h"
 #include "math.h"
 
-namespace mathlib
+namespace math
 {
 
     /** Standard 2-dimensional vector.

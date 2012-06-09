@@ -32,7 +32,7 @@ Torus Knot Software Ltd.
 #include "vector3.h"
 #include "matrix3.h"
 
-namespace mathlib
+namespace math
 {
 
     const Matrix4 Matrix4::ZERO(

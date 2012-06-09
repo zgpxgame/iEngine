@@ -35,7 +35,7 @@ Torus Knot Software Ltd.
 #include "vector3.h"
 #include "plane_bounded_volume.h"
 
-namespace mathlib {
+namespace math {
 
     /** Representation of a ray in space, i.e. a line with an origin and direction. */
     class MATH_EXPORT Ray

@@ -47,7 +47,7 @@ Torus Knot Software Ltd.
 #include "matrix3.h"
 #include "vector3.h"
 
-namespace mathlib {
+namespace math {
 
     const Real Quaternion::ms_fEpsilon = 1e-03;
     const Quaternion Quaternion::ZERO(0.0,0.0,0.0,0.0);

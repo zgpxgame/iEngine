@@ -52,7 +52,7 @@ Torus Knot Software Ltd.
 //           0       0       1
 // where t > 0 indicates a counterclockwise rotation in the xy-plane.
 
-namespace mathlib
+namespace math
 {
     /** A 3x3 matrix which can represent rotations around axes.
         @note

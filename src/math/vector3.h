@@ -34,7 +34,7 @@ Torus Knot Software Ltd.
 #include "math.h"
 #include "quaternion.h"
 
-namespace mathlib
+namespace math
 {
 
     /** Standard 3-dimensional vector.

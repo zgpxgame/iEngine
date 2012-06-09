@@ -33,7 +33,7 @@ Torus Knot Software Ltd.
 #include "math_export.h"
 
 
-namespace mathlib
+namespace math
 {
     /** Wrapper class which indicates a given angle value is in Radians.
     @remarks

@@ -33,7 +33,7 @@ Torus Knot Software Ltd.
 #include "math_export.h"
 #include "vector3.h"
 
-namespace mathlib
+namespace math
 {
 
     /** 4-dimensional homogeneous vector.
