@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\renderer\include\Animation.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\AnimationState.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\AnimationTrack.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ArchiveEx.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ArchiveFactory.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ArchiveManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\asm_math.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\AxisAlignedBox.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Billboard.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\BillboardSet.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Bitwise.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\BlendMode.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Bone.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Camera.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Codec.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ColourValue.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Common.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Config.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ConfigDialog.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ConfigFile.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ConfigOptionMap.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Controller.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ControllerManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\DataChunk.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\DynLib.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\DynLibManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Entity.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ErrorDialog.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Exception.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\FactoryObj.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\FrameListener.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\GeometryData.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Image.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\IteratorWrappers.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\KeyFrame.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Light.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Log.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\LogManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Material.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MaterialManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MaterialSerializer.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Matrix3.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Matrix4.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MemoryMacros.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MemoryManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Mesh.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MeshFileFormat.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MeshManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MeshSerializer.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MovableObject.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MyMath.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\MyString.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Node.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\NoMemoryMacros.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\OofFile.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\OofModelFile.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Particle.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleAffector.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleAffectorFactory.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleEmitter.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleEmitterCommands.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleEmitterFactory.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleIterator.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleSystem.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ParticleSystemManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\PatchSurface.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Plane.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Platform.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\PlatformManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\PositionTarget.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\PredefinedControllers.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Prerequisites.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ProgressiveMesh.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Quaternion.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Ray.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Renderable.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderEngine.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderOperation.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderQueue.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderQueueListener.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderQueueSortingGrouping.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderSystem.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderTarget.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderTargetListener.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderTargetTexture.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderTexture.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RenderWindow.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Resource.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ResourceManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ResourceMap.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Root.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\RotationalSpline.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SceneManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SceneManagerEnumerator.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SceneNode.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SceneQuery.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SDDataChunk.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Serializer.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SharedPtr.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SimpleRenderable.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SimpleSpline.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Singleton.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Skeleton.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SkeletonFileFormat.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SkeletonManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SkeletonSerializer.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Sphere.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\StaticFaceGroup.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\StdHeaders.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\StringConverter.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\StringInterface.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\StringResource.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\StringVector.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SubEntity.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\SubMesh.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\TagPoint.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Texture.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\TextureManager.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Timer.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\unzip.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\UserDefinedObject.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Vector3.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Vector4.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\VertexBoneAssignment.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Viewport.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\WireBoundingBox.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\Zip.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ZipArchiveFactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\renderer\src\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\AnimationState.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\AnimationTrack.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ArchiveEx.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ArchiveManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\AxisAlignedBox.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Billboard.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\BillboardSet.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Bitwise.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Bone.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Codec.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ColourValue.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Common.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ConfigFile.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ConfigOptionMap.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Controller.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ControllerManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\DataChunk.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\DynLib.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\DynLibManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Entity.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Exception.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Image.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\KeyFrame.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Light.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Log.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\LogManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Material.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MaterialManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MaterialSerializer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Matrix3.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Matrix4.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MemoryManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Mesh.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MeshManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MeshSerializer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MovableObject.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MyMath.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\MyString.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Node.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\OofModelFile.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ParticleEmitterCommands.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ParticleIterator.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ParticleSystem.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ParticleSystemManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\PatchSurface.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Plane.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\PlatformManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\PredefinedControllers.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ProgressiveMesh.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Quaternion.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\RenderQueue.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\RenderSystem.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\RenderTarget.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\RenderTexture.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\RenderWindow.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ResourceManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ResourceMap.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Root.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\RotationSpline.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SceneManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SceneManagerEnumerator.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SceneNode.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SceneQuery.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SDDataChunk.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Serializer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SimpleRenderable.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SimpleSpline.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Singleton.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Skeleton.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SkeletonManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SkeletonSerializer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\StringConverter.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\StringInterface.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\StringVector.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SubEntity.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\SubMesh.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\TagPoint.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\test.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Texture.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\TextureLayer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\TextureManager.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Timer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\unzip.c" />
+    <ClCompile Include="..\..\..\src\renderer\src\UserDefinedObject.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Vector3.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Viewport.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\WireBoundingBox.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\Zip.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ZipArchiveFactory.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B22F7290-0EF3-4828-8CE2-DA722DD1A371}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>renderer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\default_debug.props" />
+    <Import Project="..\default_binpath.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\default_release.props" />
+    <Import Project="..\default_binpath.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;OGRE_NONCLIENT_BUILD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../src/renderer/include;../../../src/third_party/zlib</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
