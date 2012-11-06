@@ -54,6 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENGL_RENDERER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../src/renderer/include;../../../src/render_device/opengl/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,6 +79,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\GLPrerequisites.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\GLRenderSystem.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\GLSupport.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\GLTexture.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\GLTextureManager.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\Win32GLSupport.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\Win32Prerequisites.h" />
+    <ClInclude Include="..\..\..\src\render_device\opengl\include\Win32Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\GLEngineDll.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\glew.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\GLRenderSystem.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\GLSupport.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\GLTexture.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\GLTextureManager.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\Win32GLSupport.cpp" />
+    <ClCompile Include="..\..\..\src\render_device\opengl\src\Win32Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
