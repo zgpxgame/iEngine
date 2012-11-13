@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BFFA9B65-A03F-475B-B001-26962661B14A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ILU</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\output\lib\</OutDir>
+    <IntDir>..\..\output\obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;IL_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../../src/third_party/devil/src-ILU/include;../../../../src/third_party/devil/include;../../../../src/third_party/zlib;../../../../src/third_party/libpng;../../../../src/third_party/libjpeg</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\third_party\devil\include\IL\devil_internal_exports.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\include\IL\ilu.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-arabic.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-dutch.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-english.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-french.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-german.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-japanese.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_error\ilu_err-spanish.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_filter.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_internal.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_region.h" />
+    <ClInclude Include="..\..\..\..\src\third_party\devil\src-ILU\include\ilu_states.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_error.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_filter.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_filter_rcg.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_internal.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_main.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_manip.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_mipmap.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_noise.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_region.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_rotate.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_scale.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_scale2d.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_scale3d.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_states.c" />
+    <ClCompile Include="..\..\..\..\src\third_party\devil\src-ILU\src\ilu_utilities.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
