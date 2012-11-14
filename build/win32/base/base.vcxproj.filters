@@ -208,6 +208,9 @@
     <ClCompile Include="..\..\..\src\base\third_party\dmg_fp\g_fmt.cc">
       <Filter>third_party\dmg_fp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\base\debug\debugger_win.cc">
+      <Filter>debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
