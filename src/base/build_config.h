@@ -24,7 +24,7 @@
 #elif defined(_WIN32)
 #define OS_WIN 1
 #else
-#error Please add support for your platform in build/build_config.h
+#error Please add support for your platform in base/build_config.h
 #endif
 
 
@@ -50,7 +50,7 @@
 #elif defined(_MSC_VER)
 #define COMPILER_MSVC 1
 #else
-#error Please add support for your compiler in build/build_config.h
+#error Please add support for your compiler in base/build_config.h
 #endif
 
 // Processor architecture detection.  For more info on what's defined, see:
@@ -76,7 +76,7 @@
 #elif defined(__pnacl__)
 #define ARCH_CPU_32_BITS 1
 #else
-#error Please add support for your architecture in build/build_config.h
+#error Please add support for your architecture in base/build_config.h
 #endif
 
 // Type detection for wchar_t.
@@ -95,7 +95,7 @@
 // short wchar works for them.
 #define WCHAR_T_IS_UTF16
 #else
-#error Please add support for your compiler in build/build_config.h
+#error Please add support for your compiler in base/build_config.h
 #endif
 
 #if defined(OS_ANDROID)

@@ -6,7 +6,7 @@
 #define BASE_COMPILER_SPECIFIC_H_
 #pragma once
 
-#include "build/build_config.h"
+#include "base/build_config.h"
 
 #if defined(COMPILER_MSVC)
 

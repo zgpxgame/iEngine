@@ -5,5 +5,237 @@
     <ClInclude Include="..\..\..\src\base\base_export.h" />
     <ClInclude Include="..\..\..\src\base\compiler_specific.h" />
     <ClInclude Include="..\..\..\src\base\basictypes.h" />
+    <ClInclude Include="..\..\..\src\base\hash_tables.h" />
+    <ClInclude Include="..\..\..\src\base\string16.h" />
+    <ClInclude Include="..\..\..\src\base\port.h" />
+    <ClInclude Include="..\..\..\src\base\string_piece.h" />
+    <ClInclude Include="..\..\..\src\base\string_number_conversions.h" />
+    <ClInclude Include="..\..\..\src\base\base_switches.h" />
+    <ClInclude Include="..\..\..\src\base\synchronization\lock.h">
+      <Filter>synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\synchronization\lock_impl.h">
+      <Filter>synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\at_exit.h" />
+    <ClInclude Include="..\..\..\src\base\bind.h" />
+    <ClInclude Include="..\..\..\src\base\callback.h" />
+    <ClInclude Include="..\..\..\src\base\task.h" />
+    <ClInclude Include="..\..\..\src\base\callback_internal.h" />
+    <ClInclude Include="..\..\..\src\base\bind_helpers.h" />
+    <ClInclude Include="..\..\..\src\base\bind_internal.h" />
+    <ClInclude Include="..\..\..\src\base\bind_internal_win.h" />
+    <ClInclude Include="..\..\..\src\base\memory\linked_ptr.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\mru_cache.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\raw_scoped_refptr_mismatch_checker.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\ref_counted.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\ref_counted_memory.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\scoped_callback_factory.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\scoped_handle.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\scoped_open_process.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\scoped_ptr.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\scoped_vector.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\singleton.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\memory\weak_ptr.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\logging.h" />
+    <ClInclude Include="..\..\..\src\base\vlog.h" />
+    <ClInclude Include="..\..\..\src\base\command_line.h" />
+    <ClInclude Include="..\..\..\src\base\file_path.h" />
+    <ClInclude Include="..\..\..\src\base\debug\debugger.h">
+      <Filter>debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\debug\stack_trace.h">
+      <Filter>debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\threading\platform_thread.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\threading\thread_local.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\threading\thread_restrictions.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\win\windows_version.h">
+      <Filter>win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\lazy_instance.h" />
+    <ClInclude Include="..\..\..\src\base\string_split.h" />
+    <ClInclude Include="..\..\..\src\base\string_tokenizer.h" />
+    <ClInclude Include="..\..\..\src\base\string_util.h" />
+    <ClInclude Include="..\..\..\src\base\string_util_win.h" />
+    <ClInclude Include="..\..\..\src\base\stringprintf.h" />
+    <ClInclude Include="..\..\..\src\base\threading\thread_collision_warner.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\pickle.h" />
+    <ClInclude Include="..\..\..\src\base\sys_string_conversions.h" />
+    <ClInclude Include="..\..\..\src\base\template_util.h" />
+    <ClInclude Include="..\..\..\src\base\atomicops.h" />
+    <ClInclude Include="..\..\..\src\base\atomicops_internals_x86_msvc.h" />
+    <ClInclude Include="..\..\..\src\base\third_party\dynamic_annotations\dynamic_annotations.h">
+      <Filter>third_party\dynamic_annotations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\eintr_wrapper.h" />
+    <ClInclude Include="..\..\..\src\base\tuple.h" />
+    <ClInclude Include="..\..\..\src\base\process.h" />
+    <ClInclude Include="..\..\..\src\base\process_util.h" />
+    <ClInclude Include="..\..\..\src\base\file_descriptor_shuffle.h" />
+    <ClInclude Include="..\..\..\src\base\win\scoped_handle.h">
+      <Filter>win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\sys_info.h" />
+    <ClInclude Include="..\..\..\src\base\debug\alias.h">
+      <Filter>debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\atomic_ref_count.h" />
+    <ClInclude Include="..\..\..\src\base\threading\thread_checker.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\threading\thread_checker_impl.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\utf_string_conversion_utils.h" />
+    <ClInclude Include="..\..\..\src\base\utf_string_conversions.h" />
+    <ClInclude Include="..\..\..\src\base\third_party\icu\icu_utf.h">
+      <Filter>third_party\icu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\base\third_party\dmg_fp\dmg_fp.h">
+      <Filter>third_party\dmg_fp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\base\string_piece.cc" />
+    <ClCompile Include="..\..\..\src\base\string_number_conversions.cc" />
+    <ClCompile Include="..\..\..\src\base\base_switches.cc" />
+    <ClCompile Include="..\..\..\src\base\synchronization\lock.cc">
+      <Filter>synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\synchronization\lock_impl_win.cc">
+      <Filter>synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\at_exit.cc" />
+    <ClCompile Include="..\..\..\src\base\callback_internal.cc" />
+    <ClCompile Include="..\..\..\src\base\memory\ref_counted.cc">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\memory\ref_counted_memory.cc">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\memory\weak_ptr.cc">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\logging.cc" />
+    <ClCompile Include="..\..\..\src\base\vlog.cc" />
+    <ClCompile Include="..\..\..\src\base\task.cc" />
+    <ClCompile Include="..\..\..\src\base\command_line.cc" />
+    <ClCompile Include="..\..\..\src\base\file_path.cc" />
+    <ClCompile Include="..\..\..\src\base\debug\debugger.cc">
+      <Filter>debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\debug\stack_trace.cc">
+      <Filter>debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\debug\stack_trace_win.cc">
+      <Filter>debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\threading\platform_thread_win.cc">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\threading\thread_local_win.cc">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\threading\thread_restrictions.cc">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\win\windows_version.cc">
+      <Filter>win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\lazy_instance.cc" />
+    <ClCompile Include="..\..\..\src\base\string_split.cc" />
+    <ClCompile Include="..\..\..\src\base\string_util.cc" />
+    <ClCompile Include="..\..\..\src\base\stringprintf.cc" />
+    <ClCompile Include="..\..\..\src\base\threading\thread_collision_warner.cc">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\pickle.cc" />
+    <ClCompile Include="..\..\..\src\base\sys_string_conversions_win.cc" />
+    <ClCompile Include="..\..\..\src\base\third_party\dynamic_annotations\dynamic_annotations.c">
+      <Filter>third_party\dynamic_annotations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\process_util.cc" />
+    <ClCompile Include="..\..\..\src\base\process_util_win.cc" />
+    <ClCompile Include="..\..\..\src\base\process_win.cc" />
+    <ClCompile Include="..\..\..\src\base\sys_info_win.cc" />
+    <ClCompile Include="..\..\..\src\base\debug\alias.cc">
+      <Filter>debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\threading\thread_checker_impl.cc">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\utf_string_conversion_utils.cc" />
+    <ClCompile Include="..\..\..\src\base\utf_string_conversions.cc" />
+    <ClCompile Include="..\..\..\src\base\third_party\icu\icu_utf.cc">
+      <Filter>third_party\icu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\third_party\dmg_fp\dtoa_wrapper.cc">
+      <Filter>third_party\dmg_fp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\base\third_party\dmg_fp\g_fmt.cc">
+      <Filter>third_party\dmg_fp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="memory">
+      <UniqueIdentifier>{0a9c9936-9833-49ab-9225-0b003ed1c4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synchronization">
+      <UniqueIdentifier>{9d00c38b-3ae8-4332-ac1d-103651b7db78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="debug">
+      <UniqueIdentifier>{74334c21-3b41-4f65-b570-cae5e6f2331a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="threading">
+      <UniqueIdentifier>{c333e10c-f5fc-49ba-a280-600db621eaa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win">
+      <UniqueIdentifier>{6db1053d-9c1a-4768-be1b-eaee77451007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party">
+      <UniqueIdentifier>{de76ca14-c6ad-46c1-b7b0-179d43b3e41d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\dynamic_annotations">
+      <UniqueIdentifier>{566283a3-ead3-4941-9f6e-9806e9eaeab8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\icu">
+      <UniqueIdentifier>{e216bd7c-e5db-4777-937a-0e369dcb9465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\dmg_fp">
+      <UniqueIdentifier>{24372b46-7a54-4fea-a7af-02f1fac7d004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
