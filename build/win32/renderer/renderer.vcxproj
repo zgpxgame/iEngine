@@ -25,7 +25,6 @@
     <ClInclude Include="..\..\..\src\renderer\include\BlendMode.h" />
     <ClInclude Include="..\..\..\src\renderer\include\Bone.h" />
     <ClInclude Include="..\..\..\src\renderer\include\Camera.h" />
-    <ClInclude Include="..\..\..\src\renderer\include\Codec.h" />
     <ClInclude Include="..\..\..\src\renderer\include\ColourValue.h" />
     <ClInclude Include="..\..\..\src\renderer\include\Common.h" />
     <ClInclude Include="..\..\..\src\renderer\include\Config.h" />
@@ -44,6 +43,7 @@
     <ClInclude Include="..\..\..\src\renderer\include\FrameListener.h" />
     <ClInclude Include="..\..\..\src\renderer\include\GeometryData.h" />
     <ClInclude Include="..\..\..\src\renderer\include\Image.h" />
+    <ClInclude Include="..\..\..\src\renderer\include\ImageCodec.h" />
     <ClInclude Include="..\..\..\src\renderer\include\IteratorWrappers.h" />
     <ClInclude Include="..\..\..\src\renderer\include\KeyFrame.h" />
     <ClInclude Include="..\..\..\src\renderer\include\Light.h" />
@@ -152,7 +152,6 @@
     <ClCompile Include="..\..\..\src\renderer\src\Bitwise.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Bone.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Camera.cpp" />
-    <ClCompile Include="..\..\..\src\renderer\src\Codec.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\ColourValue.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Common.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\ConfigFile.cpp" />
@@ -165,6 +164,7 @@
     <ClCompile Include="..\..\..\src\renderer\src\Entity.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Exception.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Image.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\src\ImageCodec.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\KeyFrame.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Light.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Log.cpp" />
@@ -221,7 +221,6 @@
     <ClCompile Include="..\..\..\src\renderer\src\SubEntity.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\SubMesh.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\TagPoint.cpp" />
-    <ClCompile Include="..\..\..\src\renderer\src\test.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\Texture.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\TextureLayer.cpp" />
     <ClCompile Include="..\..\..\src\renderer\src\TextureManager.cpp" />
@@ -241,7 +240,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -272,12 +271,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;OGRE_NONCLIENT_BUILD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../src/renderer/include;../../../src/third_party/zlib</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;OGRE_NONCLIENT_BUILD;IL_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../src/renderer/include;../../../src/third_party/zlib;../../../src/third_party/devil/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\output\lib\$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>..\output\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib_d.lib;libjpeg_d.lib;libpng_d.lib;il_d.lib;ilu_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -26,7 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "ArchiveManager.h"
 #include "Exception.h"
-//#include "ImageCodec.h"
+#include "ImageCodec.h"
 #include "SDDataChunk.h"
 
 namespace renderer {
@@ -215,8 +215,6 @@ namespace renderer {
     //-----------------------------------------------------------------------------
     Image & Image::load( const String& strFileName )
     {
-      return *this;
-#if 0
         OgreGuard( "Image::load" );
 
         if( m_pBuffer )
@@ -224,25 +222,6 @@ namespace renderer {
             delete[] m_pBuffer;
             m_pBuffer = NULL;
         }
-
-        String strExt;
-
-        size_t pos = strFileName.find_last_of(".");
-	    if( pos == String::npos )
-            Except(
-		    Exception::ERR_INVALIDPARAMS, 
-		    "Unable to load image file '" + strFileName + "' - invalid extension.",
-            "Image::load" );
-
-        while( pos != strFileName.length() - 1 )
-            strExt += strFileName[++pos];
-
-        Codec * pCodec = Codec::getCodec(strExt);
-        if( !pCodec )
-            Except(
-            Exception::ERR_INVALIDPARAMS, 
-            "Unable to load image file '" + strFileName + "' - invalid extension.",
-            "Image::load" );
 
         SDDataChunk encoded;
         DataChunk decoded;
@@ -257,8 +236,9 @@ namespace renderer {
             "Image::load" );
         }
 
+        ImageCodec img_codec;
         ImageCodec::ImageData * pData = static_cast< ImageCodec::ImageData * > (
-            pCodec->decode( encoded, &decoded ) );
+            img_codec.decode( encoded, &decoded ) );
 
         // Get the format and compute the pixel size
         m_uWidth = pData->width;
@@ -271,29 +251,27 @@ namespace renderer {
         m_pBuffer = decoded.getPtr();
         
         OgreUnguardRet( *this );
-#endif
     }
 
     //-----------------------------------------------------------------------------
     Image & Image::load( const DataChunk& chunk, const String& type )
     {
-      return *this;
-#if 0
         OgreGuard( "Image::load" );
 
-        String strType = type;
-
-        Codec * pCodec = Codec::getCodec(strType);
-        if( !pCodec )
-            Except(
-            Exception::ERR_INVALIDPARAMS, 
-            "Unable to load image - invalid extension.",
-            "Image::load" );
+        //String strType = type;
+        //
+        //Codec * pCodec = Codec::getCodec(strType);
+        //if( !pCodec )
+        //    Except(
+        //    Exception::ERR_INVALIDPARAMS, 
+        //    "Unable to load image - invalid extension.",
+        //    "Image::load" );
 
         DataChunk decoded;
 
+        ImageCodec img_codec;
         ImageCodec::ImageData * pData = static_cast< ImageCodec::ImageData * >(
-            pCodec->decode( chunk, &decoded ) );
+            img_codec.decode( chunk, &decoded ) );
 
         m_uWidth = pData->width;
         m_uHeight = pData->height;
@@ -307,7 +285,6 @@ namespace renderer {
         m_pBuffer = decoded.getPtr();
 
         OgreUnguardRet( *this );
-#endif
     }
 
     //-----------------------------------------------------------------------------

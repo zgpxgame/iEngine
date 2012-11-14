@@ -51,9 +51,6 @@
     <ClInclude Include="..\..\..\src\renderer\include\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\renderer\include\Codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\renderer\include\ColourValue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -393,6 +390,9 @@
     <ClInclude Include="..\..\..\src\renderer\include\ZipArchiveFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\renderer\include\ImageCodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\renderer\src\Animation.cpp">
@@ -426,9 +426,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\renderer\src\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\renderer\src\Codec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\renderer\src\ColourValue.cpp">
@@ -635,9 +632,6 @@
     <ClCompile Include="..\..\..\src\renderer\src\TagPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\renderer\src\test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\renderer\src\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -669,6 +663,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\renderer\src\ZipArchiveFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\renderer\src\ImageCodec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

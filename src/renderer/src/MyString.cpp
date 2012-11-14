@@ -22,16 +22,15 @@ Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
-#include "String.h"
-
+#include "MyString.h"
 #include "StringVector.h"
 
 namespace renderer {
 
     //-----------------------------------------------------------------------
-    void String::trim(bool left, bool right)
+    void StringUtil::trim(String& str, bool left, bool right)
     {
-        size_t lspaces, rspaces, len = length(), i;
+        size_t lspaces, rspaces, len = str.length(), i;
 
         lspaces = rspaces = 0;
 
@@ -39,7 +38,7 @@ namespace renderer {
         {
             // Find spaces / tabs on the left
             for( i = 0;
-                i < len && ( at(i) == ' ' || at(i) == '\t' || at(i) == '\r');
+                i < len && ( str.at(i) == ' ' || str.at(i) == '\t' || str.at(i) == '\r');
                 ++lspaces, ++i );
         }
         
@@ -47,15 +46,15 @@ namespace renderer {
         {
             // Find spaces / tabs on the right
             for( i = len - 1;
-                i >= 0 && ( at(i) == ' ' || at(i) == '\t' || at(i) == '\r');
+                i >= 0 && ( str.at(i) == ' ' || str.at(i) == '\t' || str.at(i) == '\r');
                 rspaces++, i-- );
         }
 
-        *this = substr(lspaces, len-lspaces-rspaces);
+        str = str.substr(lspaces, len-lspaces-rspaces);
     }
 
     //-----------------------------------------------------------------------
-    std::vector<String> String::split( const String& delims, unsigned int maxSplits) const
+    std::vector<String> StringUtil::split(const String& str, const String& delims, unsigned int maxSplits)
     {
         // static unsigned dl;
         std::vector<String> ret;
@@ -66,28 +65,28 @@ namespace renderer {
         start = 0;
         do 
         {
-            pos = find_first_of(delims, start);
+            pos = str.find_first_of(delims, start);
             if (pos == start)
             {
                 // Do nothing
                 start = pos + 1;
             }
-            else if (pos == npos || (maxSplits && numSplits == maxSplits))
+            else if (pos == String::npos || (maxSplits && numSplits == maxSplits))
             {
                 // Copy the rest of the string
-                ret.push_back( substr(start) );
+                ret.push_back( str.substr(start) );
             }
             else
             {
                 // Copy up to delimiter
-                ret.push_back( substr(start, pos - start) );
+                ret.push_back( str.substr(start, pos - start) );
                 start = pos + 1;
             }
             // parse up to next real data
-            start = find_first_not_of(delims, start);
+            start = str.find_first_not_of(delims, start);
             ++numSplits;
 
-        } while (pos != npos);
+        } while (pos != String::npos);
 
 
 
@@ -95,32 +94,27 @@ namespace renderer {
     }
 
     //-----------------------------------------------------------------------
-    String String::toLowerCase(void) 
+    String StringUtil::toLowerCase(String& str) 
     {
         std::transform(
-            begin(),
-            end(),
-            begin(),
+            str.begin(),
+            str.end(),
+            str.begin(),
             static_cast<int(*)(int)>(::tolower) );
 
-        return *this;
+        return str;
     }
 
     //-----------------------------------------------------------------------
-    String String::toUpperCase(void) 
+    String StringUtil::toUpperCase(String& str) 
     {
         std::transform(
-            begin(),
-            end(),
-            begin(),
+            str.begin(),
+            str.end(),
+            str.begin(),
             static_cast<int(*)(int)>(::toupper) );
 
-        return *this;
-    }
-    //-----------------------------------------------------------------------
-    Real String::toReal(void) const
-    {
-        return (Real)atof(this->c_str());
+        return str;
     }
 }
 

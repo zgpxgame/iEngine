@@ -285,11 +285,9 @@ namespace renderer {
 		while( pos != filename.length() - 1 )
 			extension += filename[++pos];
 
-		// Get the codec
-		Codec * pCodec = Codec::getCodec(extension);
-
 		// Write out
-		pCodec->codeToFile(chunkFlipped, filename, &imgData);
+		ImageCodec img_codec;
+		img_codec.SaveToFile(chunkFlipped, filename, &imgData);
 
 		delete [] pBuffer;
 	}

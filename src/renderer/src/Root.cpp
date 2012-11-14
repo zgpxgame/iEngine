@@ -41,12 +41,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "SkeletonManager.h"
 #include "ZipArchiveFactory.h"
 
-#if 0
-#include "PNGCodec.h"
-#include "JPEGCodec.h"
-#include "TGACodec.h"
-#endif
-
 #if OGRE_PLATFORM == PLATFORM_WIN32
 
 #   define WIN32_LEAN_AND_MEAN
@@ -138,17 +132,6 @@ namespace renderer {
         mZipArchiveFactory = new ZipArchiveFactory();
         ArchiveManager::getSingleton().addArchiveFactory( mZipArchiveFactory );
 
-#if 0
-        mPNGCodec = new PNGCodec;
-        Codec::registerCodec( mPNGCodec );
-        mJPEGCodec = new JPEGCodec;
-        Codec::registerCodec( mJPEGCodec );
-        mTGACodec = new TGACodec;
-        Codec::registerCodec( mTGACodec );
-        mJPGCodec = new JPGCodec;
-        Codec::registerCodec( mJPGCodec );
-#endif
-
         // Load plugins
         loadPlugins(pluginFileName);        
 
@@ -198,13 +181,6 @@ namespace renderer {
     {
         shutdown();
         delete mSceneManagerEnum;
-
-#if 0
-        delete mTGACodec;
-        delete mJPGCodec;
-        delete mJPEGCodec;
-        delete mPNGCodec;
-#endif
         delete mZipArchiveFactory;
         delete mArchiveManager;
         delete mSkeletonManager;
@@ -229,7 +205,7 @@ namespace renderer {
         ::FILE *fp;
         char rec[100];
 
-        fp = fopen("ogre.cfg", "w");
+        fp = fopen("renderer.cfg", "w");
         if (!fp)
             Except(Exception::ERR_CANNOT_WRITE_TO_FILE, "Cannot create settings file.",
             "Root::saveConfig");
@@ -268,7 +244,7 @@ namespace renderer {
         RenderSystemList::iterator pRend;
 
         try {
-            cfg.load("ogre.cfg");
+            cfg.load("renderer.cfg");
         }
         catch (Exception& e)
         {
@@ -283,7 +259,7 @@ namespace renderer {
         }
 
         renderSystem = cfg.getSetting("Render System");
-        if(!renderSystem)
+        if(renderSystem.empty())
         {
             // No render system entry - error
             return false;

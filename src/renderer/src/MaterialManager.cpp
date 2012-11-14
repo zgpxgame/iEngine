@@ -425,7 +425,7 @@ namespace renderer {
 
 	    // Get final param
 	    bool useUVW;
-        String uvOpt = params[numParams-1].toLowerCase();
+        String uvOpt = StringUtil::toLowerCase(params[numParams-1]);
 	    if (uvOpt == "combineduvw")
 		    useUVW = true;
 	    else if (uvOpt == "separateuv")
@@ -632,7 +632,7 @@ namespace renderer {
 					    + pMat->getName() + ", wrong number of parameters (expected 4 for manual blend)");
 				    return;
 			    }
-			    manual = atof(params[4]);
+			    manual = atof(params[4].c_str());
 		    }
 
 			if (src1 == LBS_MANUAL)
@@ -648,9 +648,9 @@ namespace renderer {
 				    return;
 			    }
 
-				colSrc1.r = atof(params[parIndex++]);
-				colSrc1.g = atof(params[parIndex++]);
-				colSrc1.b = atof(params[parIndex]);
+                colSrc1.r = atof(params[parIndex++].c_str());
+				colSrc1.g = atof(params[parIndex++].c_str());
+				colSrc1.b = atof(params[parIndex].c_str());
 			}
 
 			if (src2 == LBS_MANUAL)
@@ -668,9 +668,9 @@ namespace renderer {
 				    return;
 			    }
 
-				colSrc2.r = atof(params[parIndex++]);
-				colSrc2.g = atof(params[parIndex++]);
-				colSrc2.b = atof(params[parIndex]);
+				colSrc2.r = atof(params[parIndex++].c_str());
+				colSrc2.g = atof(params[parIndex++].c_str());
+				colSrc2.b = atof(params[parIndex].c_str());
 			}
 	    }
 	    catch (Exception& e)
@@ -732,7 +732,7 @@ namespace renderer {
 					    + pMat->getName() + ", wrong number of parameters (expected 4 for manual blend)");
 				    return;
 			    }
-			    manual = atof(params[4]);
+			    manual = atof(params[4].c_str());
 		    }
 			if (src1 == LBS_MANUAL)
 			{
@@ -747,7 +747,7 @@ namespace renderer {
 				    return;
 			    }
 
-				arg1 = atof(params[parIndex]);
+				arg1 = atof(params[parIndex].c_str());
 			}
 
 			if (src2 == LBS_MANUAL)
@@ -765,7 +765,7 @@ namespace renderer {
 				    return;
 			    }
 
-				arg2 = atof(params[parIndex]);
+				arg2 = atof(params[parIndex].c_str());
 			}
 	    }
 	    catch (Exception& e)
@@ -1032,7 +1032,7 @@ namespace renderer {
 				    else
 				    {
 					    // Attribute
-					    parseAttrib(line.toLowerCase(), pMat);
+					    parseAttrib(StringUtil::toLowerCase(line), pMat);
 				    }
 
 			    }
@@ -1133,7 +1133,7 @@ namespace renderer {
 	    StringVector vecparams;
 
 	    // Split params on space
-	    vecparams = line.split(" \t");
+	    vecparams = StringUtil::split(line, " \t");
 	    StringVector::iterator params = vecparams.begin();
 
 	    // Look up first param (command setting)
@@ -1161,11 +1161,11 @@ namespace renderer {
 	    StringVector vecparams;
 
 	    // Split params on space
-	    vecparams = line.split(" \t");
+	    vecparams = StringUtil::split(line, " \t");
 	    StringVector::iterator params = vecparams.begin();
 
 	    // Look up first param (command setting)
-        params[0] = params[0].toLowerCase();
+        params[0] = StringUtil::toLowerCase(params[0]);
 	    LayerAttribParserList::iterator iparsers = mLayerAttribParsers.find(params[0]);
 	    if (iparsers == mLayerAttribParsers.end())
 	    {
@@ -1180,7 +1180,7 @@ namespace renderer {
             {
                 // Lower case all params if not texture
                 for( size_t p = 1; p < vecparams.size(); ++p )
-                    params[p] = params[p].toLowerCase();
+                    params[p] = StringUtil::toLowerCase(params[p]);
 
             }
 		    iparsers->second(params, (unsigned int)vecparams.size(), pMat, pLayer);

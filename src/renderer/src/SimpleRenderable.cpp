@@ -23,7 +23,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 #include "SimpleRenderable.h"
-
+#include "StringConverter.h"
 #include "MaterialManager.h"
 
 namespace renderer {
@@ -52,7 +52,8 @@ namespace renderer {
         m_pCamera = NULL;
 
         // Generate name
-        m_strName << _TO_CHAR("SimpleRenderable") << ms_uGenNameCount ++;
+        m_strName += _TO_CHAR("SimpleRenderable");
+        m_strName += StringConverter::toString(ms_uGenNameCount++);
     }
 
     Real **SimpleRenderable::getVertexCache()

@@ -21,6 +21,12 @@
 #include <list>
 #include <deque>
 
+#if OGRE_WCHAR_T_STRINGS
+    typedef std::wstring String;
+#else
+    typedef std::string String;
+#endif
+
 // Note - not in the original STL, but exists in SGI STL and STLport
 #ifdef EXT_HASH
 #   include <ext/hash_map>

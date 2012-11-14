@@ -145,10 +145,10 @@ void Mesh::load()
         MeshManager::getSingleton()._findResourceData(mName, chunk);
 
         // Determine file type
-        std::vector<String> extVec = mName.split(".");
+        std::vector<String> extVec = StringUtil::split(mName, ".");
 
         String& ext = extVec[extVec.size() - 1];
-        ext.toLowerCase();
+        ext = StringUtil::toLowerCase(ext);
 
         if (ext == "oof")
         {
@@ -574,10 +574,10 @@ void Mesh::setSkeletonName(const String& skelName)
         {
             mSkeleton = 0;
             // Log this error
-            String msg = "Unable to load skeleton ";
+            std::stringstream msg("Unable to load skeleton ");
             msg << skelName << " for Mesh " << mName
                 << " This Mesh will not be animated. ";
-            LogManager::getSingleton().logMessage(msg);
+            LogManager::getSingleton().logMessage(msg.str());
 
         }
 

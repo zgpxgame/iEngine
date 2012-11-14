@@ -34,49 +34,49 @@ namespace renderer {
     //-----------------------------------------------------------------------
     String StringConverter::toString(Real val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(int val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(unsigned int val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(long val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(unsigned long val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(const Vector3& val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val.x << " " << val.y << " " << val.z;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(const Matrix3& val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val[0][0] << " " 
             << val[0][1] << " "             
             << val[0][2] << " "             
@@ -100,7 +100,7 @@ namespace renderer {
     //-----------------------------------------------------------------------
     String StringConverter::toString(const Matrix4& val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val[0][0] << " " 
             << val[0][1] << " "             
             << val[0][2] << " "             
@@ -122,14 +122,14 @@ namespace renderer {
     //-----------------------------------------------------------------------
     String StringConverter::toString(const Quaternion& val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val.x << " " << val.y << " " << val.z << " " << val.w;
         return stream.str();
     }
     //-----------------------------------------------------------------------
     String StringConverter::toString(const ColourValue& val)
     {
-        String::StrStreamType stream;
+        std::stringstream stream;
         stream << val.r << " " << val.g << " " << val.b << " " << val.a;
         return stream.str();
     }
@@ -170,7 +170,7 @@ namespace renderer {
     Vector3 StringConverter::parseVector3(const String& val)
     {
         // Split on space
-        std::vector<String> vec = val.split();
+        std::vector<String> vec = StringUtil::split(val);
 
         if (vec.size() != 3)
         {
@@ -186,7 +186,7 @@ namespace renderer {
     Matrix3 StringConverter::parseMatrix3(const String& val)
     {
         // Split on space
-        std::vector<String> vec = val.split();
+        std::vector<String> vec = StringUtil::split(val);
 
         if (vec.size() != 9)
         {
@@ -203,7 +203,7 @@ namespace renderer {
     Matrix4 StringConverter::parseMatrix4(const String& val)
     {
         // Split on space
-        std::vector<String> vec = val.split();
+        std::vector<String> vec = StringUtil::split(val);
 
         if (vec.size() != 16)
         {
@@ -221,7 +221,7 @@ namespace renderer {
     Quaternion StringConverter::parseQuaternion(const String& val)
     {
         // Split on space
-        std::vector<String> vec = val.split();
+        std::vector<String> vec = StringUtil::split(val);
 
         if (vec.size() != 4)
         {
@@ -236,7 +236,7 @@ namespace renderer {
     ColourValue StringConverter::parseColourValue(const String& val)
     {
         // Split on space
-        std::vector<String> vec = val.split();
+        std::vector<String> vec = StringUtil::split(val);
 
         if (vec.size() == 4)
         {

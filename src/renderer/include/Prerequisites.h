@@ -182,7 +182,7 @@ namespace renderer {
     class Skeleton;
     class SkeletonManager;
     class Sphere;
-    class String;
+    //class String;
     class StringInterface;
     class SubEntity;
     class SubMesh;

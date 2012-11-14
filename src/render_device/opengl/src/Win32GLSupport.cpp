@@ -175,7 +175,7 @@ namespace renderer {
 			opt = mOptions.find("Colour Depth");
 			if (opt == mOptions.end())
 				Except(999, "Can't find Colour Depth options!", "Win32GLSupport::createWindow");
-			int colourDepth = atoi(opt->second.currentValue);
+            int colourDepth = atoi(opt->second.currentValue.c_str());
 
 			opt = mOptions.find("VSync");
 			if (opt == mOptions.end())
@@ -199,7 +199,7 @@ namespace renderer {
 		ConfigOptionMap::iterator opt = mOptions.find("Display Frequency");
 		if (opt == mOptions.end())
 			Except(999, "Can't find Colour Depth options!", "Win32GLSupport::newWindow");
-		int displayFrequency = atoi(opt->second.currentValue);
+		int displayFrequency = atoi(opt->second.currentValue.c_str());
 
 		Win32Window* window = new Win32Window();
 		window->create(name, width, height, colourDepth, fullScreen, left, top, depthBuffer,

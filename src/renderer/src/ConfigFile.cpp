@@ -42,7 +42,7 @@ namespace renderer {
         mSettings.clear();
 
         // Open and parse entire file
-        fp = fopen(filename, "r");
+        fp = fopen(filename.c_str(), "r");
         if( !fp )
             Except(
                 Exception::ERR_FILE_NOT_FOUND, "'" + filename + "' file not found!", "ConfigFile::load" );
@@ -51,17 +51,17 @@ namespace renderer {
         while (ret != NULL)
         {
             String tst = rec;
-            tst.trim();
+            StringUtil::trim(tst);
             // Ignore comments & blanks
             if (tst.length() > 0 && tst.at(0) != '#' && tst.at(0) != '@' && tst.at(0) != '\n')
             {
                 // Tokenise on tab
-                optName = strtok(rec, separators);
+                optName = strtok(rec, separators.c_str());
                 optVal = strtok(NULL, "\n");
-                if (optName.length() != 0 && optVal != 0)
+                if (optName.length() != 0 && optVal.c_str() != 0)
                 {
-                    optVal.trim();
-                    optName.trim();
+                    StringUtil::trim(optVal);
+                    StringUtil::trim(optName);
                     mSettings.insert(std::multimap<String, String>::value_type(optName, optVal));
                 }
             }

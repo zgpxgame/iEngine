@@ -29,11 +29,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-#if OGRE_WCHAR_T_STRINGS
-    typedef std::wstring _StringBase;
-#else
-    typedef std::string _StringBase;
-#endif
+//#if OGRE_WCHAR_T_STRINGS
+//    typedef std::wstring String;
+//#else
+//    typedef std::string String;
+//#endif
 }
 
 // If we're using the GCC 3.1 C++ Std lib
@@ -42,12 +42,12 @@ namespace renderer {
 #include <ext/hash_map>
 namespace __gnu_cxx
 {
-    template <> struct hash< renderer::_StringBase >
+    template <> struct hash< String >
     {
-        size_t operator()( const renderer::_StringBase _stringBase ) const 
+        size_t operator()( const String& str ) const 
         { 
             register size_t ret = 0;
-            for( renderer::_StringBase::const_iterator it = _stringBase.begin(); it != _stringBase.end(); ++it )
+            for( String::const_iterator it = str.begin(); it != str.end(); ++it )
                 ret = 5 * ret + *it;
 
             return ret;
@@ -64,10 +64,10 @@ namespace std
 namespace stdext
 #	endif
 {
-    template<> size_t hash_compare< renderer::_StringBase, std::less< renderer::_StringBase > >::operator ()( const renderer::_StringBase& _stringBase ) const
+    template<> size_t hash_compare< String, std::less< String > >::operator ()( const String& str ) const
     {
         register size_t ret = 0;
-        for( renderer::_StringBase::const_iterator it = _stringBase.begin(); it != _stringBase.end(); ++it )
+        for( String::const_iterator it = str.begin(); it != str.end(); ++it )
             ret = 5 * ret + *it;
 
         return ret;
@@ -77,7 +77,14 @@ namespace stdext
 #endif
 
 namespace renderer {
-
+    class StringUtil {
+    public:
+        static void trim(String& str, bool left = true, bool right = true);
+        static std::vector< String > split(const String& str, const String& delims = "\t\n ", unsigned int maxSplits = 0);
+        static String toLowerCase( String& str );
+        static String toUpperCase( String& str );
+    };
+#if 0
     /** Wrapper object for String to allow DLL export.
         @note
             Derived from std::string.
@@ -169,17 +176,18 @@ namespace renderer {
             return *this;
         }
     };
+#endif
 
 #ifdef GCC_3_1
-    typedef ::__gnu_cxx::hash< _StringBase > _StringHash;    
+    typedef ::__gnu_cxx::hash< String > _StringHash;    
 #elif !defined( _STLP_HASH_FUN_H )
 #	if _DEFINE_DEPRECATED_HASH_CLASSES
-		typedef std::hash_compare< _StringBase, std::less< _StringBase > > _StringHash;
+		typedef std::hash_compare< String, std::less< String > > _StringHash;
 #	else
-		typedef stdext::hash_compare< _StringBase, std::less< _StringBase > > _StringHash;
+		typedef stdext::hash_compare< String, std::less< String > > _StringHash;
 #	endif
 #else
-    typedef std::hash< _StringBase > _StringHash;
+    typedef std::hash< String > _StringHash;
 #endif
 
 } // namespace Ogre

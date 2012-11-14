@@ -88,7 +88,7 @@ namespace renderer {
                     {
                         // new emitter
                         // Get typename
-                        vecparams = line.split("\t ");
+                        vecparams = StringUtil::split(line, "\t ");
                         if (vecparams.size() < 2)
                         {
                             // Oops, bad emitter
@@ -105,7 +105,7 @@ namespace renderer {
                     {
                         // new affector
                         // Get typename
-                        vecparams = line.split("\t ");
+                        vecparams = StringUtil::split(line, "\t ");
                         if (vecparams.size() < 2)
                         {
                             // Oops, bad emitter
@@ -366,7 +366,7 @@ namespace renderer {
                 else
                 {
                     // Attribute
-                    parseEmitterAttrib(line.toLowerCase(), pEmit);
+                    parseEmitterAttrib(StringUtil::toLowerCase(line), pEmit);
                 }
             }
         }
@@ -396,7 +396,7 @@ namespace renderer {
                 else
                 {
                     // Attribute
-                    parseAffectorAttrib(line.toLowerCase(), pAff);
+                    parseAffectorAttrib(StringUtil::toLowerCase(line), pAff);
                 }
             }
         }
@@ -407,7 +407,7 @@ namespace renderer {
         std::vector<String> vecparams;
 
         // Split params on space
-        vecparams = line.split("\t ", 1);
+        vecparams = StringUtil::split(line, "\t ", 1);
 
         // Look up first param (command setting)
         if (!sys->setParameter(vecparams[0], vecparams[1]))
@@ -423,7 +423,7 @@ namespace renderer {
         std::vector<String> vecparams;
 
         // Split params on first space
-        vecparams = line.split("\t ", 1);
+        vecparams = StringUtil::split(line, "\t ", 1);
 
         // Look up first param (command setting)
         if (!emit->setParameter(vecparams[0], vecparams[1]))
@@ -439,7 +439,7 @@ namespace renderer {
         std::vector<String> vecparams;
 
         // Split params on space
-        vecparams = line.split("\t ", 1);
+        vecparams = StringUtil::split(line, "\t ", 1);
 
         // Look up first param (command setting)
         if (!aff->setParameter(vecparams[0], vecparams[1]))

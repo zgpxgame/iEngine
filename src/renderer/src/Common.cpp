@@ -1,7 +1,6 @@
 #include "Prerequisites.h"
 #include "Common.h"
-
-//#include <IL/il.h>
+#include <IL/il.h>
 
 namespace renderer 
 {
@@ -9,7 +8,6 @@ namespace renderer
 	{
 		switch( BytesPerPixel )
 		{
-#if 0
 		case 1:
 			return PF_L8;
 
@@ -43,7 +41,6 @@ namespace renderer
 			case IL_RGBA:
 				return PF_A8R8G8B8;
 			}
-#endif
 		default:
 			return PF_UNKNOWN;
 		}
@@ -56,7 +53,6 @@ namespace renderer
 
 		switch( format )
 		{
-#if 0
 		case PF_L8:
 		case PF_A8:
 			return std::pair< int, int >( IL_LUMINANCE, 1 );
@@ -81,7 +77,6 @@ namespace renderer
 		case PF_L4A4:
 		case PF_A2R10G10B10:
 		case PF_B10G10R10A2:
-#endif
 		default:
 			return std::pair< int, int >( -1, -1 );
 		}

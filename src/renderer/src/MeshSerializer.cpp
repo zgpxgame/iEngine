@@ -56,7 +56,7 @@ namespace renderer {
         LogManager::getSingleton().logMessage("MeshSerializer writing mesh data to " + filename + "...");
 
         MaterialManager& matMgr = MaterialManager::getSingleton();
-        mpfFile = fopen(filename, "wb");
+        mpfFile = fopen(filename.c_str(), "wb");
 
         writeFileHeader();
         LogManager::getSingleton().logMessage("File header written.");

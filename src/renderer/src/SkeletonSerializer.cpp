@@ -30,7 +30,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "AnimationTrack.h"
 #include "KeyFrame.h"
 #include "Bone.h"
-#include "MyString.h"
+#include "StringConverter.h"
 #include "DataChunk.h"
 #include "LogManager.h"
 
@@ -55,7 +55,7 @@ namespace renderer {
     void SkeletonSerializer::exportSkeleton(const Skeleton* pSkeleton, const String& filename)
     {
         String msg;
-        mpfFile = fopen(filename, "wb");
+        mpfFile = fopen(filename.c_str(), "wb");
 
         writeFileHeader();
 
@@ -67,13 +67,13 @@ namespace renderer {
         // Write all animations
         unsigned short numAnims = pSkeleton->getNumAnimations();
         msg = "Exporting animations, count=";
-        msg << numAnims;
+        msg += StringConverter::toString(numAnims);
         LogManager::getSingleton().logMessage(msg);
         for (unsigned short i = 0; i < numAnims; ++i)
         {
             Animation* pAnim = pSkeleton->getAnimation(i);
             msg = "Exporting animation: ";
-            msg << pAnim->getName();
+            msg += pAnim->getName();
             LogManager::getSingleton().logMessage(msg);
             writeAnimation(pAnim);
             LogManager::getSingleton().logMessage("Animation exported.");

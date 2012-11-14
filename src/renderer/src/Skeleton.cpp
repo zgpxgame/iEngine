@@ -77,10 +77,10 @@ namespace renderer {
         SkeletonManager::getSingleton()._findResourceData(mName, chunk);
 
         // Determine file type
-        std::vector<String> extVec = mName.split(".");
+        std::vector<String> extVec = StringUtil::split(mName, ".");
 
         String& ext = extVec[extVec.size() - 1];
-        ext.toLowerCase();
+        ext = StringUtil::toLowerCase(ext);
 
         if (ext == "skeleton")
         {
