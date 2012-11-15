@@ -65,18 +65,6 @@
     <ClInclude Include="..\..\..\src\third_party\lua5.1\lua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\third_party\lua5.1\luaconf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\third_party\lua5.1\lualib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\third_party\lua5.1\lundump.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\third_party\lua5.1\lvm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\third_party\lua5.1\lzio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -88,13 +76,7 @@
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lauxlib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\lbaselib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lcode.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\ldblib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\ldebug.c">
@@ -112,31 +94,16 @@
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lgc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\linit.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\liolib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\llex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\lmathlib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lmem.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\loadlib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lobject.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lopcodes.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\loslib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lparser.c">
@@ -148,16 +115,13 @@
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lstring.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\lstrlib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\ltable.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\ltablib.c">
+    <ClCompile Include="..\..\..\src\third_party\lua5.1\ltm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\third_party\lua5.1\ltm.c">
+    <ClCompile Include="..\..\..\src\third_party\lua5.1\luac.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lundump.c">
@@ -167,6 +131,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\third_party\lua5.1\lzio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\third_party\lua5.1\print.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
