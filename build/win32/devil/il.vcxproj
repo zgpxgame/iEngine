@@ -49,7 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;IL_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../src/third_party/devil/src-IL/include;../../../src/third_party/devil/include;../../../src/third_party/zlib;../../../src/third_party/libpng;../../../src/third_party/libjpeg</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\src\third_party\devil\src-IL\include;..\..\..\src\third_party\devil\include;..\..\..\src\third_party\zlib;..\..\..\src\third_party\libpng;..\..\..\src\third_party\libjpeg</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

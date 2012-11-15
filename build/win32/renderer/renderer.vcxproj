@@ -272,7 +272,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;OGRE_NONCLIENT_BUILD;IL_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../src/renderer/include;../../../src/third_party/zlib;../../../src/third_party/devil/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\src\renderer\include;..\..\..\src\third_party\zlib;..\..\..\src\third_party\devil\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
