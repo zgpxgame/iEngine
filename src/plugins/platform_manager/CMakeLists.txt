@@ -13,6 +13,7 @@ set(SOURCE_FILES
   src/Win32ErrorDialog.cpp
   src/Win32PlatformDll.cpp
   src/Win32Timer.cpp
+  res/OgreWin32Resources.rc
 )
 
 include_directories(include)
