@@ -39,6 +39,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "ColourFaderAffectorFactory2.h"
 #include "ScaleAffectorFactory.h"
 
+#define EXPORT __declspec(dllexport)
+
 namespace renderer {
 
     std::vector<ParticleEmitterFactory*> emitterFactories;
@@ -123,14 +125,14 @@ namespace renderer {
 
     }
     //-----------------------------------------------------------------------
-    extern "C" void dllStartPlugin(void) throw()
+    extern "C" EXPORT void dllStartPlugin(void) throw()
     {
         // Particle SFX
         registerParticleFactories();
     }
 
     //-----------------------------------------------------------------------
-    extern "C" void dllStopPlugin(void)
+    extern "C" EXPORT void dllStopPlugin(void)
     {
         // Particle SFX
         destroyParticleFactories();

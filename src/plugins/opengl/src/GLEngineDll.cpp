@@ -26,18 +26,20 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "GLRenderSystem.h"
 #include "Root.h"
 
+#define EXPORT __declspec(dllexport)
+
 namespace renderer {
 
     GLRenderSystem* glRendPlugin;
 
-    extern "C" void dllStartPlugin(void) throw()
+    extern "C" EXPORT void dllStartPlugin(void) throw()
     {
         glRendPlugin = new GLRenderSystem();
 
         Root::getSingleton().addRenderSystem(glRendPlugin);
     }
 
-    extern "C" void dllStopPlugin(void)
+    extern "C" EXPORT void dllStopPlugin(void)
     {
         delete glRendPlugin;
     }

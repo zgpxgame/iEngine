@@ -43,7 +43,7 @@ namespace renderer {
     extern "C" EXPORT void createPlatformConfigDialog(ConfigDialog** ppDlg)
     {
         // Must get HISTANCE
-        HINSTANCE hInst = GetModuleHandle("platform_manager_win32_d.dll");
+        HINSTANCE hInst = GetModuleHandle("plugin_platform_manager.dll");
         *ppDlg = new Win32ConfigDialog(hInst);
 
 #ifdef _DEBUG
@@ -54,7 +54,7 @@ namespace renderer {
     /// Retrieves an instance of an error dialog for this platform
     extern "C" EXPORT void createPlatformErrorDialog(ErrorDialog** ppDlg)
     {
-        HINSTANCE hInst = GetModuleHandle("OgrePlatform.dll");
+        HINSTANCE hInst = GetModuleHandle("plugin_platform_manager.dll");
         *ppDlg = new Win32ErrorDialog(hInst);
 
 #ifdef _DEBUG

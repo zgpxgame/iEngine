@@ -29,13 +29,15 @@
 /*#ifdef _INC_STDIO
 #endif*/
 
+#define EXPORT __declspec(dllexport)
+
 namespace renderer {
     //-----------------------------------------------------------------------
     FileSystemFactory* pFSFactory = NULL;
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    extern "C" void dllStartPlugin(void)
+    extern "C" EXPORT void dllStartPlugin(void)
     {
         SET_TERM_HANDLER;
 
@@ -44,7 +46,7 @@ namespace renderer {
     }
 
     //-----------------------------------------------------------------------
-    extern "C" void dllStopPlugin(void)
+    extern "C" EXPORT void dllStopPlugin(void)
     {
         delete pFSFactory;
     }

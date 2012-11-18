@@ -35,15 +35,12 @@ namespace renderer {
     PlatformManager::PlatformManager()
     {
         // Load library
-        String libraryName = "platform_manager";
-        String debug_suffix;
-#ifdef _DEBUG
-        debug_suffix = "_d";
-#endif
+        String libraryName = "plugin_platform_manager";
+
         #if OGRE_PLATFORM == PLATFORM_WIN32
-            libraryName = libraryName + "_win32" + debug_suffix + ".dll";
+            libraryName = libraryName + ".dll";
         #else
-            libraryName = "lib" + libraryName + debug_suffix + ".so";
+            libraryName = "lib" + libraryName + ".so";
         #endif
 
         DynLib* lib = DynLibManager::getSingleton().load(libraryName);

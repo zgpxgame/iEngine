@@ -8,7 +8,8 @@ add_executable(${PROJECT_NAME} WIN32
 
 include_directories(${iEngine_SOURCE_DIR}/src/renderer/include)
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "game")
-add_dependencies(${PROJECT_NAME} renderer)
+add_dependencies(${PROJECT_NAME} renderer base engine)
+add_dependencies(${PROJECT_NAME} plugin_filesystem plugin_opengl plugin_particle plugin_platform_manager)
 target_link_libraries(${PROJECT_NAME} renderer)
 
 # …Ë÷√ ‰≥ˆ¬∑æ∂
