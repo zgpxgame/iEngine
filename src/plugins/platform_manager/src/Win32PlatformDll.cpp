@@ -30,7 +30,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-#ifdef DEBUG
+#define EXPORT __declspec(dllexport)
+
+#ifdef _DEBUG
     int g_iCreatedConfigDiag = 0;
     int g_iCreatedErrorDiag = 0;
     int g_iCreatedRenderWindow = 0;
@@ -38,70 +40,70 @@ namespace renderer {
 #endif
 
     /// Retrieves an instance of a config dialog for this platform
-    extern "C" void createPlatformConfigDialog(ConfigDialog** ppDlg)
+    extern "C" EXPORT void createPlatformConfigDialog(ConfigDialog** ppDlg)
     {
         // Must get HISTANCE
         HINSTANCE hInst = GetModuleHandle("platform_manager_win32_d.dll");
         *ppDlg = new Win32ConfigDialog(hInst);
 
-#ifdef DEBUG
+#ifdef _DEBUG
         g_iCreatedConfigDiag++;
 #endif
     }
 
     /// Retrieves an instance of an error dialog for this platform
-    extern "C" void createPlatformErrorDialog(ErrorDialog** ppDlg)
+    extern "C" EXPORT void createPlatformErrorDialog(ErrorDialog** ppDlg)
     {
         HINSTANCE hInst = GetModuleHandle("OgrePlatform.dll");
         *ppDlg = new Win32ErrorDialog(hInst);
 
-#ifdef DEBUG
+#ifdef _DEBUG
         g_iCreatedErrorDiag++;
 #endif
     }
 
 	/// Creates a Timer using default implementation
-	extern "C" void createTimer(Timer** ppTimer)
+	extern "C" EXPORT void createTimer(Timer** ppTimer)
 	{
 		*ppTimer = new Win32Timer();
         (*ppTimer)->reset();
 	}
 
-	extern "C" void destroyTimer(Timer* ppTimer)
+	extern "C" EXPORT void destroyTimer(Timer* ppTimer)
 	{
 		delete ppTimer;
 	}
 
 
     /// Destroys
-    extern "C" void destroyPlatformConfigDialog(ConfigDialog* dlg)
+    extern "C" EXPORT void destroyPlatformConfigDialog(ConfigDialog* dlg)
     {
         delete dlg;
 
-#ifdef DEBUG
+#ifdef _DEBUG
         g_iCreatedConfigDiag--;
 #endif
     }
     /// Destroys
-    extern "C" void destroyPlatformErrorDialog(ErrorDialog* dlg)
+    extern "C" EXPORT void destroyPlatformErrorDialog(ErrorDialog* dlg)
     {
         delete dlg;
 
-#ifdef DEBUG
+#ifdef _DEBUG
         g_iCreatedErrorDiag--;
 #endif
     }
     /// Destroys
-    extern "C" void destroyPlatformRenderWindow(RenderWindow* wnd)
+    extern "C" EXPORT void destroyPlatformRenderWindow(RenderWindow* wnd)
     {
         delete wnd;
 
-#ifdef DEBUG
+#ifdef _DEBUG
         g_iCreatedRenderWindow--;
 #endif
     }
 
-#ifdef DEBUG
+#if 0//def _DEBUG
     BOOL WINAPI DllMain( HINSTANCE hinstDLL,  // handle to DLL module
                          DWORD fdwReason,     // reason for calling function
                          LPVOID lpvReserved   // reserved
