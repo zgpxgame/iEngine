@@ -1,0 +1,249 @@
+set(PROJECT_NAME renderer)
+
+set(HEADER_FILES
+  include/Animation.h
+  include/AnimationState.h
+  include/AnimationTrack.h
+  include/ArchiveEx.h
+  include/ArchiveFactory.h
+  include/ArchiveManager.h
+  include/asm_math.h
+  include/AxisAlignedBox.h
+  include/Billboard.h
+  include/BillboardSet.h
+  include/Bitwise.h
+  include/BlendMode.h
+  include/Bone.h
+  include/Camera.h
+  include/ColourValue.h
+  include/Common.h
+  include/Config.h
+  include/ConfigDialog.h
+  include/ConfigFile.h
+  include/ConfigOptionMap.h
+  include/Controller.h
+  include/ControllerManager.h
+  include/DataChunk.h
+  include/DynLib.h
+  include/DynLibManager.h
+  include/Entity.h
+  include/ErrorDialog.h
+  include/Exception.h
+  include/FactoryObj.h
+  include/FrameListener.h
+  include/GeometryData.h
+  include/Image.h
+  include/ImageCodec.h
+  include/IteratorWrappers.h
+  include/KeyFrame.h
+  include/Light.h
+  include/Log.h
+  include/LogManager.h
+  include/Material.h
+  include/MaterialManager.h
+  include/MaterialSerializer.h
+  include/Matrix3.h
+  include/Matrix4.h
+  include/MemoryMacros.h
+  include/MemoryManager.h
+  include/Mesh.h
+  include/MeshFileFormat.h
+  include/MeshManager.h
+  include/MeshSerializer.h
+  include/MovableObject.h
+  include/MyMath.h
+  include/MyString.h
+  include/Node.h
+  include/NoMemoryMacros.h
+  include/OofFile.h
+  include/OofModelFile.h
+  include/Particle.h
+  include/ParticleAffector.h
+  include/ParticleAffectorFactory.h
+  include/ParticleEmitter.h
+  include/ParticleEmitterCommands.h
+  include/ParticleEmitterFactory.h
+  include/ParticleIterator.h
+  include/ParticleSystem.h
+  include/ParticleSystemManager.h
+  include/PatchSurface.h
+  include/Plane.h
+  include/Platform.h
+  include/PlatformManager.h
+  include/PositionTarget.h
+  include/PredefinedControllers.h
+  include/Prerequisites.h
+  include/ProgressiveMesh.h
+  include/Quaternion.h
+  include/Ray.h
+  include/Renderable.h
+  include/RenderEngine.h
+  include/RenderOperation.h
+  include/RenderQueue.h
+  include/RenderQueueListener.h
+  include/RenderQueueSortingGrouping.h
+  include/RenderSystem.h
+  include/RenderTarget.h
+  include/RenderTargetListener.h
+  include/RenderTargetTexture.h
+  include/RenderTexture.h
+  include/RenderWindow.h
+  include/Resource.h
+  include/ResourceManager.h
+  include/ResourceMap.h
+  include/Root.h
+  include/RotationalSpline.h
+  include/SceneManager.h
+  include/SceneManagerEnumerator.h
+  include/SceneNode.h
+  include/SceneQuery.h
+  include/SDDataChunk.h
+  include/Serializer.h
+  include/SharedPtr.h
+  include/SimpleRenderable.h
+  include/SimpleSpline.h
+  include/Singleton.h
+  include/Skeleton.h
+  include/SkeletonFileFormat.h
+  include/SkeletonManager.h
+  include/SkeletonSerializer.h
+  include/Sphere.h
+  include/StaticFaceGroup.h
+  include/StdHeaders.h
+  include/StringConverter.h
+  include/StringInterface.h
+  include/StringResource.h
+  include/StringVector.h
+  include/SubEntity.h
+  include/SubMesh.h
+  include/TagPoint.h
+  include/Texture.h
+  include/TextureManager.h
+  include/Timer.h
+  include/unzip.h
+  include/UserDefinedObject.h
+  include/Vector3.h
+  include/Vector4.h
+  include/VertexBoneAssignment.h
+  include/Viewport.h
+  include/WireBoundingBox.h
+  include/Zip.h
+  include/ZipArchiveFactory.h
+)
+
+set(SOURCE_FILES
+  src/Animation.cpp
+  src/AnimationState.cpp
+  src/AnimationTrack.cpp
+  src/ArchiveEx.cpp
+  src/ArchiveManager.cpp
+  src/AxisAlignedBox.cpp
+  src/Billboard.cpp
+  src/BillboardSet.cpp
+  src/Bitwise.cpp
+  src/Bone.cpp
+  src/Camera.cpp
+  src/ColourValue.cpp
+  src/Common.cpp
+  src/ConfigFile.cpp
+  src/ConfigOptionMap.cpp
+  src/Controller.cpp
+  src/ControllerManager.cpp
+  src/DataChunk.cpp
+  src/DynLib.cpp
+  src/DynLibManager.cpp
+  src/Entity.cpp
+  src/Exception.cpp
+  src/Image.cpp
+  src/ImageCodec.cpp
+  src/KeyFrame.cpp
+  src/Light.cpp
+  src/Log.cpp
+  src/LogManager.cpp
+  src/Material.cpp
+  src/MaterialManager.cpp
+  src/MaterialSerializer.cpp
+  src/Matrix3.cpp
+  src/Matrix4.cpp
+  src/MemoryManager.cpp
+  src/Mesh.cpp
+  src/MeshManager.cpp
+  src/MeshSerializer.cpp
+  src/MovableObject.cpp
+  src/MyMath.cpp
+  src/MyString.cpp
+  src/Node.cpp
+  src/OofModelFile.cpp
+  src/ParticleEmitter.cpp
+  src/ParticleEmitterCommands.cpp
+  src/ParticleIterator.cpp
+  src/ParticleSystem.cpp
+  src/ParticleSystemManager.cpp
+  src/PatchSurface.cpp
+  src/Plane.cpp
+  src/PlatformManager.cpp
+  src/PredefinedControllers.cpp
+  src/ProgressiveMesh.cpp
+  src/Quaternion.cpp
+  src/RenderQueue.cpp
+  src/RenderSystem.cpp
+  src/RenderTarget.cpp
+  src/RenderTexture.cpp
+  src/RenderWindow.cpp
+  src/ResourceManager.cpp
+  src/ResourceMap.cpp
+  src/Root.cpp
+  src/RotationSpline.cpp
+  src/SceneManager.cpp
+  src/SceneManagerEnumerator.cpp
+  src/SceneNode.cpp
+  src/SceneQuery.cpp
+  src/SDDataChunk.cpp
+  src/Serializer.cpp
+  src/SimpleRenderable.cpp
+  src/SimpleSpline.cpp
+  src/Singleton.cpp
+  src/Skeleton.cpp
+  src/SkeletonManager.cpp
+  src/SkeletonSerializer.cpp
+  src/StringConverter.cpp
+  src/StringInterface.cpp
+  src/StringVector.cpp
+  src/SubEntity.cpp
+  src/SubMesh.cpp
+  src/TagPoint.cpp
+  src/Texture.cpp
+  src/TextureLayer.cpp
+  src/TextureManager.cpp
+  src/Timer.cpp
+  src/unzip.c
+  src/UserDefinedObject.cpp
+  src/Vector3.cpp
+  src/Viewport.cpp
+  src/WireBoundingBox.cpp
+  src/Zip.cpp
+  src/ZipArchiveFactory.cpp
+)
+
+add_definitions(/wd4251)
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+add_definitions(-DOGRE_NONCLIENT_BUILD)
+add_definitions(-DIL_STATIC_LIB)
+
+include_directories(include)
+include_directories(${iEngine_SOURCE_DIR}/src/third_party/zlib)
+include_directories(${iEngine_SOURCE_DIR}/src/third_party/devil/include)
+
+add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "iEngine")
+target_link_libraries(${PROJECT_NAME} dbghelp.lib psapi.lib)
+
+add_dependencies(${PROJECT_NAME} zlib il ilu libjpeg libpng)
+target_link_libraries(${PROJECT_NAME} zlib libpng libjpeg il ilu)
+
+# …Ë÷√ ‰≥ˆ¬∑æ∂
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  ARCHIVE_OUTPUT_DIRECTORY ${iEngine_BINARY_DIR}/lib
+  LIBRARY_OUTPUT_DIRECTORY ${iEngine_BINARY_DIR}/lib
+  RUNTIME_OUTPUT_DIRECTORY ${iEngine_BINARY_DIR}/bin
+)

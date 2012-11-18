@@ -221,7 +221,7 @@ void Mesh::_dumpContents(String filename)
 {
     std::ofstream of;
 
-    of.open(filename);
+    of.open(filename.c_str());
 
     of << "-= Debug output of model " << mName << " =-" << std::endl << std::endl;
     if (sharedGeometry.numVertices > 0)

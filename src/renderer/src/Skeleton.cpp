@@ -460,7 +460,7 @@ namespace renderer {
         Quaternion q;
         Real angle;
         Vector3 axis;
-        of.open(filename);
+        of.open(filename.c_str());
 
         of << "-= Debug output of skeleton " << mName << " =-" << std::endl << std::endl;
         of << "== Bones ==" << std::endl;

@@ -1,0 +1,130 @@
+set(PROJECT_IL il)
+
+add_library(${PROJECT_IL} STATIC 
+  ${DEVIL_SOURCE_DIR}/include/IL/config.h
+  ${DEVIL_SOURCE_DIR}/include/IL/devil_internal_exports.h
+  ${DEVIL_SOURCE_DIR}/include/IL/il.h
+  include/il_alloc.h
+  include/il_bits.h
+  include/il_bmp.h
+  include/il_dcx.h
+  include/il_dds.h
+  include/il_doompal.h
+  include/il_endian.h
+  include/il_exr.h
+  include/il_files.h
+  include/il_gif.h
+  include/il_hdr.h
+  include/il_icon.h
+  include/il_internal.h
+  include/il_jpeg.h
+  include/il_lif.h
+  include/il_manip.h
+  include/il_mdl.h
+  include/il_pal.h
+  include/il_pcx.h
+  include/il_pic.h
+  include/il_pnm.h
+  include/il_psd.h
+  include/il_psp.h
+  include/il_q2pal.h
+  include/il_register.h
+  include/il_rle.h
+  include/il_sgi.h
+  include/il_stack.h
+  include/il_states.h
+  include/il_targa.h
+  include/il_utx.h
+  include/il_vtf.h
+  src/altivec_common.c
+  src/altivec_typeconversion.c
+  src/il_alloc.c
+  src/il_bits.c
+  src/il_blp.c
+  src/il_bmp.c
+  src/il_convbuff.c
+  src/il_convert.c
+  src/il_cut.c
+  src/il_dcx.c
+  src/il_dds-save.c
+  src/il_devil.c
+  src/il_dicom.c
+  src/il_doom.c
+  src/il_dpx.c
+  src/il_endian.c
+  src/il_error.c
+  src/il_exr.cpp
+  src/il_fastconv.c
+  src/il_files.c
+  src/il_fits.c
+  src/il_ftx.c
+  src/il_gif.c
+  src/il_hdr.c
+  src/il_header.c
+  src/il_icns.c
+  src/il_icon.c
+  src/il_iff.c
+  src/il_ilbm.c
+  src/il_internal.c
+  src/il_io.c
+  src/il_iwi.c
+  src/il_jp2.c
+  src/il_jpeg.c
+  src/il_lif.c
+  src/il_main.c
+  src/il_manip.c
+  src/il_mdl.c
+  src/il_mng.c
+  src/il_mp3.c
+  src/il_neuquant.c
+  src/il_nvidia.cpp
+  src/il_pal.c
+  src/il_pcd.c
+  src/il_pcx.c
+  src/il_pic.c
+  src/il_pix.c
+  src/il_png.c
+  src/il_pnm.c
+  src/il_profiles.c
+  src/il_psd.c
+  src/il_psp.c
+  src/il_pxr.c
+  src/il_quantizer.c
+  src/il_raw.c
+  src/il_rawdata.c
+  src/il_register.c
+  src/il_rle.c
+  src/il_rot.c
+  src/il_sgi.c
+  src/il_size.c
+  src/il_squish.cpp
+  src/il_stack.c
+  src/il_states.c
+  src/il_sun.c
+  src/il_targa.c
+  src/il_texture.c
+  src/il_tiff.c
+  src/il_tpl.c
+  src/il_utility.c
+  src/il_utx.cpp
+  src/il_vtf.c
+  src/il_wal.c
+  src/il_wbmp.c
+  src/il_wdp.c
+  src/il_xpm.c
+)
+
+include_directories(include)
+include_directories(${DEVIL_SOURCE_DIR}/include)
+include_directories(${THIRD_PARTY_SOURCE_DIR}/zlib)
+include_directories(${THIRD_PARTY_SOURCE_DIR}/libjpeg)
+include_directories(${THIRD_PARTY_SOURCE_DIR}/libpng)
+
+set_target_properties(${PROJECT_IL} PROPERTIES FOLDER "third_party/devil")
+
+# …Ë÷√ ‰≥ˆ¬∑æ∂
+set_target_properties(${PROJECT_IL} PROPERTIES
+  ARCHIVE_OUTPUT_DIRECTORY ${iEngine_BINARY_DIR}/lib
+  LIBRARY_OUTPUT_DIRECTORY ${iEngine_BINARY_DIR}/lib
+  RUNTIME_OUTPUT_DIRECTORY ${iEngine_BINARY_DIR}/bin
+)

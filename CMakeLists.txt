@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+cmake_policy(SET CMP0003 NEW)
+project(iEngine)
+message("${iEngine_BINARY_DIR}")
+add_subdirectory(src)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMAKE_TARGET")
