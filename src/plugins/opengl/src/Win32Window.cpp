@@ -367,6 +367,10 @@ namespace renderer {
 			((MINMAXINFO*)lParam)->ptMinTrackSize.y = 100;
 			break;
 
+    case WM_DESTROY:
+      PostQuitMessage(0);
+      break;
+
 		case WM_CLOSE:
 
 			DestroyWindow( win->mHWnd );
