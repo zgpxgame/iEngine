@@ -4,7 +4,6 @@ set(PROJECT_LUA51_COMPILER luac)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
-
 #####################################################
 # lua5.1 动态库
 #####################################################
@@ -64,6 +63,7 @@ add_library(${PROJECT_LUA51_SHARED_LIB} SHARED
 )
 
 set_target_properties(${PROJECT_LUA51_SHARED_LIB} PROPERTIES FOLDER "third_party/lua5.1")
+set_target_properties(${PROJECT_LUA51_SHARED_LIB} PROPERTIES COMPILE_DEFINITIONS "LUA_BUILD_AS_DLL")
 
 # 设置输出路径
 set_target_properties(${PROJECT_LUA51_SHARED_LIB} PROPERTIES
@@ -82,6 +82,7 @@ add_executable(${PROJECT_LUA51_CONSOLE}
 )
 
 set_target_properties(${PROJECT_LUA51_CONSOLE} PROPERTIES FOLDER "third_party/lua5.1")
+target_link_libraries(${PROJECT_LUA51_CONSOLE} lua5.1)
 
 # 设置输出路径
 set_target_properties(${PROJECT_LUA51_CONSOLE} PROPERTIES
