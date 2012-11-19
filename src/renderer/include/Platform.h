@@ -91,9 +91,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 // For generating compiler warnings - should work on any compiler
 // As a side note, if you start your message with 'Warning: ', the MSVC
 // IDE actually does catch a warning :)
-#define _QUOTE_INPLACE_(x) # x
-#define QUOTE(x) _QUOTE_INPLACE_(x)
-#define warn( x )  message( __FILE__ "(" QUOTE( __LINE__ ) ") : " x "\n" )
+//#define _QUOTE_INPLACE_(x) # x
+//#define QUOTE(x) _QUOTE_INPLACE_(x)
+//#define warn( x )  message( __FILE__ "(" QUOTE( __LINE__ ) ") : " x "\n" )
 
 //----------------------------------------------------------------------------
 // Windows Settings

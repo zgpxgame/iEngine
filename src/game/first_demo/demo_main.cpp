@@ -156,12 +156,23 @@ protected:
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
+#include "base/callback.h"
+#include "base/bind.h"
+
+int Sum(int a, int b, int c)
+{
+  return a + b + c;
+}
 
 INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 #else
 int main(int argc, char **argv)
 #endif
 {
+
+  base::Callback<int(int, int)> sum3_cb = base::Bind(&Sum, 3);
+  sum3_cb.Run(4, 5);  // Prints 12.
+
     // Create application object
     CameraTrackApplication app;
 

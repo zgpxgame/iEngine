@@ -15,6 +15,24 @@
 #include "base/callback_internal.h"
 #include "base/template_util.h"
 
+// bind.h
+//   Bind()
+//
+// bind_internal.h
+//   FunctionTraits
+//   Invoker0
+//   InvokerStorage0
+//
+// callback.h
+//   Callback
+// 
+// callback_internal.h
+//   InvokerStorageBase
+//   InvokerStorageHolder
+//   CallbackBase
+//
+// 
+
 // New, super-duper, unified Callback system.  This will eventually replace
 // NewRunnableMethod, NewRunnableFunction, CreateFunctor, and CreateCallback
 // systems currently in the Chromium code base.
