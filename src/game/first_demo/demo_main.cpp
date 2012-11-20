@@ -156,11 +156,39 @@ protected:
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
+#include "base/callback.h"
+#include "base/bind.h"
+#include "base/command_line.h"
+
+int foo0() { return 0; }
+int foo1(int a) { return a; }
+int foo2(int a, int b) { return a + b; }
+int foo3(int a, int b, int c) { return a + b + c; }
+int foo4(int a, int b, int c, int d) { return a + b + c + d; }
+int foo5(int a, int b, int c, int d, int e) { return a + b + c + d + e; }
+
 INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 #else
 int main(int argc, char **argv)
 #endif
 {
+  CommandLine::Init(0, 0);
+
+  logging::InitLogging(L"demo.log",
+    logging::LOG_ONLY_TO_FILE,
+    logging::DONT_LOCK_LOG_FILE,
+    logging::DELETE_OLD_LOG_FILE,
+    logging::ENABLE_DCHECK_FOR_NON_OFFICIAL_RELEASE_BUILDS);
+
+  base::Callback<int()> foo0_cb = base::Bind(&foo0);
+  LOG(INFO) << foo0_cb.Run();
+
+  base::Callback<int()> foo11_cb = base::Bind(&foo1, 11);
+  LOG(INFO) << foo11_cb.Run();
+
+  base::Callback<int(int)> foo12_cb = base::Bind(&foo1);
+  LOG(INFO) << foo12_cb.Run(12);
+
     // Create application object
     CameraTrackApplication app;
 
