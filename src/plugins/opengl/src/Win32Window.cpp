@@ -27,6 +27,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "LogManager.h"
 #include "RenderSystem.h"
 #include "ImageCodec.h"
+#include <tchar.h>
 
 
 namespace renderer {
@@ -51,7 +52,7 @@ namespace renderer {
                            void* miscParam, ...)
     {
         HWND parentHWnd;
-		HINSTANCE hInst = GetModuleHandle("RenderSystem_GL.dll");
+		HINSTANCE hInst = GetModuleHandle(_T("RenderSystem_GL.dll"));
 		long tempPtr;
 
 		// Get variable-length params
@@ -97,7 +98,7 @@ namespace renderer {
 			// Register the window class
 			// NB allow 4 bytes of window data for Win32Window pointer
 			WNDCLASS wndClass = { CS_HREDRAW | CS_VREDRAW, WndProc, 0, 4, hInst,
-				LoadIcon( NULL, "IDI_ICON1" ),
+				LoadIcon( NULL, _T("IDI_ICON1") ),
 				LoadCursor( NULL, IDC_ARROW ),
 				(HBRUSH)GetStockObject( BLACK_BRUSH ), NULL,
 				TEXT(name.c_str()) };

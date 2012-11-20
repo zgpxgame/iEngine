@@ -1,6 +1,7 @@
 project(THIRD_PARTY)
 add_subdirectory(devil)
 add_subdirectory(lua5.1)
+add_subdirectory(test)
 add_subdirectory(libjpeg)
 add_subdirectory(libpng)
 add_subdirectory(zlib)

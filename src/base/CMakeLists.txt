@@ -264,6 +264,8 @@ add_definitions(-D "UNICODE" -D"_UNICODE")
 add_definitions(-D "COMPONENT_BUILD")
 add_definitions(-D "BASE_IMPLEMENTATION")
 add_definitions(-D "NOMINMAX")
+add_definitions(-D "UNIT_TEST")
+add_definitions(-D "DYNAMIC_ANNOTATIONS_ENABLED=1")
 add_definitions(/wd4251)
 
 # 添加动态库工程

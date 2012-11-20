@@ -9,6 +9,8 @@ set(SOURCE_FILES
   engine.cpp
 )
 
+add_definitions(-D "UNICODE" -D"_UNICODE")
+
 add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "iEngine")
 

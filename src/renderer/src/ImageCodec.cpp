@@ -103,9 +103,12 @@ namespace renderer {
         ILenum PossibleError = ilGetError() ;
         if( PossibleError != IL_NO_ERROR )
         {
+          // FIXME!
+#if 0
             Except( Exception::UNIMPLEMENTED_FEATURE,
                 "IL Error",
                 iluErrorString(PossibleError) ) ;
+#endif
         }
 
         // Now sets some variables

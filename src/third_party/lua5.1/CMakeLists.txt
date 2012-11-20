@@ -82,6 +82,7 @@ add_executable(${PROJECT_LUA51_CONSOLE}
 )
 
 set_target_properties(${PROJECT_LUA51_CONSOLE} PROPERTIES FOLDER "third_party/lua5.1")
+add_dependencies(${PROJECT_LUA51_CONSOLE} ${PROJECT_LUA51_SHARED_LIB})
 target_link_libraries(${PROJECT_LUA51_CONSOLE} lua5.1)
 
 # …Ë÷√ ‰≥ˆ¬∑æ∂
