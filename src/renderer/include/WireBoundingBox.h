@@ -31,53 +31,54 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Allows the rendering of a wireframe bounding box.
-        @remarks
-            This class builds a wireframe renderable from a given aabb. A pointer to this class can be
-			added to a render queue to display the bounding box of an object.
-    */
-	class _RendererExport WireBoundingBox : public SimpleRenderable
-	{
+/** Allows the rendering of a wireframe bounding box.
+    @remarks
+        This class builds a wireframe renderable from a given aabb. A pointer to this class can be
+	added to a render queue to display the bounding box of an object.
+*/
+class _RendererExport WireBoundingBox : public SimpleRenderable {
 
-    protected:
-        /** Pointer to the wireframe vertex data.
-        */
-		float mVertexData[12*6]; 
+protected:
+  /** Pointer to the wireframe vertex data.
+  */
+  float mVertexData[12*6];
 
-        /** Pointer to the wireframe color data.
-        */
-		long mDiffuses[24]; 
+  /** Pointer to the wireframe color data.
+  */
+  long mDiffuses[24];
 
-        /** Override this method to prevent parent transforms (rotation,translation,scale)
-        */
-		void getWorldTransforms( Matrix4* xform );
-		
-        /** Pointer to a RenderOperation that contains the OT_LINE_LIST description of the wireframe.
-        */
-//		RenderOperation mRenderOp; 
+  /** Override this method to prevent parent transforms (rotation,translation,scale)
+  */
+  void getWorldTransforms( Matrix4* xform );
 
-        /** Builds the wireframe line list.
-        */
-		void setupBoundingBoxVertices(AxisAlignedBox &aab);
+  /** Pointer to a RenderOperation that contains the OT_LINE_LIST description of the wireframe.
+  */
+//		RenderOperation mRenderOp;
 
-        Real mRadius;
+  /** Builds the wireframe line list.
+  */
+  void setupBoundingBoxVertices(AxisAlignedBox &aab);
 
-	public:
-			
-		WireBoundingBox();
-		~WireBoundingBox();
+  Real mRadius;
 
-        /** Builds the wireframe line list.
-            @param
-                aabb bounding box to build a wireframe from.
-        */
-		void setupBoundingBox(AxisAlignedBox aabb);
+public:
 
-		Real getSquaredViewDepth(const Camera* cam) const;
+  WireBoundingBox();
+  ~WireBoundingBox();
 
-        Real getBoundingRadius(void) const { return mRadius; }
+  /** Builds the wireframe line list.
+      @param
+          aabb bounding box to build a wireframe from.
+  */
+  void setupBoundingBox(AxisAlignedBox aabb);
 
-	};
+  Real getSquaredViewDepth(const Camera* cam) const;
+
+  Real getBoundingRadius(void) const {
+    return mRadius;
+  }
+
+};
 
 }// namespace
 

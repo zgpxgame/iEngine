@@ -65,140 +65,137 @@ namespace renderer {
  */
 class RenderOperation {
 public:
-    enum OpType {
-        OT_POINT_LIST,
-        OT_LINE_LIST,
-        OT_LINE_STRIP,
-        OT_TRIANGLE_LIST,
-        OT_TRIANGLE_STRIP,
-        OT_TRIANGLE_FAN
-    };
-    /** Vertex options - which elements to include.
-        @remarks
-            Vertices must include their elements in the following order:
-            position, normal, texture co-ords (1-3 dimensions, 1-4 sets),
-            diffuse colour, specular colour. Only position is mandatory,
-            although at least ONE OF the following should be specified,
-            even if ambient light on flat coloured objects only is being used.
-     */
-    enum VertexOptions {
-        /// vertex normals included (for lighting)
-        VO_NORMALS = 1,
-        /// at least one set of texture coords (exact number specified in class)
-        VO_TEXTURE_COORDS = 2,
-        /// Vertex colours - diffuse
-        VO_DIFFUSE_COLOURS = 4,
-        /// Vertex colours - specular
-        VO_SPECULAR_COLOURS = 8,
-        /// Vertex blend weights
-        VO_BLEND_WEIGHTS = 16
-    };
+  enum OpType {
+    OT_POINT_LIST,
+    OT_LINE_LIST,
+    OT_LINE_STRIP,
+    OT_TRIANGLE_LIST,
+    OT_TRIANGLE_STRIP,
+    OT_TRIANGLE_FAN
+  };
+  /** Vertex options - which elements to include.
+      @remarks
+          Vertices must include their elements in the following order:
+          position, normal, texture co-ords (1-3 dimensions, 1-4 sets),
+          diffuse colour, specular colour. Only position is mandatory,
+          although at least ONE OF the following should be specified,
+          even if ambient light on flat coloured objects only is being used.
+   */
+  enum VertexOptions {
+    /// vertex normals included (for lighting)
+    VO_NORMALS = 1,
+    /// at least one set of texture coords (exact number specified in class)
+    VO_TEXTURE_COORDS = 2,
+    /// Vertex colours - diffuse
+    VO_DIFFUSE_COLOURS = 4,
+    /// Vertex colours - specular
+    VO_SPECULAR_COLOURS = 8,
+    /// Vertex blend weights
+    VO_BLEND_WEIGHTS = 16
+  };
 
-    /** Vertex blend info */
-    struct VertexBlendData
-    {
-        unsigned short matrixIndex;
-        Real blendWeight;
-    };
+  /** Vertex blend info */
+  struct VertexBlendData {
+    unsigned short matrixIndex;
+    Real blendWeight;
+  };
 
-    // true to use pIndexes to reference individual lines/triangles rather than embed. Allows vertex reuse.
-    bool useIndexes;
+  // true to use pIndexes to reference individual lines/triangles rather than embed. Allows vertex reuse.
+  bool useIndexes;
 
-    /// Number of vertices (applies to all components)
-    unsigned int numVertices;
+  /// Number of vertices (applies to all components)
+  unsigned int numVertices;
 
-    /// The number of vertex blending weights per vertex, only applicable if VO_BLEND_WEIGHTS supplied
-    unsigned short numBlendWeightsPerVertex;
+  /// The number of vertex blending weights per vertex, only applicable if VO_BLEND_WEIGHTS supplied
+  unsigned short numBlendWeightsPerVertex;
 
-    // No memory allocation here,
-    // assumed that all pointers are pointing
-    // elsewhere e.g. model class data
+  // No memory allocation here,
+  // assumed that all pointers are pointing
+  // elsewhere e.g. model class data
 
-    /** Pointer to list of vertices (float {x, y z} * numVertices).
-        @remarks
-            If useIndexes is false each group of 3 vertices describes a face (anticlockwise winding) in
-            trianglelist mode.
-    */
-    Real* pVertices;
+  /** Pointer to list of vertices (float {x, y z} * numVertices).
+      @remarks
+          If useIndexes is false each group of 3 vertices describes a face (anticlockwise winding) in
+          trianglelist mode.
+  */
+  Real* pVertices;
 
-    /// The 'Stride' between sets of vertex data. 0 indicates data is packed with no gaps.
-    unsigned short vertexStride;
+  /// The 'Stride' between sets of vertex data. 0 indicates data is packed with no gaps.
+  unsigned short vertexStride;
 
-    /// Optional vertex normals for vertices (float {x, y, z} * numVertices).
-    Real* pNormals;
+  /// Optional vertex normals for vertices (float {x, y, z} * numVertices).
+  Real* pNormals;
 
-    /// The 'Stride' between sets of normal data. 0 indicates data is packed with no gaps.
-    unsigned short normalStride;
+  /// The 'Stride' between sets of normal data. 0 indicates data is packed with no gaps.
+  unsigned short normalStride;
 
-    /** Optional texture coordinates for vertices (float {u, [v], [w]} * numVertices).
-        @remarks
-            There can be up to 8 sets of texture coordinates, and the number of components per
-            vertex depends on the number of texture dimensions (2 is most common).
-    */
-    Real* pTexCoords[OGRE_MAX_TEXTURE_COORD_SETS];
+  /** Optional texture coordinates for vertices (float {u, [v], [w]} * numVertices).
+      @remarks
+          There can be up to 8 sets of texture coordinates, and the number of components per
+          vertex depends on the number of texture dimensions (2 is most common).
+  */
+  Real* pTexCoords[OGRE_MAX_TEXTURE_COORD_SETS];
 
-    /// The 'Stride' between each set of texture data. 0 indicates data is packed with no gaps.
-    unsigned short texCoordStride[OGRE_MAX_TEXTURE_COORD_SETS];
+  /// The 'Stride' between each set of texture data. 0 indicates data is packed with no gaps.
+  unsigned short texCoordStride[OGRE_MAX_TEXTURE_COORD_SETS];
 
-    /// Number of groups of u,[v],[w].
-    int numTextureCoordSets;
+  /// Number of groups of u,[v],[w].
+  int numTextureCoordSets;
 
-    /** Number of dimensions in each corresponding texture coordinate set.
-        @note
-            There should be 1-4 dimensions on each set.
-    */
-    int numTextureDimensions[OGRE_MAX_TEXTURE_COORD_SETS];
+  /** Number of dimensions in each corresponding texture coordinate set.
+      @note
+          There should be 1-4 dimensions on each set.
+  */
+  int numTextureDimensions[OGRE_MAX_TEXTURE_COORD_SETS];
 
-    /// Optional pointer to a list of diffuse vertex colours (32-bit RGBA * numVertices).
-    RGBA* pDiffuseColour;
+  /// Optional pointer to a list of diffuse vertex colours (32-bit RGBA * numVertices).
+  RGBA* pDiffuseColour;
 
-    /// The 'Stride' between sets of diffuse colour data. 0 indicates data is packed with no gaps.
-    unsigned short diffuseStride;
+  /// The 'Stride' between sets of diffuse colour data. 0 indicates data is packed with no gaps.
+  unsigned short diffuseStride;
 
-    /// Optional pointer to a list of specular vertex colours (32-bit RGBA * numVertices)
-    RGBA* pSpecularColour;
+  /// Optional pointer to a list of specular vertex colours (32-bit RGBA * numVertices)
+  RGBA* pSpecularColour;
 
-    /// The 'Stride' between sets of specular colour data. 0 indicates data is packed with no gaps.
-    unsigned short specularStride;
+  /// The 'Stride' between sets of specular colour data. 0 indicates data is packed with no gaps.
+  unsigned short specularStride;
 
-    /** Optional pointer to a list of vertex blending details, organised in vertex order. 
-        The number of weights per vertex is recorded in numBlendWeightsPerVertex - there must
-        be this many for every vertex: set the weight to 0 for those vertices that don't 
-        use all the entries (if some vertices have more than others)
-    */
-    VertexBlendData* pBlendingWeights;
+  /** Optional pointer to a list of vertex blending details, organised in vertex order.
+      The number of weights per vertex is recorded in numBlendWeightsPerVertex - there must
+      be this many for every vertex: set the weight to 0 for those vertices that don't
+      use all the entries (if some vertices have more than others)
+  */
+  VertexBlendData* pBlendingWeights;
 
-    /** Pointer to a list of vertex indexes describing faces (only used if useIndexes is true).
-        @note
-            Each group of 3 describes a face (anticlockwise winding order).
-    */
-    unsigned short* pIndexes;
+  /** Pointer to a list of vertex indexes describing faces (only used if useIndexes is true).
+      @note
+          Each group of 3 describes a face (anticlockwise winding order).
+  */
+  unsigned short* pIndexes;
 
-    /// The number of vertex indexes (must be a multiple of 3).
-    unsigned int numIndexes;
+  /// The number of vertex indexes (must be a multiple of 3).
+  unsigned int numIndexes;
 
-    /// Flags indicating vertex types
-    int vertexOptions;
-    /// The type of rendering operation.
-    OpType operationType;
+  /// Flags indicating vertex types
+  int vertexOptions;
+  /// The type of rendering operation.
+  OpType operationType;
 
-    RenderOperation()
-    {
-        // Initialise all things
-        vertexStride = normalStride = diffuseStride = specularStride = 0;
-        numBlendWeightsPerVertex = 0;
-        for (int i = 0; i < OGRE_MAX_TEXTURE_COORD_SETS; ++i)
-        {
-            texCoordStride[i] = 0;
-            pTexCoords[0] = 0;
-        }
-
-        pVertices = 0;
-        pNormals = 0;
-        pDiffuseColour = 0;
-        pSpecularColour = 0;
-        pBlendingWeights = 0;
+  RenderOperation() {
+    // Initialise all things
+    vertexStride = normalStride = diffuseStride = specularStride = 0;
+    numBlendWeightsPerVertex = 0;
+    for (int i = 0; i < OGRE_MAX_TEXTURE_COORD_SETS; ++i) {
+      texCoordStride[i] = 0;
+      pTexCoords[0] = 0;
     }
+
+    pVertices = 0;
+    pNormals = 0;
+    pDiffuseColour = 0;
+    pSpecularColour = 0;
+    pBlendingWeights = 0;
+  }
 };
 
 /* Example usage (camera at (0,0,0) pointing down -Z (lookAt(0,0,-300))

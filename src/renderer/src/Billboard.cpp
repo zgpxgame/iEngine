@@ -32,79 +32,66 @@ namespace renderer {
 
 //-----------------------------------------------------------------------
 Billboard::Billboard():
-    mOwnDimensions(false),
-	mPosition(Vector3::ZERO),
-    mDirection(Vector3::ZERO),        
-    mParentSet(0),
-    mColour(ColourValue::White)
-{
+  mOwnDimensions(false),
+  mPosition(Vector3::ZERO),
+  mDirection(Vector3::ZERO),
+  mParentSet(0),
+  mColour(ColourValue::White) {
 }
 //-----------------------------------------------------------------------
-Billboard::~Billboard()
-{
+Billboard::~Billboard() {
 }
 //-----------------------------------------------------------------------
-Billboard::Billboard(const Vector3& position, BillboardSet* owner, const ColourValue& colour)
-{
-    mPosition = position;
-    mOwnDimensions = false;
-    mParentSet = owner;
-    mColour = colour;
+Billboard::Billboard(const Vector3& position, BillboardSet* owner, const ColourValue& colour) {
+  mPosition = position;
+  mOwnDimensions = false;
+  mParentSet = owner;
+  mColour = colour;
 }
 //-----------------------------------------------------------------------
-void Billboard::setPosition(const Vector3& position)
-{
-    mPosition = position;
+void Billboard::setPosition(const Vector3& position) {
+  mPosition = position;
 }
 //-----------------------------------------------------------------------
-void Billboard::setPosition(Real x, Real y, Real z)
-{
-    mPosition.x = x;
-    mPosition.y = y;
-    mPosition.z = z;
+void Billboard::setPosition(Real x, Real y, Real z) {
+  mPosition.x = x;
+  mPosition.y = y;
+  mPosition.z = z;
 }
 //-----------------------------------------------------------------------
-const Vector3& Billboard::getPosition(void) const
-{
-    return mPosition;
+const Vector3& Billboard::getPosition(void) const {
+  return mPosition;
 }
 //-----------------------------------------------------------------------
-void Billboard::setDimensions(Real width, Real height)
-{
-    mOwnDimensions = true;
-    mWidth = width;
-    mHeight = height;
-    mParentSet->_notifyBillboardResized();
+void Billboard::setDimensions(Real width, Real height) {
+  mOwnDimensions = true;
+  mWidth = width;
+  mHeight = height;
+  mParentSet->_notifyBillboardResized();
 }
 //-----------------------------------------------------------------------
-bool Billboard::hasOwnDimensions(void) const
-{
-    return mOwnDimensions;
+bool Billboard::hasOwnDimensions(void) const {
+  return mOwnDimensions;
 }
 //-----------------------------------------------------------------------
-void Billboard::_notifyOwner(BillboardSet* owner)
-{
-    mParentSet = owner;
+void Billboard::_notifyOwner(BillboardSet* owner) {
+  mParentSet = owner;
 }
 //-----------------------------------------------------------------------
-void Billboard::setColour(const ColourValue& colour)
-{
-    mColour = colour;
+void Billboard::setColour(const ColourValue& colour) {
+  mColour = colour;
 }
 //-----------------------------------------------------------------------
-const ColourValue& Billboard::getColour(void) const
-{
-    return mColour;
+const ColourValue& Billboard::getColour(void) const {
+  return mColour;
 }
 //-----------------------------------------------------------------------
-Real Billboard::getOwnWidth(void)
-{
-    return mWidth;
+Real Billboard::getOwnWidth(void) {
+  return mWidth;
 }
 //-----------------------------------------------------------------------
-Real Billboard::getOwnHeight(void)
-{
-    return mHeight;
+Real Billboard::getOwnHeight(void) {
+  return mHeight;
 }
 
 }

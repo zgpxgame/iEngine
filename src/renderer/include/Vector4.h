@@ -29,136 +29,119 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Vector3.h"
 #include "Matrix4.h"
 
-namespace renderer
-{
+namespace renderer {
 
-    /** 4-dimensional homogenous vector.
-    */
-    class _RendererExport Vector4
-    {
-    public:
-        Real x, y, z, w;        
+/** 4-dimensional homogenous vector.
+*/
+class _RendererExport Vector4 {
+public:
+  Real x, y, z, w;
 
-    public:
-        inline Vector4()
-        {
-        }
+public:
+  inline Vector4() {
+  }
 
-        inline Vector4( Real fX, Real fY, Real fZ, Real fW ) 
-            : x( fX ), y( fY ), z( fZ ), w( fW)
-        {
-        }
+  inline Vector4( Real fX, Real fY, Real fZ, Real fW )
+    : x( fX ), y( fY ), z( fZ ), w( fW) {
+  }
 
-        inline Vector4( Real afCoordinate[4] )
-            : x( afCoordinate[0] ),
-              y( afCoordinate[1] ),
-              z( afCoordinate[2] ), 
-              w (afCoordinate[3] )
-        {
-        }
+  inline Vector4( Real afCoordinate[4] )
+    : x( afCoordinate[0] ),
+      y( afCoordinate[1] ),
+      z( afCoordinate[2] ),
+      w (afCoordinate[3] ) {
+  }
 
-        inline Vector4( int afCoordinate[4] )
-        {
-            x = (Real)afCoordinate[0];
-            y = (Real)afCoordinate[1];
-            z = (Real)afCoordinate[2];
-            w = (Real)afCoordinate[3];
-        }
+  inline Vector4( int afCoordinate[4] ) {
+    x = (Real)afCoordinate[0];
+    y = (Real)afCoordinate[1];
+    z = (Real)afCoordinate[2];
+    w = (Real)afCoordinate[3];
+  }
 
-        inline Vector4( const Real* const r )
-            : x( r[0] ), y( r[1] ), z( r[2] ), w( r[3] )
-        {
-        }
+  inline Vector4( const Real* const r )
+    : x( r[0] ), y( r[1] ), z( r[2] ), w( r[3] ) {
+  }
 
-        inline Vector4( const Vector4& rkVector )
-            : x( rkVector.x ), y( rkVector.y ), z( rkVector.z ), w (rkVector.w)
-        {
-        }
+  inline Vector4( const Vector4& rkVector )
+    : x( rkVector.x ), y( rkVector.y ), z( rkVector.z ), w (rkVector.w) {
+  }
 
-        inline Real operator [] ( unsigned i ) const
-        {
-            assert( i < 4 );
+  inline Real operator [] ( unsigned i ) const {
+    assert( i < 4 );
 
-            return *(&x+i);
-        }
+    return *(&x+i);
+  }
 
-		inline Real& operator [] ( unsigned i )
-        {
-            assert( i < 4 );
+  inline Real& operator [] ( unsigned i ) {
+    assert( i < 4 );
 
-            return *(&x+i);
-        }
+    return *(&x+i);
+  }
 
-        /** Assigns the value of the other vector.
-            @param
-                rkVector The other vector
-        */
-        inline Vector4& operator = ( const Vector4& rkVector )
-        {
-            x = rkVector.x;
-            y = rkVector.y;
-            z = rkVector.z;            
-            w = rkVector.w;            
+  /** Assigns the value of the other vector.
+      @param
+          rkVector The other vector
+  */
+  inline Vector4& operator = ( const Vector4& rkVector ) {
+    x = rkVector.x;
+    y = rkVector.y;
+    z = rkVector.z;
+    w = rkVector.w;
 
-            return *this;
-        }
+    return *this;
+  }
 
-        inline bool operator == ( const Vector4& rkVector ) const
-        {
-            return ( x == rkVector.x && 
-                y == rkVector.y && 
-                z == rkVector.z &&
-                w == rkVector.w );
-        }
+  inline bool operator == ( const Vector4& rkVector ) const {
+    return ( x == rkVector.x &&
+             y == rkVector.y &&
+             z == rkVector.z &&
+             w == rkVector.w );
+  }
 
-        inline bool operator != ( const Vector4& rkVector ) const
-        {
-            return ( x != rkVector.x || 
-                y != rkVector.y || 
-                z != rkVector.z ||
-                w != rkVector.w );
-        }
+  inline bool operator != ( const Vector4& rkVector ) const {
+    return ( x != rkVector.x ||
+             y != rkVector.y ||
+             z != rkVector.z ||
+             w != rkVector.w );
+  }
 
-        inline Vector4& operator = (const Vector3& rhs)
-        {
-            x = rhs.x;
-            y = rhs.y;
-            z = rhs.z;
-            w = 1.0f;
-            return *this;
-        }
+  inline Vector4& operator = (const Vector3& rhs) {
+    x = rhs.x;
+    y = rhs.y;
+    z = rhs.z;
+    w = 1.0f;
+    return *this;
+  }
 
-        inline Vector4 operator * (const Matrix4& mat) const
-        {
-            return Vector4(
-                x*mat[0][0] + y*mat[1][0] + z*mat[2][0] + w*mat[3][0],
-                x*mat[0][1] + y*mat[1][1] + z*mat[2][1] + w*mat[3][1],
-                x*mat[0][2] + y*mat[1][2] + z*mat[2][2] + w*mat[3][2],
-                x*mat[0][3] + y*mat[1][3] + z*mat[2][3] + w*mat[3][3]
-                );
-        }
+  inline Vector4 operator * (const Matrix4& mat) const {
+    return Vector4(
+             x*mat[0][0] + y*mat[1][0] + z*mat[2][0] + w*mat[3][0],
+             x*mat[0][1] + y*mat[1][1] + z*mat[2][1] + w*mat[3][1],
+             x*mat[0][2] + y*mat[1][2] + z*mat[2][2] + w*mat[3][2],
+             x*mat[0][3] + y*mat[1][3] + z*mat[2][3] + w*mat[3][3]
+           );
+  }
 
 
-        /** Calculates the dot (scalar) product of this vector with another.
-            @param
-                vec Vector with which to calculate the dot product (together
-                with this one).
-            @returns
-                A float representing the dot product value.
-        */
-        inline Real dotProduct(const Vector4& vec) const
-        {
-            return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
-        }
-        /** Function for writing to a stream.
-        */
-        inline _RendererExport friend std::ostream& operator <<
-            ( std::ostream& o, const Vector4& v )
-        {
-            o << "Vector4(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
-            return o;
-        }
-    };
+  /** Calculates the dot (scalar) product of this vector with another.
+      @param
+          vec Vector with which to calculate the dot product (together
+          with this one).
+      @returns
+          A float representing the dot product value.
+  */
+  inline Real dotProduct(const Vector4& vec) const {
+    return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
+  }
+  /** Function for writing to a stream.
+  */
+  inline _RendererExport friend std::ostream& operator <<
+  ( std::ostream& o, const Vector4& v ) {
+    o << "Vector4(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
+    return o;
+  }
+};
 
 }
 #endif

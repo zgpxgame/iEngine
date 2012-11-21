@@ -29,22 +29,20 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "RenderTarget.h"
 
-namespace renderer
-{
-    class _RendererExport RenderTexture : public RenderTarget
-    {
-    public:
-        RenderTexture( const String & name, uint width, uint height, TextureType texType = TEX_TYPE_2D );
+namespace renderer {
+class _RendererExport RenderTexture : public RenderTarget {
+public:
+  RenderTexture( const String & name, uint width, uint height, TextureType texType = TEX_TYPE_2D );
 
-    protected:
-		RenderTexture() {};
-		virtual void firePostUpdate();
-		virtual void _copyToTexture() = 0;
+protected:
+  RenderTexture() {};
+  virtual void firePostUpdate();
+  virtual void _copyToTexture() = 0;
 
-	protected:
-		/// The texture that gets accesses by the rest of the API.
-        Texture * mTexture;
-    };
+protected:
+  /// The texture that gets accesses by the rest of the API.
+  Texture * mTexture;
+};
 }
 
 #endif

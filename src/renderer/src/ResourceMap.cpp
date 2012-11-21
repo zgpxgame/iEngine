@@ -29,77 +29,64 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace renderer {
 
 #ifdef __OBSOLETE__DO__NOT__DEFINE__THIS__
-    ResourceMap::ResourceMap()
-    {
-    }
+ResourceMap::ResourceMap() {
+}
 
-    ResourceMap::~ResourceMap()
-    {
-    }
+ResourceMap::~ResourceMap() {
+}
 
-    void ResourceMap::insert(const String& key, Resource* value)
-    {
-        mImpl.insert(MapImpl::value_type(key, value));
-    }
+void ResourceMap::insert(const String& key, Resource* value) {
+  mImpl.insert(MapImpl::value_type(key, value));
+}
 
-    void/*ResourceMap::iterator*/ ResourceMap::erase(iterator e)
-    {
-       /*MapImpl::iterator newe = ;*/
-       /*std::map<String, Resource*, std::less<String> > mappie = mImpl;*/
-        mImpl.erase( e.mIter );
-       //return iterator(mappie.erase( e.mIter )/**/, mImpl.end());
-    }
+void/*ResourceMap::iterator*/ ResourceMap::erase(iterator e) {
+  /*MapImpl::iterator newe = ;*/
+  /*std::map<String, Resource*, std::less<String> > mappie = mImpl;*/
+  mImpl.erase( e.mIter );
+  //return iterator(mappie.erase( e.mIter )/**/, mImpl.end());
+}
 
-    void ResourceMap::erase(const String& key)
-    {
-        mImpl.erase(key);
-    }
+void ResourceMap::erase(const String& key) {
+  mImpl.erase(key);
+}
 
-    ResourceMap::iterator ResourceMap::find(const String& key)
-    {
-        MapImpl::iterator i = mImpl.find(key);
+ResourceMap::iterator ResourceMap::find(const String& key) {
+  MapImpl::iterator i = mImpl.find(key);
 
-        return iterator(i, mImpl.end());
+  return iterator(i, mImpl.end());
 
-    }
+}
 
 
-    ResourceMap::iterator ResourceMap::begin(void)
-    {
-        return iterator(mImpl.begin(), mImpl.end());
-    }
+ResourceMap::iterator ResourceMap::begin(void) {
+  return iterator(mImpl.begin(), mImpl.end());
+}
 
-    ResourceMap::iterator::iterator(MapImpl::iterator startAt, MapImpl::iterator end)
-    {
-        mIter = startAt;
-        mEnd = end;
-    }
+ResourceMap::iterator::iterator(MapImpl::iterator startAt, MapImpl::iterator end) {
+  mIter = startAt;
+  mEnd = end;
+}
 
-    bool ResourceMap::iterator::end()
-    {
-        return (mIter == mEnd);
-    }
+bool ResourceMap::iterator::end() {
+  return (mIter == mEnd);
+}
 
-    ResourceMap::iterator& ResourceMap::iterator::operator++()
-    {
-        mIter++;
-        return *this;
-    }
+ResourceMap::iterator& ResourceMap::iterator::operator++() {
+  mIter++;
+  return *this;
+}
 
-    const String& ResourceMap::iterator::getKey()
-    {
-        return mIter->first;
-    }
+const String& ResourceMap::iterator::getKey() {
+  return mIter->first;
+}
 
-    Resource* ResourceMap::iterator::getValue()
-    {
-        return mIter->second;
-    }
+Resource* ResourceMap::iterator::getValue() {
+  return mIter->second;
+}
 
-    void ResourceMap::clear()
-    {
-        mImpl.clear();
-    }
+void ResourceMap::clear() {
+  mImpl.clear();
+}
 #endif
 
 

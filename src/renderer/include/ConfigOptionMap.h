@@ -33,20 +33,19 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 namespace renderer {
-    /** Packages the details of a configuration option.
-        @remarks
-            Used for RenderSystem::getConfigOptions. If immutable is true, this
-            option must be disabled for modifying.
-    */
-    typedef struct _ConfigOption
-    {
-        String name;
-        String currentValue;
-        StringVector possibleValues;
-        bool immutable;
-    } ConfigOption;
+/** Packages the details of a configuration option.
+    @remarks
+        Used for RenderSystem::getConfigOptions. If immutable is true, this
+        option must be disabled for modifying.
+*/
+typedef struct _ConfigOption {
+  String name;
+  String currentValue;
+  StringVector possibleValues;
+  bool immutable;
+} ConfigOption;
 
-    typedef std::map< String, ConfigOption > ConfigOptionMap;
+typedef std::map< String, ConfigOption > ConfigOptionMap;
 }
 
 #endif

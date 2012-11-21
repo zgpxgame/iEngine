@@ -32,72 +32,49 @@ namespace renderer {
 #define EXPORT __declspec(dllexport)
 
 #ifdef _DEBUG
-    int g_iCreatedConfigDiag = 0;
-    int g_iCreatedRenderWindow = 0;
-    int g_iCreatedInputReader = 0;
+int g_iCreatedConfigDiag = 0;
+int g_iCreatedRenderWindow = 0;
+int g_iCreatedInputReader = 0;
 #endif
 
-    /// Retrieves an instance of a config dialog for this platform
-    extern "C" EXPORT void createPlatformConfigDialog(ConfigDialog** ppDlg)
-    {
-        // Must get HISTANCE
-        HINSTANCE hInst = GetModuleHandle("plugin_platform_manager.dll");
-        *ppDlg = new Win32ConfigDialog(hInst);
+/// Retrieves an instance of a config dialog for this platform
+extern "C" EXPORT void createPlatformConfigDialog(ConfigDialog** ppDlg) {
+  // Must get HISTANCE
+  HINSTANCE hInst = GetModuleHandle("plugin_platform_manager.dll");
+  *ppDlg = new Win32ConfigDialog(hInst);
 
 #ifdef _DEBUG
-        g_iCreatedConfigDiag++;
+  g_iCreatedConfigDiag++;
 #endif
-    }
+}
 
-	/// Creates a Timer using default implementation
-	extern "C" EXPORT void createTimer(Timer** ppTimer)
-	{
-		*ppTimer = new Win32Timer();
-        (*ppTimer)->Reset();
-	}
+/// Creates a Timer using default implementation
+extern "C" EXPORT void createTimer(Timer** ppTimer) {
+  *ppTimer = new Win32Timer();
+  (*ppTimer)->Reset();
+}
 
-	extern "C" EXPORT void destroyTimer(Timer* ppTimer)
-	{
-		delete ppTimer;
-	}
+extern "C" EXPORT void destroyTimer(Timer* ppTimer) {
+  delete ppTimer;
+}
 
 
-    /// Destroys
-    extern "C" EXPORT void destroyPlatformConfigDialog(ConfigDialog* dlg)
-    {
-        delete dlg;
+/// Destroys
+extern "C" EXPORT void destroyPlatformConfigDialog(ConfigDialog* dlg) {
+  delete dlg;
 
 #ifdef _DEBUG
-        g_iCreatedConfigDiag--;
+  g_iCreatedConfigDiag--;
 #endif
-    }
+}
 
-    /// Destroys
-    extern "C" EXPORT void destroyPlatformRenderWindow(RenderWindow* wnd)
-    {
-        delete wnd;
+/// Destroys
+extern "C" EXPORT void destroyPlatformRenderWindow(RenderWindow* wnd) {
+  delete wnd;
 
 #ifdef _DEBUG
-        g_iCreatedRenderWindow--;
+  g_iCreatedRenderWindow--;
 #endif
-    }
+}
 
-#if 0//def _DEBUG
-    BOOL WINAPI DllMain( HINSTANCE hinstDLL,  // handle to DLL module
-                         DWORD fdwReason,     // reason for calling function
-                         LPVOID lpvReserved   // reserved
-                       )
-    {
-        if( fdwReason == DLL_THREAD_DETACH ) {
-            if( g_iCreatedConfigDiag )
-                LogManager::logMessage( "Memory Leak: Not all platform configuration dialogs were destroyed!!!", LML_CRITICAL );
-            if( g_iCreatedConfigDiag )
-                LogManager::logMessage( "Memory Leak: Not all platform error dialogs were destroyed!!!", LML_CRITICAL );
-            if( g_iCreatedConfigDiag )
-                LogManager::logMessage( "Memory Leak: Not all platform render windows were destroyed!!!", LML_CRITICAL );
-            if( g_iCreatedConfigDiag )
-                LogManager::logMessage( "Memory Leak: Not all platform input readers were destroyed!!!", LML_CRITICAL );
-        }
-    }
-#endif
 }

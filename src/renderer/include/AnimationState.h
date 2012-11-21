@@ -33,73 +33,72 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Represents the state of an animation and the weight of it's influence. 
-    @remarks
-        Other classes can hold instances of this class to store the state of any animations
-        they are using.
-        This class implements the ControllerValue interface to enable automatic update of
-        animation state through controllers.
-    */
-    class _RendererExport AnimationState : public ControllerValue
-    {
-    public:
-        /// Default constructor for STL only
-        AnimationState();
-		/** Destructor - is here because class has virtual functions and some compilers 
-			would whine if it won't exist.
-		*/
-		virtual ~AnimationState();
-        
-        /// Normal constructor with all params supplied
-        AnimationState(const String& animName, Real timePos, Real length, Real weight = 1.0, bool enabled = false);
-        /// Gets the name of the animation to which this state applies
-        String getAnimationName() const;
-        /// Sets the name of the animation to which this state applies
-        void setAnimationName(const String& name);
-        /// Gets the time position for this animation
-        Real getTimePosition(void) const;
-        /// Sets the time position for this animation
-        void setTimePosition(Real timePos);
-        /// Gets the total length of this animation (may be shorter than whole animation)
-        Real getLength() const;
-        /// Sets the total length of this animation (may be shorter than whole animation)
-        void setLength(Real len);
-        /// Gets the weight (influence) of this animation
-        Real getWeight(void) const;
-        /// Sets the weight (influence) of this animation
-        void setWeight(Real weight);
-        /// Modifies the time position, adjusting for animation length
-        void addTime(Real offset);
+/** Represents the state of an animation and the weight of it's influence.
+@remarks
+    Other classes can hold instances of this class to store the state of any animations
+    they are using.
+    This class implements the ControllerValue interface to enable automatic update of
+    animation state through controllers.
+*/
+class _RendererExport AnimationState : public ControllerValue {
+public:
+  /// Default constructor for STL only
+  AnimationState();
+  /** Destructor - is here because class has virtual functions and some compilers
+  	would whine if it won't exist.
+  */
+  virtual ~AnimationState();
 
-        /// Returns true if this animation is currently enabled
-        bool getEnabled(void) const;
-        /// Sets whether this animation is enabled
-        void setEnabled(bool enabled);
+  /// Normal constructor with all params supplied
+  AnimationState(const String& animName, Real timePos, Real length, Real weight = 1.0, bool enabled = false);
+  /// Gets the name of the animation to which this state applies
+  String getAnimationName() const;
+  /// Sets the name of the animation to which this state applies
+  void setAnimationName(const String& name);
+  /// Gets the time position for this animation
+  Real getTimePosition(void) const;
+  /// Sets the time position for this animation
+  void setTimePosition(Real timePos);
+  /// Gets the total length of this animation (may be shorter than whole animation)
+  Real getLength() const;
+  /// Sets the total length of this animation (may be shorter than whole animation)
+  void setLength(Real len);
+  /// Gets the weight (influence) of this animation
+  Real getWeight(void) const;
+  /// Sets the weight (influence) of this animation
+  void setWeight(Real weight);
+  /// Modifies the time position, adjusting for animation length
+  void addTime(Real offset);
 
-        /// Equality operator
-        bool operator==(const AnimationState& rhs) const;
-        // Inequality operator
-        bool operator!=(const AnimationState& rhs) const;
+  /// Returns true if this animation is currently enabled
+  bool getEnabled(void) const;
+  /// Sets whether this animation is enabled
+  void setEnabled(bool enabled);
 
-        /** ControllerValue implementation. */
-        Real getValue(void) const;
+  /// Equality operator
+  bool operator==(const AnimationState& rhs) const;
+  // Inequality operator
+  bool operator!=(const AnimationState& rhs) const;
 
-        /** ControllerValue implementation. */
-        void setValue(Real value);
+  /** ControllerValue implementation. */
+  Real getValue(void) const;
 
-     
-    protected:
-        String mAnimationName;
-        Real mTimePos;
-        Real mLength;
-        Real mInvLength;
-        Real mWeight;
-        bool mEnabled;
+  /** ControllerValue implementation. */
+  void setValue(Real value);
 
-    };
 
-    // A set of animation states
-    typedef std::map<String, AnimationState> AnimationStateSet;
+protected:
+  String mAnimationName;
+  Real mTimePos;
+  Real mLength;
+  Real mInvLength;
+  Real mWeight;
+  bool mEnabled;
+
+};
+
+// A set of animation states
+typedef std::map<String, AnimationState> AnimationStateSet;
 
 
 }

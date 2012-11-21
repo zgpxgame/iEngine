@@ -35,7 +35,7 @@ Description: Somewhere to play in the sand...
 
 AnimationState* mAnimState;
 
-// Event handler 
+// Event handler
 class CameraTrackListener: public ExampleFrameListener {
 protected:
 public:
@@ -143,22 +143,33 @@ protected:
 #include "base/bind.h"
 #include "base/command_line.h"
 
-int foo0() { return 0; }
-int foo1(int a) { return a; }
-int foo2(int a, int b) { return a + b; }
-int foo3(int a, int b, int c) { return a + b + c; }
-int foo4(int a, int b, int c, int d) { return a + b + c + d; }
-int foo5(int a, int b, int c, int d, int e) { return a + b + c + d + e; }
+int foo0() {
+  return 0;
+}
+int foo1(int a) {
+  return a;
+}
+int foo2(int a, int b) {
+  return a + b;
+}
+int foo3(int a, int b, int c) {
+  return a + b + c;
+}
+int foo4(int a, int b, int c, int d) {
+  return a + b + c + d;
+}
+int foo5(int a, int b, int c, int d, int e) {
+  return a + b + c + d + e;
+}
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   CommandLine::Init(0, 0);
 
   logging::InitLogging(L"demo.log",
-    logging::LOG_ONLY_TO_SYSTEM_DEBUG_LOG,
-    logging::DONT_LOCK_LOG_FILE,
-    logging::DELETE_OLD_LOG_FILE,
-    logging::ENABLE_DCHECK_FOR_NON_OFFICIAL_RELEASE_BUILDS);
+                       logging::LOG_ONLY_TO_SYSTEM_DEBUG_LOG,
+                       logging::DONT_LOCK_LOG_FILE,
+                       logging::DELETE_OLD_LOG_FILE,
+                       logging::ENABLE_DCHECK_FOR_NON_OFFICIAL_RELEASE_BUILDS);
 
   base::Callback<int()> foo0_cb = base::Bind(&foo0);
   LOG(INFO) << foo0_cb.Run();

@@ -32,32 +32,30 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace renderer {
 
 
-    //-----------------------------------------------------------------------
-    BoxEmitter::BoxEmitter()
-    {
-        initDefaults("Box");
-    }
-    //-----------------------------------------------------------------------
-    void BoxEmitter::_initParticle(Particle* pParticle)
-    {
-        Vector3 xOff, yOff, zOff;
+//-----------------------------------------------------------------------
+BoxEmitter::BoxEmitter() {
+  initDefaults("Box");
+}
+//-----------------------------------------------------------------------
+void BoxEmitter::_initParticle(Particle* pParticle) {
+  Vector3 xOff, yOff, zOff;
 
-        xOff = Math::SymmetricRandom() * mXRange;
-        yOff = Math::SymmetricRandom() * mYRange;
-        zOff = Math::SymmetricRandom() * mZRange;
+  xOff = Math::SymmetricRandom() * mXRange;
+  yOff = Math::SymmetricRandom() * mYRange;
+  zOff = Math::SymmetricRandom() * mZRange;
 
-        pParticle->mPosition = mPosition + xOff + yOff + zOff;
-        
+  pParticle->mPosition = mPosition + xOff + yOff + zOff;
 
-        // Generate complex data by reference
-        genEmissionColour(pParticle->mColour);
-        genEmissionDirection(pParticle->mDirection);
-        genEmissionVelocity(pParticle->mDirection);
 
-        // Generate simpler data
-        pParticle->mTimeToLive = genEmissionTTL();
-        
-    }
+  // Generate complex data by reference
+  genEmissionColour(pParticle->mColour);
+  genEmissionDirection(pParticle->mDirection);
+  genEmissionVelocity(pParticle->mDirection);
+
+  // Generate simpler data
+  pParticle->mTimeToLive = genEmissionTTL();
+
+}
 
 
 }

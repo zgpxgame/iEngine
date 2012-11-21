@@ -32,108 +32,101 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    bool ImageCodec::_is_initialized = false;
+bool ImageCodec::_is_initialized = false;
 
 #if 0
-    //---------------------------------------------------------------------
-    void ImageCodec::codeToFile( const DataChunk& input, 
-        const String& outFileName, Codec::CodecData* pData) const
-    {
-        OgreGuard( "ImageCodec::codeToFile" );
+//---------------------------------------------------------------------
+void ImageCodec::codeToFile( const DataChunk& input,
+                             const String& outFileName, Codec::CodecData* pData) const {
+  OgreGuard( "ImageCodec::codeToFile" );
 
-        ILuint ImageName;
+  ILuint ImageName;
 
-        if( !_is_initialized )
-        {
-            ilInit();
-            ilEnable( IL_FILE_OVERWRITE );
-            _is_initialized = true;
-        }
+  if( !_is_initialized ) {
+    ilInit();
+    ilEnable( IL_FILE_OVERWRITE );
+    _is_initialized = true;
+  }
 
-        ilGenImages( 1, &ImageName );
-        ilBindImage( ImageName );
+  ilGenImages( 1, &ImageName );
+  ilBindImage( ImageName );
 
-        ImageData* pImgData = static_cast< ImageData * >( pData );
-        std::pair< int, int > fmt_bpp = OgreFormat2ilFormat( pImgData->format );
-        ilTexImage( 
-            pImgData->width, pImgData->height, 1, fmt_bpp.second, fmt_bpp.first, IL_UNSIGNED_BYTE, 
-            static_cast< void * >( const_cast< uchar * >( ( input.getPtr() ) ) ) );
-        iluFlipImage();
+  ImageData* pImgData = static_cast< ImageData * >( pData );
+  std::pair< int, int > fmt_bpp = OgreFormat2ilFormat( pImgData->format );
+  ilTexImage(
+    pImgData->width, pImgData->height, 1, fmt_bpp.second, fmt_bpp.first, IL_UNSIGNED_BYTE,
+    static_cast< void * >( const_cast< uchar * >( ( input.getPtr() ) ) ) );
+  iluFlipImage();
 
-        // Implicitly pick DevIL codec
-        ilSaveImage(const_cast< char * >( outFileName.c_str() ) );
+  // Implicitly pick DevIL codec
+  ilSaveImage(const_cast< char * >( outFileName.c_str() ) );
 
-        ilDeleteImages(1, &ImageName);
+  ilDeleteImages(1, &ImageName);
 
-        OgreUnguard();
-    }
+  OgreUnguard();
+}
 #endif
 
-    void ImageCodec::code( const DataChunk& input, DataChunk* output ) const
-    {
-    }
+void ImageCodec::code( const DataChunk& input, DataChunk* output ) const {
+}
 
-    ImageCodec::ImageData * ImageCodec::decode( const DataChunk& input, DataChunk* output ) const
-    {
-        OgreGuard( "JPEGCodec::decode" );
+ImageCodec::ImageData * ImageCodec::decode( const DataChunk& input, DataChunk* output ) const {
+  OgreGuard( "JPEGCodec::decode" );
 
-        // DevIL variables
-        ILuint ImageName;
-        ILint Imagformat, BytesPerPixel;
-        ImageData * ret_data = new ImageData;
+  // DevIL variables
+  ILuint ImageName;
+  ILint Imagformat, BytesPerPixel;
+  ImageData * ret_data = new ImageData;
 
-        // Ensure DevIL is started
-        if( !_is_initialized )
-        {
-            ilInit();
-            ilEnable( IL_FILE_OVERWRITE );
-            _is_initialized = true;
-        }
+  // Ensure DevIL is started
+  if( !_is_initialized ) {
+    ilInit();
+    ilEnable( IL_FILE_OVERWRITE );
+    _is_initialized = true;
+  }
 
-        // Load the image
-        ilGenImages( 1, &ImageName );
-        ilBindImage( ImageName );
+  // Load the image
+  ilGenImages( 1, &ImageName );
+  ilBindImage( ImageName );
 
-        ilLoadL( 
-            IL_TYPE_UNKNOWN,
-            ( void * )const_cast< uchar * >( input.getPtr() ), 
-            static_cast< ILuint >( input.getSize() ) );
+  ilLoadL(
+    IL_TYPE_UNKNOWN,
+    ( void * )const_cast< uchar * >( input.getPtr() ),
+    static_cast< ILuint >( input.getSize() ) );
 
-        // Check if everything was ok
-        ILenum PossibleError = ilGetError() ;
-        if( PossibleError != IL_NO_ERROR )
-        {
-          // FIXME!
+  // Check if everything was ok
+  ILenum PossibleError = ilGetError() ;
+  if( PossibleError != IL_NO_ERROR ) {
+    // FIXME!
 #if 0
-            Except( Exception::UNIMPLEMENTED_FEATURE,
-                "IL Error",
-                iluErrorString(PossibleError) ) ;
+    Except( Exception::UNIMPLEMENTED_FEATURE,
+            "IL Error",
+            iluErrorString(PossibleError) ) ;
 #endif
-        }
+  }
 
-        // Now sets some variables
-        ret_data->width = ilGetInteger( IL_IMAGE_WIDTH );
-        ret_data->height = ilGetInteger( IL_IMAGE_HEIGHT );
+  // Now sets some variables
+  ret_data->width = ilGetInteger( IL_IMAGE_WIDTH );
+  ret_data->height = ilGetInteger( IL_IMAGE_HEIGHT );
 
-        Imagformat = ilGetInteger( IL_IMAGE_FORMAT );
-        BytesPerPixel = ilGetInteger( IL_IMAGE_BYTES_PER_PIXEL ); 
+  Imagformat = ilGetInteger( IL_IMAGE_FORMAT );
+  BytesPerPixel = ilGetInteger( IL_IMAGE_BYTES_PER_PIXEL );
 
-        ret_data->format = ilFormat2OgreFormat( Imagformat, BytesPerPixel );
-        ret_data->width = ilGetInteger( IL_IMAGE_WIDTH );
-        ret_data->height = ilGetInteger( IL_IMAGE_HEIGHT );
+  ret_data->format = ilFormat2OgreFormat( Imagformat, BytesPerPixel );
+  ret_data->width = ilGetInteger( IL_IMAGE_WIDTH );
+  ret_data->height = ilGetInteger( IL_IMAGE_HEIGHT );
 
-        uint ImageSize = ilGetInteger( IL_IMAGE_WIDTH ) * ilGetInteger( IL_IMAGE_HEIGHT ) * ilGetInteger( IL_IMAGE_BYTES_PER_PIXEL );
+  uint ImageSize = ilGetInteger( IL_IMAGE_WIDTH ) * ilGetInteger( IL_IMAGE_HEIGHT ) * ilGetInteger( IL_IMAGE_BYTES_PER_PIXEL );
 
-        // Move the image data to the output buffer
-        output->allocate( ImageSize );
-        memcpy( output->getPtr(), ilGetData(), ImageSize );
+  // Move the image data to the output buffer
+  output->allocate( ImageSize );
+  memcpy( output->getPtr(), ilGetData(), ImageSize );
 
-        ilDeleteImages( 1, &ImageName );
+  ilDeleteImages( 1, &ImageName );
 
-        OgreUnguardRet( ret_data );
-    }
+  OgreUnguardRet( ret_data );
+}
 
-    void ImageCodec::SaveToFile( const DataChunk& input, const String& outFileName, ImageData* pData) const
-    {
-    }
+void ImageCodec::SaveToFile( const DataChunk& input, const String& outFileName, ImageData* pData) const {
+}
 }

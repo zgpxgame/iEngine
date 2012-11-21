@@ -31,50 +31,61 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 namespace renderer {
-    class Win32Window : public RenderWindow
-    {
-    public:
-        Win32Window();
-        ~Win32Window();
+class Win32Window : public RenderWindow {
+public:
+  Win32Window();
+  ~Win32Window();
 
-        void create(String name, int width, int height, int colourDepth,
-            bool fullScreen, int left, int top, bool depthBuffer, void* miscParam, ...);
-        void destroy(void);
-        bool isActive(void);
-        bool isClosed(void);
-        void reposition(int left, int top);
-        void resize(int width, int height);
-        void swapBuffers(bool waitForVSync);
+  void create(String name, int width, int height, int colourDepth,
+              bool fullScreen, int left, int top, bool depthBuffer, void* miscParam, ...);
+  void destroy(void);
+  bool isActive(void);
+  bool isClosed(void);
+  void reposition(int left, int top);
+  void resize(int width, int height);
+  void swapBuffers(bool waitForVSync);
 
-        void outputText(int x, int y, const String& text);
-        /** Overridden - see RenderTarget.
-        */
-        void writeContentsToFile(const String& filename);
+  void outputText(int x, int y, const String& text);
+  /** Overridden - see RenderTarget.
+  */
+  void writeContentsToFile(const String& filename);
 
-		bool requiresTextureFlipping() const { return false; }
+  bool requiresTextureFlipping() const {
+    return false;
+  }
 
-		HWND getWindowHandle() { return mHWnd; }
-		
-		// Method for dealing with resize / move & 3d library
-		void WindowMovedOrResized(void);
-		// Method for passing a external window handle before creation ;)
-		void SetExternalWindowHandle(HWND externalHandle) {mExternalHandle = externalHandle;};
+  HWND getWindowHandle() {
+    return mHWnd;
+  }
 
-		bool isReady() { return mReady; }
-		void setReady(bool set) { mReady = set; }
-		void setActive(bool set) { mActive = set; }
-	protected:
-		HWND	mExternalHandle;		// External Win32 window handle
-		HWND	mHWnd;					// Win32 Window handle
-		HDC		mHDC;
-		HGLRC	mGlrc;
-		int		mOldSwapIntervall;
-		bool	mActive;				// Is active i.e. visible
-		bool	mReady;					// Is ready i.e. available for update
-		bool	mClosed;
+  // Method for dealing with resize / move & 3d library
+  void WindowMovedOrResized(void);
+  // Method for passing a external window handle before creation ;)
+  void SetExternalWindowHandle(HWND externalHandle) {
+    mExternalHandle = externalHandle;
+  };
 
-		static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-    };
+  bool isReady() {
+    return mReady;
+  }
+  void setReady(bool set) {
+    mReady = set;
+  }
+  void setActive(bool set) {
+    mActive = set;
+  }
+protected:
+  HWND	mExternalHandle;		// External Win32 window handle
+  HWND	mHWnd;					// Win32 Window handle
+  HDC		mHDC;
+  HGLRC	mGlrc;
+  int		mOldSwapIntervall;
+  bool	mActive;				// Is active i.e. visible
+  bool	mReady;					// Is ready i.e. available for update
+  bool	mClosed;
+
+  static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+};
 }
 
 #endif

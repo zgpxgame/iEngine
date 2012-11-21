@@ -32,30 +32,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Factory class for particle emitter of type "Ring".
-    @remarks
-        Creates instances of RingEmitter to be used in particle systems. 
-    */
-    class _ParticleFXExport RingEmitterFactory : public ParticleEmitterFactory
-    {
-    protected:
+/** Factory class for particle emitter of type "Ring".
+@remarks
+    Creates instances of RingEmitter to be used in particle systems.
+*/
+class _ParticleFXExport RingEmitterFactory : public ParticleEmitterFactory {
+protected:
 
-    public:
-        /** See ParticleEmitterFactory */
-        String getName() 
-        { 
-            return "Ring"; 
-        }
+public:
+  /** See ParticleEmitterFactory */
+  String getName() {
+    return "Ring";
+  }
 
-        /** See ParticleEmitterFactory */
-        ParticleEmitter* createEmitter(void) 
-        {
-            ParticleEmitter* emit = new RingEmitter();
-            mEmitters.push_back(emit);
-            return emit;
-        }
+  /** See ParticleEmitterFactory */
+  ParticleEmitter* createEmitter(void) {
+    ParticleEmitter* emit = new RingEmitter();
+    mEmitters.push_back(emit);
+    return emit;
+  }
 
-    };
+};
 
 }
 

@@ -23,8 +23,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 /***************************************************************************
-OgrePositionTarget.h  -  
-	A position target is a component that can be targeted by any mouse click or 
+OgrePositionTarget.h  -
+	A position target is a component that can be targeted by any mouse click or
 	event that relies on an xy position.
 
 	It supports nesting, so the left and top are relative to its parent.
@@ -43,20 +43,19 @@ email                : kenny@sparksuit.com
 
 namespace renderer {
 
-    class _RendererExport PositionTarget : public EventTarget
-    {
-	public:
-        /** Gets the left of this element in relation to the screen (where 0 = far left, 1.0 = far right)  */
-        virtual Real getLeft(void) const = 0;
+class _RendererExport PositionTarget : public EventTarget {
+public:
+  /** Gets the left of this element in relation to the screen (where 0 = far left, 1.0 = far right)  */
+  virtual Real getLeft(void) const = 0;
 
-        /** Gets the top of this element in relation to the screen (where 0 = top, 1.0 = bottom)  */
-        virtual Real getTop(void) const = 0;
+  /** Gets the top of this element in relation to the screen (where 0 = top, 1.0 = bottom)  */
+  virtual Real getTop(void) const = 0;
 
-		virtual PositionTarget* getPositionTargetParent() = 0;
+  virtual PositionTarget* getPositionTargetParent() = 0;
 
-		virtual bool isKeyEnabled() = 0;
+  virtual bool isKeyEnabled() = 0;
 
-    };
+};
 }
 
 

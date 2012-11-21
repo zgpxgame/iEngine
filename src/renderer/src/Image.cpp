@@ -31,374 +31,345 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------------
-    Image::Image()
-        : m_pBuffer( NULL )
-    {
+//-----------------------------------------------------------------------------
+Image::Image()
+  : m_pBuffer( NULL ) {
+}
+
+//-----------------------------------------------------------------------------
+Image::Image( const Image &img ) {
+  // call assignment operator
+  *this = img;
+}
+
+//-----------------------------------------------------------------------------
+Image::~Image() {
+  if( m_pBuffer ) {
+    delete[] m_pBuffer;
+    m_pBuffer = NULL;
+  }
+}
+
+//-----------------------------------------------------------------------------
+Image & Image::operator = ( const Image &img ) {
+  m_uWidth = img.m_uWidth;
+  m_uHeight = img.m_uHeight;
+  m_eFormat = img.m_eFormat;
+  m_ucPixelSize = img.m_ucPixelSize;
+
+  m_pBuffer = new uchar[ m_uWidth * m_uHeight * m_ucPixelSize ];
+  memcpy( m_pBuffer, img.m_pBuffer, m_uWidth * m_uHeight * m_ucPixelSize );
+
+  return *this;
+}
+
+//-----------------------------------------------------------------------------
+Image & Image::flipAroundY() {
+  OgreGuard( "Image::flipAroundY" );
+
+  if( !m_pBuffer ) {
+    Except(
+      Exception::ERR_INTERNAL_ERROR,
+      "Can not flip an unitialized texture",
+      "Image::flipAroundY" );
+  }
+
+  uchar	*pTempBuffer1 = NULL;
+  ushort	*pTempBuffer2 = NULL;
+  uchar	*pTempBuffer3 = NULL;
+  uint	*pTempBuffer4 = NULL;
+
+  uchar	*src1 = m_pBuffer, *dst1 = NULL;
+  ushort	*src2 = (ushort *)m_pBuffer, *dst2 = NULL;
+  uchar	*src3 = m_pBuffer, *dst3 = NULL;
+  uint	*src4 = (uint *)m_pBuffer, *dst4 = NULL;
+
+  ushort y;
+  switch (m_ucPixelSize) {
+  case 1:
+    pTempBuffer1 = new uchar[m_uWidth * m_uHeight];
+    for (y = 0; y < m_uHeight; y++) {
+      dst1 = (pTempBuffer1 + ((y * m_uWidth) + m_uWidth - 1));
+      for (ushort x = 0; x < m_uWidth; x++)
+        memcpy(dst1--, src1++, sizeof(uchar));
     }
 
-    //-----------------------------------------------------------------------------
-    Image::Image( const Image &img )
-    {
-        // call assignment operator
-        *this = img;
+    memcpy(m_pBuffer, pTempBuffer1, m_uWidth * m_uHeight * sizeof(uchar));
+    delete [] pTempBuffer1;
+    break;
+
+  case 2:
+    pTempBuffer2 = new ushort[m_uWidth * m_uHeight];
+    for (y = 0; y < m_uHeight; y++) {
+      dst2 = (pTempBuffer2 + ((y * m_uWidth) + m_uWidth - 1));
+      for (ushort x = 0; x < m_uWidth; x++)
+        memcpy(dst2--, src2++, sizeof(ushort));
     }
 
-    //-----------------------------------------------------------------------------
-    Image::~Image()
-    {
-        if( m_pBuffer )
-        {
-            delete[] m_pBuffer;
-            m_pBuffer = NULL;
-        }
+    memcpy(m_pBuffer, pTempBuffer2, m_uWidth * m_uHeight * sizeof(ushort));
+    delete [] pTempBuffer2;
+    break;
+
+  case 3:
+    pTempBuffer3 = new uchar[m_uWidth * m_uHeight * 3];
+    for (y = 0; y < m_uHeight; y++) {
+      uint offset = ((y * m_uWidth) + (m_uWidth - 1)) * 3;
+      dst3 = pTempBuffer3;
+      dst3 += offset;
+      for (ushort x = 0; x < m_uWidth; x++) {
+        memcpy(dst3, src3, sizeof(uchar) * 3);
+        dst3 -= 3;
+        src3 += 3;
+      }
     }
 
-    //-----------------------------------------------------------------------------
-    Image & Image::operator = ( const Image &img )
-    {
-        m_uWidth = img.m_uWidth;
-        m_uHeight = img.m_uHeight;
-        m_eFormat = img.m_eFormat;
-        m_ucPixelSize = img.m_ucPixelSize;
+    memcpy(m_pBuffer, pTempBuffer3, m_uWidth * m_uHeight * sizeof(uchar) * 3);
+    delete [] pTempBuffer3;
+    break;
 
-        m_pBuffer = new uchar[ m_uWidth * m_uHeight * m_ucPixelSize ];
-        memcpy( m_pBuffer, img.m_pBuffer, m_uWidth * m_uHeight * m_ucPixelSize );
-
-        return *this;
+  case 4:
+    pTempBuffer4 = new uint[m_uWidth * m_uHeight];
+    for (y = 0; y < m_uHeight; y++) {
+      dst4 = (pTempBuffer4 + ((y * m_uWidth) + m_uWidth - 1));
+      for (ushort x = 0; x < m_uWidth; x++)
+        memcpy(dst4--, src4++, sizeof(uint));
     }
 
-    //-----------------------------------------------------------------------------
-    Image & Image::flipAroundY()
-    {
-        OgreGuard( "Image::flipAroundY" );
+    memcpy(m_pBuffer, pTempBuffer4, m_uWidth * m_uHeight * sizeof(uint));
+    delete [] pTempBuffer4;
+    break;
 
-        if( !m_pBuffer )
-        {
-            Except( 
-                Exception::ERR_INTERNAL_ERROR,
-                "Can not flip an unitialized texture",
-                "Image::flipAroundY" );
-        }
-        
-		uchar	*pTempBuffer1 = NULL;
-		ushort	*pTempBuffer2 = NULL;
-		uchar	*pTempBuffer3 = NULL;
-		uint	*pTempBuffer4 = NULL;
+  default:
+    Except(
+      Exception::ERR_INTERNAL_ERROR,
+      "Unknown pixel depth",
+      "Image::flipAroundY" );
+    break;
+  }
 
-		uchar	*src1 = m_pBuffer, *dst1 = NULL;
-		ushort	*src2 = (ushort *)m_pBuffer, *dst2 = NULL;
-		uchar	*src3 = m_pBuffer, *dst3 = NULL;
-		uint	*src4 = (uint *)m_pBuffer, *dst4 = NULL;
+  OgreUnguardRet( *this );
+}
 
-		ushort y;
-		switch (m_ucPixelSize)
-		{
-		case 1:
-			pTempBuffer1 = new uchar[m_uWidth * m_uHeight];
-			for (y = 0; y < m_uHeight; y++)
-			{
-				dst1 = (pTempBuffer1 + ((y * m_uWidth) + m_uWidth - 1));
-				for (ushort x = 0; x < m_uWidth; x++)
-					memcpy(dst1--, src1++, sizeof(uchar));
-			}
+//-----------------------------------------------------------------------------
+Image & Image::flipAroundX() {
+  OgreGuard( "Image::flipAroundX" );
 
-			memcpy(m_pBuffer, pTempBuffer1, m_uWidth * m_uHeight * sizeof(uchar));
-			delete [] pTempBuffer1;
-			break;
+  if( !m_pBuffer ) {
+    Except(
+      Exception::ERR_INTERNAL_ERROR,
+      "Can not flip an unitialized texture",
+      "Image::flipAroundX" );
+  }
 
-		case 2:
-			pTempBuffer2 = new ushort[m_uWidth * m_uHeight];
-			for (y = 0; y < m_uHeight; y++)
-			{
-				dst2 = (pTempBuffer2 + ((y * m_uWidth) + m_uWidth - 1));
-				for (ushort x = 0; x < m_uWidth; x++)
-					memcpy(dst2--, src2++, sizeof(ushort));
-			}
+  size_t rowSpan = m_uWidth * m_ucPixelSize;
 
-			memcpy(m_pBuffer, pTempBuffer2, m_uWidth * m_uHeight * sizeof(ushort));
-			delete [] pTempBuffer2;
-			break;
+  uchar *pTempBuffer = new uchar[ rowSpan * m_uHeight ];
+  uchar *ptr1 = m_pBuffer, *ptr2 = pTempBuffer + ( ( m_uHeight - 1 ) * rowSpan );
 
-		case 3:
-			pTempBuffer3 = new uchar[m_uWidth * m_uHeight * 3];
-			for (y = 0; y < m_uHeight; y++)
-			{
-				uint offset = ((y * m_uWidth) + (m_uWidth - 1)) * 3;
-				dst3 = pTempBuffer3;
-				dst3 += offset;
-				for (ushort x = 0; x < m_uWidth; x++)
-				{
-					memcpy(dst3, src3, sizeof(uchar) * 3);
-					dst3 -= 3; src3 += 3;
-				}
-			}
+  for( ushort i = 0; i < m_uHeight; i++ ) {
+    memcpy( ptr2, ptr1, rowSpan );
+    ptr1 += rowSpan;
+    ptr2 -= rowSpan;
+  }
 
-			memcpy(m_pBuffer, pTempBuffer3, m_uWidth * m_uHeight * sizeof(uchar) * 3);
-			delete [] pTempBuffer3;
-			break;
+  memcpy( m_pBuffer, pTempBuffer, rowSpan * m_uHeight);
 
-		case 4:
-			pTempBuffer4 = new uint[m_uWidth * m_uHeight];
-			for (y = 0; y < m_uHeight; y++)
-			{
-				dst4 = (pTempBuffer4 + ((y * m_uWidth) + m_uWidth - 1));
-				for (ushort x = 0; x < m_uWidth; x++)
-					memcpy(dst4--, src4++, sizeof(uint));
-			}
+  delete [] pTempBuffer;
 
-			memcpy(m_pBuffer, pTempBuffer4, m_uWidth * m_uHeight * sizeof(uint));
-			delete [] pTempBuffer4;
-			break;
+  OgreUnguardRet( *this );
+}
 
-		default:
-            Except( 
-                Exception::ERR_INTERNAL_ERROR,
-                "Unknown pixel depth",
-                "Image::flipAroundY" );
-			break;
-		}
+//-----------------------------------------------------------------------------
+Image & Image::loadRawData(
+  const DataChunk &pData,
+  ushort uWidth, ushort uHeight,
+  PixelFormat eFormat ) {
+  OgreGuard( "Image::loadRawData" );
 
-		OgreUnguardRet( *this );
-    }
+  m_uWidth = uWidth;
+  m_uHeight = uHeight;
+  m_eFormat = eFormat;
+  m_ucPixelSize = PF2PS( m_eFormat );
 
-    //-----------------------------------------------------------------------------
-    Image & Image::flipAroundX()
-    {
-        OgreGuard( "Image::flipAroundX" );
+  m_pBuffer = new uchar[ uWidth * uHeight * m_ucPixelSize ];
+  memcpy( m_pBuffer, pData.getPtr(), uWidth * uHeight * m_ucPixelSize );
 
-        if( !m_pBuffer )
-        {
-            Except( 
-                Exception::ERR_INTERNAL_ERROR,
-                "Can not flip an unitialized texture",
-                "Image::flipAroundX" );
-        }
-        
-        size_t rowSpan = m_uWidth * m_ucPixelSize;
-        
-        uchar *pTempBuffer = new uchar[ rowSpan * m_uHeight ];
-        uchar *ptr1 = m_pBuffer, *ptr2 = pTempBuffer + ( ( m_uHeight - 1 ) * rowSpan );
+  OgreUnguardRet( *this );
+}
 
-        for( ushort i = 0; i < m_uHeight; i++ )
-        {
-            memcpy( ptr2, ptr1, rowSpan );
-            ptr1 += rowSpan; ptr2 -= rowSpan;
-        }
+//-----------------------------------------------------------------------------
+Image & Image::load( const String& strFileName ) {
+  OgreGuard( "Image::load" );
 
-        memcpy( m_pBuffer, pTempBuffer, rowSpan * m_uHeight);
+  if( m_pBuffer ) {
+    delete[] m_pBuffer;
+    m_pBuffer = NULL;
+  }
 
-        delete [] pTempBuffer;
+  SDDataChunk encoded;
+  DataChunk decoded;
 
-        OgreUnguardRet( *this );
-    }
+  if( !ArchiveManager::getSingleton()._findResourceData(
+        strFileName,
+        encoded ) ) {
+    Except(
+      Exception::ERR_INVALIDPARAMS,
+      "Unable to find image file '" + strFileName + "'.",
+      "Image::load" );
+  }
 
-    //-----------------------------------------------------------------------------
-    Image & Image::loadRawData(
-        const DataChunk &pData,
-        ushort uWidth, ushort uHeight,
-        PixelFormat eFormat )
-    {
-        OgreGuard( "Image::loadRawData" );
+  ImageCodec img_codec;
+  ImageCodec::ImageData * pData = static_cast< ImageCodec::ImageData * > (
+                                    img_codec.decode( encoded, &decoded ) );
 
-        m_uWidth = uWidth;
-        m_uHeight = uHeight;
-        m_eFormat = eFormat;
-        m_ucPixelSize = PF2PS( m_eFormat );
+  // Get the format and compute the pixel size
+  m_uWidth = pData->width;
+  m_uHeight = pData->height;
+  m_eFormat = pData->format;
+  m_ucPixelSize = PF2PS( m_eFormat );
 
-        m_pBuffer = new uchar[ uWidth * uHeight * m_ucPixelSize ];
-        memcpy( m_pBuffer, pData.getPtr(), uWidth * uHeight * m_ucPixelSize );
+  delete pData;
 
-        OgreUnguardRet( *this );
-    }
+  m_pBuffer = decoded.getPtr();
 
-    //-----------------------------------------------------------------------------
-    Image & Image::load( const String& strFileName )
-    {
-        OgreGuard( "Image::load" );
+  OgreUnguardRet( *this );
+}
 
-        if( m_pBuffer )
-        {
-            delete[] m_pBuffer;
-            m_pBuffer = NULL;
-        }
+//-----------------------------------------------------------------------------
+Image & Image::load( const DataChunk& chunk, const String& type ) {
+  OgreGuard( "Image::load" );
 
-        SDDataChunk encoded;
-        DataChunk decoded;
+  //String strType = type;
+  //
+  //Codec * pCodec = Codec::getCodec(strType);
+  //if( !pCodec )
+  //    Except(
+  //    Exception::ERR_INVALIDPARAMS,
+  //    "Unable to load image - invalid extension.",
+  //    "Image::load" );
 
-        if( !ArchiveManager::getSingleton()._findResourceData( 
-            strFileName, 
-            encoded ) )
-        {
-            Except(
-            Exception::ERR_INVALIDPARAMS, 
-            "Unable to find image file '" + strFileName + "'.",
-            "Image::load" );
-        }
+  DataChunk decoded;
 
-        ImageCodec img_codec;
-        ImageCodec::ImageData * pData = static_cast< ImageCodec::ImageData * > (
-            img_codec.decode( encoded, &decoded ) );
+  ImageCodec img_codec;
+  ImageCodec::ImageData * pData = static_cast< ImageCodec::ImageData * >(
+                                    img_codec.decode( chunk, &decoded ) );
 
-        // Get the format and compute the pixel size
-        m_uWidth = pData->width;
-        m_uHeight = pData->height;
-        m_eFormat = pData->format;
-        m_ucPixelSize = PF2PS( m_eFormat );
+  m_uWidth = pData->width;
+  m_uHeight = pData->height;
 
-        delete pData;
+  // Get the format and compute the pixel size
+  m_eFormat = pData->format;
+  m_ucPixelSize = PF2PS( m_eFormat );
 
-        m_pBuffer = decoded.getPtr();
-        
-        OgreUnguardRet( *this );
-    }
+  delete pData;
 
-    //-----------------------------------------------------------------------------
-    Image & Image::load( const DataChunk& chunk, const String& type )
-    {
-        OgreGuard( "Image::load" );
+  m_pBuffer = decoded.getPtr();
 
-        //String strType = type;
-        //
-        //Codec * pCodec = Codec::getCodec(strType);
-        //if( !pCodec )
-        //    Except(
-        //    Exception::ERR_INVALIDPARAMS, 
-        //    "Unable to load image - invalid extension.",
-        //    "Image::load" );
+  OgreUnguardRet( *this );
+}
 
-        DataChunk decoded;
+//-----------------------------------------------------------------------------
+uchar* Image::getData() {
+  return m_pBuffer;
+}
 
-        ImageCodec img_codec;
-        ImageCodec::ImageData * pData = static_cast< ImageCodec::ImageData * >(
-            img_codec.decode( chunk, &decoded ) );
+//-----------------------------------------------------------------------------
+const uchar* Image::getData() const {
+  assert( m_pBuffer );
+  return m_pBuffer;
+}
 
-        m_uWidth = pData->width;
-        m_uHeight = pData->height;
-        
-        // Get the format and compute the pixel size
-        m_eFormat = pData->format;
-        m_ucPixelSize = PF2PS( m_eFormat );
+//-----------------------------------------------------------------------------
+size_t Image::getSize() const {
+  return m_uWidth * m_uHeight * m_ucPixelSize;
+}
 
-        delete pData;
+//-----------------------------------------------------------------------------
+ushort Image::getWidth() const {
+  return m_uWidth;
+}
 
-        m_pBuffer = decoded.getPtr();
+//-----------------------------------------------------------------------------
+ushort Image::getHeight() const {
+  return m_uHeight;
+}
 
-        OgreUnguardRet( *this );
-    }
+//-----------------------------------------------------------------------------
+ushort Image::getRowSpan() const {
+  return m_uWidth * m_ucPixelSize;
+}
 
-    //-----------------------------------------------------------------------------
-    uchar* Image::getData()
-    {
-        return m_pBuffer;
-    }
+//-----------------------------------------------------------------------------
+PixelFormat Image::getFormat() const {
+  return m_eFormat;
+}
 
-    //-----------------------------------------------------------------------------
-    const uchar* Image::getData() const
-    {
-        assert( m_pBuffer );
-        return m_pBuffer;
-    }
+//-----------------------------------------------------------------------------
+uchar Image::getBPP() const {
+  return m_ucPixelSize * 8;
+}
 
-    //-----------------------------------------------------------------------------
-    size_t Image::getSize() const
-    {
-        return m_uWidth * m_uHeight * m_ucPixelSize;
-    }
+//-----------------------------------------------------------------------------
+bool Image::getHasAlpha() const {
+  switch( m_eFormat ) {
+  case PF_A8:
+  case PF_A4L4:
+  case PF_L4A4:
+  case PF_A4R4G4B4:
+  case PF_B4G4R4A4:
+  case PF_A8R8G8B8:
+  case PF_B8G8R8A8:
+  case PF_A2R10G10B10:
+  case PF_B10G10R10A2:
+    return true;
 
-    //-----------------------------------------------------------------------------
-    ushort Image::getWidth() const
-    {
-        return m_uWidth;
-    }
+  case PF_UNKNOWN:
+  case PF_L8:
+  case PF_R5G6B5:
+  case PF_B5G6R5:
+  case PF_R8G8B8:
+  case PF_B8R8G8:
+  default:
+    return false;
+  }
+}
 
-    //-----------------------------------------------------------------------------
-    ushort Image::getHeight() const
-    {
-        return m_uHeight;
-    }
+void Image::applyGamma( unsigned char *buffer, Real gamma, uint size, uchar bpp ) {
+  if( gamma == 1.0f )
+    return;
 
-    //-----------------------------------------------------------------------------
-    ushort Image::getRowSpan() const
-    {
-        return m_uWidth * m_ucPixelSize;
-    }
+  //NB only 24/32-bit supported
+  if( bpp != 24 && bpp != 32 ) return;
 
-    //-----------------------------------------------------------------------------
-    PixelFormat Image::getFormat() const
-    {
-        return m_eFormat;
-    }
+  uint stride = bpp >> 3;
 
-    //-----------------------------------------------------------------------------
-    uchar Image::getBPP() const
-    {
-        return m_ucPixelSize * 8;
-    }
+  for( uint i = 0, j = size / stride; i < j; i++, buffer += stride ) {
+    float r, g, b;
 
-    //-----------------------------------------------------------------------------
-    bool Image::getHasAlpha() const
-    {
-        switch( m_eFormat )
-		{
-		case PF_A8:
-		case PF_A4L4:
-		case PF_L4A4:
-		case PF_A4R4G4B4:
-		case PF_B4G4R4A4:
-		case PF_A8R8G8B8:
-		case PF_B8G8R8A8:
-		case PF_A2R10G10B10:
-		case PF_B10G10R10A2:
-			return true;
+    r = (float)buffer[0];
+    g = (float)buffer[1];
+    b = (float)buffer[2];
 
-		case PF_UNKNOWN:
-		case PF_L8:
-		case PF_R5G6B5:
-		case PF_B5G6R5:
-		case PF_R8G8B8:
-		case PF_B8R8G8:
-		default:
-			return false;
-		}
-    }
+    r = r * gamma;
+    g = g * gamma;
+    b = b * gamma;
 
-    void Image::applyGamma( unsigned char *buffer, Real gamma, uint size, uchar bpp )
-    {
-        if( gamma == 1.0f )
-            return;
+    float scale = 1.0f, tmp;
 
-        //NB only 24/32-bit supported
-        if( bpp != 24 && bpp != 32 ) return;
+    if( r > 255.0f && (tmp=(255.0f/r)) < scale )
+      scale = tmp;
+    if( g > 255.0f && (tmp=(255.0f/g)) < scale )
+      scale = tmp;
+    if( b > 255.0f && (tmp=(255.0f/b)) < scale )
+      scale = tmp;
 
-        uint stride = bpp >> 3;
+    r *= scale;
+    g *= scale;
+    b *= scale;
 
-        for( uint i = 0, j = size / stride; i < j; i++, buffer += stride )
-        {
-            float r, g, b;
-
-            r = (float)buffer[0];
-            g = (float)buffer[1];
-            b = (float)buffer[2];
-
-            r = r * gamma;
-            g = g * gamma;
-            b = b * gamma;
-
-            float scale = 1.0f, tmp;
-
-            if( r > 255.0f && (tmp=(255.0f/r)) < scale )
-                scale = tmp;
-            if( g > 255.0f && (tmp=(255.0f/g)) < scale )
-                scale = tmp;
-            if( b > 255.0f && (tmp=(255.0f/b)) < scale )
-                scale = tmp;
-
-            r *= scale; g *= scale; b *= scale;
-
-            buffer[0] = (uchar)r;
-            buffer[1] = (uchar)g;
-            buffer[2] = (uchar)b;
-        }
-    }
+    buffer[0] = (uchar)r;
+    buffer[1] = (uchar)g;
+    buffer[2] = (uchar)b;
+  }
+}
 }

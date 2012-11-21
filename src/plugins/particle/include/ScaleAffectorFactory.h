@@ -31,20 +31,20 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Factory class for ScaleAffector. */
-    class _ParticleFXExport ScaleAffectorFactory : public ParticleAffectorFactory
-    {
-        /** See ParticleAffectorFactory */
-        String getName() { return "Scaler"; }
+/** Factory class for ScaleAffector. */
+class _ParticleFXExport ScaleAffectorFactory : public ParticleAffectorFactory {
+  /** See ParticleAffectorFactory */
+  String getName() {
+    return "Scaler";
+  }
 
-        /** See ParticleAffectorFactory */
-        ParticleAffector* createAffector(void)
-        {
-            ParticleAffector* p = new ScaleAffector();
-            mAffectors.push_back(p);
-            return p;
-        }
-    };
+  /** See ParticleAffectorFactory */
+  ParticleAffector* createAffector(void) {
+    ParticleAffector* p = new ScaleAffector();
+    mAffectors.push_back(p);
+    return p;
+  }
+};
 
 
 }

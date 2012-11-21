@@ -26,45 +26,38 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "DynLib.h"
 
-namespace renderer
-{
-    //-----------------------------------------------------------------------
-    template<> DynLibManager* Singleton<DynLibManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
+namespace renderer {
+//-----------------------------------------------------------------------
+template<> DynLibManager* Singleton<DynLibManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
 
-    DynLib* DynLibManager::load( const String& filename, int priority /* = 1 */ )
-    {        
-        DynLib* pLib = static_cast<DynLib *>( getByName( filename ) );
+DynLib* DynLibManager::load( const String& filename, int priority /* = 1 */ ) {
+  DynLib* pLib = static_cast<DynLib *>( getByName( filename ) );
 
-        if( !pLib )
-        {
-            pLib = static_cast<DynLib *>( create( filename ) );
-            ResourceManager::load(pLib, priority);
-        }
-        
-        return pLib;
-    }
+  if( !pLib ) {
+    pLib = static_cast<DynLib *>( create( filename ) );
+    ResourceManager::load(pLib, priority);
+  }
 
-    Resource* DynLibManager::create( const String& name )
-    {
-        return new DynLib( name );
-    }
-    //-----------------------------------------------------------------------
-    DynLibManager& DynLibManager::getSingleton(void)
-    {
-        return Singleton<DynLibManager>::getSingleton();
-    }
+  return pLib;
+}
 
-    DynLibManager::~DynLibManager()
-    {
-        // Unload & delete resources in turn
-        for( ResourceMap::iterator it = mResources.begin(); it != mResources.end(); ++it )
-        {
-            it->second->unload();
-            delete it->second;
-        }
+Resource* DynLibManager::create( const String& name ) {
+  return new DynLib( name );
+}
+//-----------------------------------------------------------------------
+DynLibManager& DynLibManager::getSingleton(void) {
+  return Singleton<DynLibManager>::getSingleton();
+}
 
-        // Empty the list
-        mResources.clear();
-    }
+DynLibManager::~DynLibManager() {
+  // Unload & delete resources in turn
+  for( ResourceMap::iterator it = mResources.begin(); it != mResources.end(); ++it ) {
+    it->second->unload();
+    delete it->second;
+  }
+
+  // Empty the list
+  mResources.clear();
+}
 }

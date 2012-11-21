@@ -32,20 +32,18 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-	/** Wraps a String as a Resource for generic handling. */
-    class StringResource : public Resource
-    {
-    protected:
-    public:
-        StringResource(const String& name) :
-		  Resource()
-        { 
-		  mName = name;
-        }
+/** Wraps a String as a Resource for generic handling. */
+class StringResource : public Resource {
+protected:
+public:
+  StringResource(const String& name) :
+    Resource() {
+    mName = name;
+  }
 
-		virtual void load() {};
+  virtual void load() {};
 
-    };
+};
 
 } // namespace
 

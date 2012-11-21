@@ -31,56 +31,55 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Generic class for serialising data to / from binary chunk-based files.
-    @remarks
-        This class provides a number of useful methods for exporting / importing data
-        from chunk-oriented binary files (e.g. .mesh and .skeleton).
-    */
-    class _RendererExport Serializer
-    {
-    public:
-        Serializer();
-        virtual ~Serializer();
+/** Generic class for serialising data to / from binary chunk-based files.
+@remarks
+    This class provides a number of useful methods for exporting / importing data
+    from chunk-oriented binary files (e.g. .mesh and .skeleton).
+*/
+class _RendererExport Serializer {
+public:
+  Serializer();
+  virtual ~Serializer();
 
 
-    protected:
+protected:
 
-        unsigned long mCurrentChunkLen;
-        FILE* mpfFile;
-        String mVersion;
+  unsigned long mCurrentChunkLen;
+  FILE* mpfFile;
+  String mVersion;
 
-        // Internal methods
-        virtual void writeFileHeader(void);
-        virtual void writeChunkHeader(unsigned short id, unsigned long size);
-        
-        void writeReals(const Real* pReal, unsigned short count);
-        void writeShorts(const unsigned short* pShort, unsigned short count);
-        void writeLongs(const unsigned long* pLong, unsigned short count); 
-        void writeBools(const bool* pLong, unsigned short count);
-        void writeObject(const Vector3& vec);
-        void writeObject(const Quaternion& q);
-        
-        void writeString(const String& string);
-        void writeData(const void* buf, size_t size, size_t count);
-        
-        virtual void readFileHeader(DataChunk& chunk);
-        virtual unsigned short readChunk(DataChunk& chunk);
-        
-        void readBools(DataChunk& chunk, bool* pDest, unsigned short count);
-        void readReals(DataChunk& chunk, Real* pDest, unsigned short count);
-        void readShorts(DataChunk& chunk, unsigned short* pDest, unsigned short count);
-        void readLongs(DataChunk& chunk, unsigned long* pDest, unsigned short count); 
-        void readObject(DataChunk& chunk, Vector3* pDest);
-        void readObject(DataChunk& chunk, Quaternion* pDest);
+  // Internal methods
+  virtual void writeFileHeader(void);
+  virtual void writeChunkHeader(unsigned short id, unsigned long size);
 
-        String readString(DataChunk& chunk);
-        
-        void flipToLittleEndian(void* pData, size_t size, unsigned short count = 1);
-        void flipFromLittleEndian(void* pData, size_t size, unsigned short count = 1);
-        
-        void flipEndian(void * pData, size_t size, unsigned short count);
-        void flipEndian(void * pData, size_t size);
-    };
+  void writeReals(const Real* pReal, unsigned short count);
+  void writeShorts(const unsigned short* pShort, unsigned short count);
+  void writeLongs(const unsigned long* pLong, unsigned short count);
+  void writeBools(const bool* pLong, unsigned short count);
+  void writeObject(const Vector3& vec);
+  void writeObject(const Quaternion& q);
+
+  void writeString(const String& string);
+  void writeData(const void* buf, size_t size, size_t count);
+
+  virtual void readFileHeader(DataChunk& chunk);
+  virtual unsigned short readChunk(DataChunk& chunk);
+
+  void readBools(DataChunk& chunk, bool* pDest, unsigned short count);
+  void readReals(DataChunk& chunk, Real* pDest, unsigned short count);
+  void readShorts(DataChunk& chunk, unsigned short* pDest, unsigned short count);
+  void readLongs(DataChunk& chunk, unsigned long* pDest, unsigned short count);
+  void readObject(DataChunk& chunk, Vector3* pDest);
+  void readObject(DataChunk& chunk, Quaternion* pDest);
+
+  String readString(DataChunk& chunk);
+
+  void flipToLittleEndian(void* pData, size_t size, unsigned short count = 1);
+  void flipFromLittleEndian(void* pData, size_t size, unsigned short count = 1);
+
+  void flipEndian(void * pData, size_t size, unsigned short count);
+  void flipEndian(void * pData, size_t size);
+};
 
 }
 

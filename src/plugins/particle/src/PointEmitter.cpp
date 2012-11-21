@@ -29,40 +29,36 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    PointEmitter::PointEmitter()
-    {
-        mType = "Point";
-        // Set up parameters
-        if (createParamDictionary("PointEmitter"))
-        {
-            addBaseParameters();
-        }
-        // No custom parameters
-    }
-    //-----------------------------------------------------------------------
-    void PointEmitter::_initParticle(Particle* pParticle)
-    {
-        // Very simple emitter, uses default implementations with no modification
+//-----------------------------------------------------------------------
+PointEmitter::PointEmitter() {
+  mType = "Point";
+  // Set up parameters
+  if (createParamDictionary("PointEmitter")) {
+    addBaseParameters();
+  }
+  // No custom parameters
+}
+//-----------------------------------------------------------------------
+void PointEmitter::_initParticle(Particle* pParticle) {
+  // Very simple emitter, uses default implementations with no modification
 
-        // Point emitter emits from own position
-        pParticle->mPosition = mPosition;
+  // Point emitter emits from own position
+  pParticle->mPosition = mPosition;
 
-        // Generate complex data by reference
-        genEmissionColour(pParticle->mColour);
-        genEmissionDirection(pParticle->mDirection);
-        genEmissionVelocity(pParticle->mDirection);
+  // Generate complex data by reference
+  genEmissionColour(pParticle->mColour);
+  genEmissionDirection(pParticle->mDirection);
+  genEmissionVelocity(pParticle->mDirection);
 
-        // Generate simpler data
-        pParticle->mTimeToLive = genEmissionTTL();
-        
-    }
-    //-----------------------------------------------------------------------
-    unsigned short PointEmitter::_getEmissionCount(Real timeElapsed)
-    {
-        // Use basic constant emission 
-        return genConstantEmissionCount(timeElapsed);
-    }
+  // Generate simpler data
+  pParticle->mTimeToLive = genEmissionTTL();
+
+}
+//-----------------------------------------------------------------------
+unsigned short PointEmitter::_getEmissionCount(Real timeElapsed) {
+  // Use basic constant emission
+  return genConstantEmissionCount(timeElapsed);
+}
 }
 
 

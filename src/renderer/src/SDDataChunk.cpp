@@ -26,21 +26,18 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    SDDataChunk::SDDataChunk() 
-	    : DataChunk()
-    {
-    }
+SDDataChunk::SDDataChunk()
+  : DataChunk() {
+}
 
-    SDDataChunk::SDDataChunk( void *pData, size_t size ) 
-	    : DataChunk( pData, size )
-    {
-    }
+SDDataChunk::SDDataChunk( void *pData, size_t size )
+  : DataChunk( pData, size ) {
+}
 
-    SDDataChunk::~SDDataChunk()
-    {
-	    if( mData )
-		    delete[] mData;
-    }
+SDDataChunk::~SDDataChunk() {
+  if( mData )
+    delete[] mData;
+}
 
 }
 

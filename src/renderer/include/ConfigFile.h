@@ -33,37 +33,36 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Class for quickly loading settings from a text file.
-        @remarks
-            This class is designed to quickly parse a simple file containing
-            key/value pairs, mainly for use in configuration settings.
-        @par
-            This is a very simplified approach, no multiple values per key
-            are allowed, no grouping or context is being kept etc.
-        @par
-            By default the key/values pairs are tokenised based on a
-            separator of Tab, the colon (:) or equals (=) character. Each
-            key - value pair must end in a carriage return.
-    */
-    class _RendererExport ConfigFile
-    {
-    public:
+/** Class for quickly loading settings from a text file.
+    @remarks
+        This class is designed to quickly parse a simple file containing
+        key/value pairs, mainly for use in configuration settings.
+    @par
+        This is a very simplified approach, no multiple values per key
+        are allowed, no grouping or context is being kept etc.
+    @par
+        By default the key/values pairs are tokenised based on a
+        separator of Tab, the colon (:) or equals (=) character. Each
+        key - value pair must end in a carriage return.
+*/
+class _RendererExport ConfigFile {
+public:
 
-        ConfigFile();
-        void load(const String& filename, const String& separators = "\t:=");
+  ConfigFile();
+  void load(const String& filename, const String& separators = "\t:=");
 
-        /** Gets the first setting from the file with the named key. */
-        String getSetting(const String& key);
-        /** Gets all settings from the file with the named key. */
-        StringVector getMultiSetting(const String& key);
+  /** Gets the first setting from the file with the named key. */
+  String getSetting(const String& key);
+  /** Gets all settings from the file with the named key. */
+  StringVector getMultiSetting(const String& key);
 
-        typedef MapIterator< std::multimap<String, String> > SettingsIterator;
-        /** Gets an iterator for stepping through all the keys / values in the file. */
-        SettingsIterator getSettingsIterator(void);
+  typedef MapIterator< std::multimap<String, String> > SettingsIterator;
+  /** Gets an iterator for stepping through all the keys / values in the file. */
+  SettingsIterator getSettingsIterator(void);
 
-    protected:
-        std::multimap<String, String> mSettings;
-    };
+protected:
+  std::multimap<String, String> mSettings;
+};
 
 }
 

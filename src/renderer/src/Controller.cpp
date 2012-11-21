@@ -27,63 +27,51 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "LogManager.h"
 
-namespace renderer
-{
-    //-----------------------------------------------------------------------
-    Controller::Controller(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func)
-		: mFunc(func), mSource(src), mDest(dest)
-    {
-		mEnabled = true;
-    }
-    //-----------------------------------------------------------------------
-    Controller::~Controller()
-    {
-    }
-    //-----------------------------------------------------------------------
-    void Controller::setSource(SharedPtr<ControllerValue> src)
-    {
-        mSource = src;
-    }
-    //-----------------------------------------------------------------------
-    SharedPtr<ControllerValue> Controller::getSource(void)
-    {
-        return mSource;
-    }
-    //-----------------------------------------------------------------------
-    void Controller::setDestination(SharedPtr<ControllerValue> dest)
-    {
-        mDest = dest;
-    }
-    //-----------------------------------------------------------------------
-    SharedPtr<ControllerValue> Controller::getDestination(void)
-    {
-        return mDest;
-    }
-    //-----------------------------------------------------------------------
-    void Controller::setFunction(SharedPtr<ControllerFunction> func)
-    {
-        mFunc = func;
-    }
-    //-----------------------------------------------------------------------
-    SharedPtr<ControllerFunction> Controller::getFunction(void)
-    {
-        return mFunc;
-    }
-    //-----------------------------------------------------------------------
-    void Controller::setEnabled(bool enabled)
-	{
-		mEnabled = enabled;
-	}
-    //-----------------------------------------------------------------------
-	bool Controller::getEnabled(void) const
-	{
-		return mEnabled;
-	}
+namespace renderer {
+//-----------------------------------------------------------------------
+Controller::Controller(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func)
+  : mFunc(func), mSource(src), mDest(dest) {
+  mEnabled = true;
+}
+//-----------------------------------------------------------------------
+Controller::~Controller() {
+}
+//-----------------------------------------------------------------------
+void Controller::setSource(SharedPtr<ControllerValue> src) {
+  mSource = src;
+}
+//-----------------------------------------------------------------------
+SharedPtr<ControllerValue> Controller::getSource(void) {
+  return mSource;
+}
+//-----------------------------------------------------------------------
+void Controller::setDestination(SharedPtr<ControllerValue> dest) {
+  mDest = dest;
+}
+//-----------------------------------------------------------------------
+SharedPtr<ControllerValue> Controller::getDestination(void) {
+  return mDest;
+}
+//-----------------------------------------------------------------------
+void Controller::setFunction(SharedPtr<ControllerFunction> func) {
+  mFunc = func;
+}
+//-----------------------------------------------------------------------
+SharedPtr<ControllerFunction> Controller::getFunction(void) {
+  return mFunc;
+}
+//-----------------------------------------------------------------------
+void Controller::setEnabled(bool enabled) {
+  mEnabled = enabled;
+}
+//-----------------------------------------------------------------------
+bool Controller::getEnabled(void) const {
+  return mEnabled;
+}
 
-    //-----------------------------------------------------------------------
-    void Controller::update(void)
-    {
-		if(mEnabled)
-			mDest->setValue(mFunc->calculate(mSource->getValue()));
-    }
+//-----------------------------------------------------------------------
+void Controller::update(void) {
+  if(mEnabled)
+    mDest->setValue(mFunc->calculate(mSource->getValue()));
+}
 }

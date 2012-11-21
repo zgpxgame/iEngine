@@ -25,134 +25,107 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "AnimationState.h"
 
-namespace renderer 
-{
+namespace renderer {
 
-    //---------------------------------------------------------------------
-    AnimationState::AnimationState()
-    {
-        mTimePos = 0;
-        mLength = 0;
-        mInvLength = 0;
-        mWeight = 1.0;
+//---------------------------------------------------------------------
+AnimationState::AnimationState() {
+  mTimePos = 0;
+  mLength = 0;
+  mInvLength = 0;
+  mWeight = 1.0;
 
-    }
-	//---------------------------------------------------------------------
-	AnimationState::~AnimationState()
-	{
-	}
-    //---------------------------------------------------------------------
-    AnimationState::AnimationState(const String& animName, Real timePos, Real length, Real weight, bool enabled)
-        : mAnimationName(animName), mTimePos(timePos), mWeight(weight), mEnabled(enabled)
-    {
-        setLength(length);
-    }
-    //---------------------------------------------------------------------
-    String AnimationState::getAnimationName() const
-    {
-        return mAnimationName;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::setAnimationName(const String& name)
-    {
-        mAnimationName = name;
-    }
-    //---------------------------------------------------------------------
-    Real AnimationState::getTimePosition(void) const
-    {
-        return mTimePos;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::setTimePosition(Real timePos)
-    {
-        mTimePos = timePos;
-    }
-    //---------------------------------------------------------------------
-    Real AnimationState::getLength() const
-    {
-        return mLength;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::setLength(Real len)
-    {
-        mLength = len;
-        if (len != 0)
-        {
-            mInvLength = 1/len;
-        }
-        else
-        {
-            mInvLength = 0;
-        }
-    }
-    //---------------------------------------------------------------------
-    Real AnimationState::getWeight(void) const
-    {
-        return mWeight;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::setWeight(Real weight)
-    {
-        mWeight = weight;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::addTime(Real offset)
-    {
-        mTimePos = mTimePos + offset;
+}
+//---------------------------------------------------------------------
+AnimationState::~AnimationState() {
+}
+//---------------------------------------------------------------------
+AnimationState::AnimationState(const String& animName, Real timePos, Real length, Real weight, bool enabled)
+  : mAnimationName(animName), mTimePos(timePos), mWeight(weight), mEnabled(enabled) {
+  setLength(length);
+}
+//---------------------------------------------------------------------
+String AnimationState::getAnimationName() const {
+  return mAnimationName;
+}
+//---------------------------------------------------------------------
+void AnimationState::setAnimationName(const String& name) {
+  mAnimationName = name;
+}
+//---------------------------------------------------------------------
+Real AnimationState::getTimePosition(void) const {
+  return mTimePos;
+}
+//---------------------------------------------------------------------
+void AnimationState::setTimePosition(Real timePos) {
+  mTimePos = timePos;
+}
+//---------------------------------------------------------------------
+Real AnimationState::getLength() const {
+  return mLength;
+}
+//---------------------------------------------------------------------
+void AnimationState::setLength(Real len) {
+  mLength = len;
+  if (len != 0) {
+    mInvLength = 1/len;
+  } else {
+    mInvLength = 0;
+  }
+}
+//---------------------------------------------------------------------
+Real AnimationState::getWeight(void) const {
+  return mWeight;
+}
+//---------------------------------------------------------------------
+void AnimationState::setWeight(Real weight) {
+  mWeight = weight;
+}
+//---------------------------------------------------------------------
+void AnimationState::addTime(Real offset) {
+  mTimePos = mTimePos + offset;
 
-        // Wrap over upper bound
-        while (mTimePos >= mLength)
-        {
-            mTimePos -= mLength;
-        }
+  // Wrap over upper bound
+  while (mTimePos >= mLength) {
+    mTimePos -= mLength;
+  }
 
-        // Wrap over lower bound
-        while (mTimePos < 0)
-        {
-            mTimePos += mLength;
-        }
-    }
-    //---------------------------------------------------------------------
-    bool AnimationState::getEnabled(void) const
-    {
-        return mEnabled;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::setEnabled(bool enabled)
-    {
-        mEnabled = enabled;
-    }
-    //---------------------------------------------------------------------
-    bool AnimationState::operator==(const AnimationState& rhs) const
-    {
-        if (mAnimationName == rhs.mAnimationName &&
-            mEnabled == rhs.mEnabled &&
-            mTimePos == rhs.mTimePos &&
-            mWeight == rhs.mWeight &&
-            mLength == rhs.mLength)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    //---------------------------------------------------------------------
-    bool AnimationState::operator!=(const AnimationState& rhs) const
-    {
-        return !(*this == rhs);
-    }
-    //---------------------------------------------------------------------
-    Real AnimationState::getValue(void) const
-    {
-        return mTimePos * mInvLength;
-    }
-    //---------------------------------------------------------------------
-    void AnimationState::setValue(Real value)
-    {
-        mTimePos = value * mLength;
-    }
+  // Wrap over lower bound
+  while (mTimePos < 0) {
+    mTimePos += mLength;
+  }
+}
+//---------------------------------------------------------------------
+bool AnimationState::getEnabled(void) const {
+  return mEnabled;
+}
+//---------------------------------------------------------------------
+void AnimationState::setEnabled(bool enabled) {
+  mEnabled = enabled;
+}
+//---------------------------------------------------------------------
+bool AnimationState::operator==(const AnimationState& rhs) const {
+  if (mAnimationName == rhs.mAnimationName &&
+      mEnabled == rhs.mEnabled &&
+      mTimePos == rhs.mTimePos &&
+      mWeight == rhs.mWeight &&
+      mLength == rhs.mLength) {
+    return true;
+  } else {
+    return false;
+  }
+}
+//---------------------------------------------------------------------
+bool AnimationState::operator!=(const AnimationState& rhs) const {
+  return !(*this == rhs);
+}
+//---------------------------------------------------------------------
+Real AnimationState::getValue(void) const {
+  return mTimePos * mInvLength;
+}
+//---------------------------------------------------------------------
+void AnimationState::setValue(Real value) {
+  mTimePos = value * mLength;
+}
 
 
 

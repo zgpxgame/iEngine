@@ -33,81 +33,70 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    template<> LogManager* Singleton<LogManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
-    LogManager::LogManager()
-    {
-        mDefaultLog = NULL;
-    }
-    //-----------------------------------------------------------------------
-    LogManager::~LogManager()
-    {
-        // Destroy all logs
-        LogList::iterator i;
-        for (i = mLogs.begin(); i != mLogs.end(); ++i)
-        {
-            delete i->second;
-        }
-    }
-    //-----------------------------------------------------------------------
-    Log* LogManager::createLog( const String& name, bool defaultLog, bool debuggerOutput)
-    {
-        Log* newLog = new Log(name, debuggerOutput);
+//-----------------------------------------------------------------------
+template<> LogManager* Singleton<LogManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
+LogManager::LogManager() {
+  mDefaultLog = NULL;
+}
+//-----------------------------------------------------------------------
+LogManager::~LogManager() {
+  // Destroy all logs
+  LogList::iterator i;
+  for (i = mLogs.begin(); i != mLogs.end(); ++i) {
+    delete i->second;
+  }
+}
+//-----------------------------------------------------------------------
+Log* LogManager::createLog( const String& name, bool defaultLog, bool debuggerOutput) {
+  Log* newLog = new Log(name, debuggerOutput);
 
-        if( !mDefaultLog || defaultLog )
-        {
-            mDefaultLog = newLog;
-        }
+  if( !mDefaultLog || defaultLog ) {
+    mDefaultLog = newLog;
+  }
 
-        mLogs.insert( LogList::value_type( name, newLog ) );
+  mLogs.insert( LogList::value_type( name, newLog ) );
 
-        return newLog;
-    }
-    //-----------------------------------------------------------------------
-    Log* LogManager::getDefaultLog()
-    {
-        if (!mDefaultLog)
-            Except(Exception::ERR_INVALIDPARAMS, "No logs created yet. ", "LogManager::getDefaultLog");
+  return newLog;
+}
+//-----------------------------------------------------------------------
+Log* LogManager::getDefaultLog() {
+  if (!mDefaultLog)
+    Except(Exception::ERR_INVALIDPARAMS, "No logs created yet. ", "LogManager::getDefaultLog");
 
-        return mDefaultLog;
-    }
-    //-----------------------------------------------------------------------
-    Log* LogManager::getLog( const String& name)
-    {
-        LogList::iterator i = mLogs.find(name);
-        if (i != mLogs.end())
-            return i->second;
-        else
-            Except(Exception::ERR_INVALIDPARAMS, "Log not found. ", "LogManager::getLog");
+  return mDefaultLog;
+}
+//-----------------------------------------------------------------------
+Log* LogManager::getLog( const String& name) {
+  LogList::iterator i = mLogs.find(name);
+  if (i != mLogs.end())
+    return i->second;
+  else
+    Except(Exception::ERR_INVALIDPARAMS, "Log not found. ", "LogManager::getLog");
 
 
-    }
-    //-----------------------------------------------------------------------
-    void LogManager::logMessage( const String& message, LogMessageLevel lml)
-    {
-        getDefaultLog()->logMessage(message, lml);
-    }
-    //-----------------------------------------------------------------------
-    void LogManager::logMessage( LogMessageLevel lml, const char* szMessage, ... )
-    {
-        static char szBuffer[4097];
-        va_list list;
-        va_start( list, szMessage );
+}
+//-----------------------------------------------------------------------
+void LogManager::logMessage( const String& message, LogMessageLevel lml) {
+  getDefaultLog()->logMessage(message, lml);
+}
+//-----------------------------------------------------------------------
+void LogManager::logMessage( LogMessageLevel lml, const char* szMessage, ... ) {
+  static char szBuffer[4097];
+  va_list list;
+  va_start( list, szMessage );
 
-        vsnprintf( szBuffer, 4096, szMessage, list );
-        getDefaultLog()->logMessage( szBuffer, lml );
+  vsnprintf( szBuffer, 4096, szMessage, list );
+  getDefaultLog()->logMessage( szBuffer, lml );
 
-        va_end( list );
-    }
-    //-----------------------------------------------------------------------
-    void LogManager::setLogDetail(LoggingLevel ll)
-    {
-        getDefaultLog()->setLogDetail(ll);
-    }
-    //-----------------------------------------------------------------------
-    LogManager& LogManager::getSingleton(void)
-    {
-        return Singleton<LogManager>::getSingleton();
-    }
+  va_end( list );
+}
+//-----------------------------------------------------------------------
+void LogManager::setLogDetail(LoggingLevel ll) {
+  getDefaultLog()->setLogDetail(ll);
+}
+//-----------------------------------------------------------------------
+LogManager& LogManager::getSingleton(void) {
+  return Singleton<LogManager>::getSingleton();
+}
 }

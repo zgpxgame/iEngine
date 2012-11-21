@@ -40,53 +40,49 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace renderer {
 
 
-    //-----------------------------------------------------------------------
-    EllipsoidEmitter::EllipsoidEmitter()
-    {
-        initDefaults("Ellipsoid");
+//-----------------------------------------------------------------------
+EllipsoidEmitter::EllipsoidEmitter() {
+  initDefaults("Ellipsoid");
+}
+//-----------------------------------------------------------------------
+void EllipsoidEmitter::_initParticle(Particle* pParticle) {
+  Real x, y, z;
+
+  // First we create a random point inside a bounding sphere with a
+  // radius of 1 (this is easy to do). The distance of the point from
+  // 0,0,0 must be <= 1 (== 1 means on the surface and we count this as
+  // inside, too).
+
+  while (true) {
+    // three random values for one random point in 3D space
+
+    x = Math::SymmetricRandom();
+    y = Math::SymmetricRandom();
+    z = Math::SymmetricRandom();
+
+    // the distance of x,y,z from 0,0,0 is sqrt(x*x+y*y+z*z), but
+    // as usual we can omit the sqrt(), since sqrt(1) == 1 and we
+    // use the 1 as boundary:
+    if ( x*x + y*y + z*z <= 1) {
+      break;          // found one valid point inside
     }
-    //-----------------------------------------------------------------------
-    void EllipsoidEmitter::_initParticle(Particle* pParticle)
-    {
-        Real x, y, z;
+  }
 
-        // First we create a random point inside a bounding sphere with a
-        // radius of 1 (this is easy to do). The distance of the point from
-        // 0,0,0 must be <= 1 (== 1 means on the surface and we count this as
-        // inside, too).
+  // scale the found point to the ellipsoid's size and move it
+  // relatively to the center of the emitter point
 
-        while (true)
-        {
-            // three random values for one random point in 3D space
+  pParticle->mPosition = mPosition +
+                         + x * mXRange + y * mYRange + z * mZRange;
 
-            x = Math::SymmetricRandom();
-            y = Math::SymmetricRandom();
-            z = Math::SymmetricRandom();
+  // Generate complex data by reference
+  genEmissionColour(pParticle->mColour);
+  genEmissionDirection(pParticle->mDirection);
+  genEmissionVelocity(pParticle->mDirection);
 
-            // the distance of x,y,z from 0,0,0 is sqrt(x*x+y*y+z*z), but
-            // as usual we can omit the sqrt(), since sqrt(1) == 1 and we
-            // use the 1 as boundary:
-            if ( x*x + y*y + z*z <= 1)
-                {
-                        break;          // found one valid point inside
-                }
-        }       
+  // Generate simpler data
+  pParticle->mTimeToLive = genEmissionTTL();
 
-        // scale the found point to the ellipsoid's size and move it
-        // relatively to the center of the emitter point
-
-        pParticle->mPosition = mPosition + 
-         + x * mXRange + y * mYRange + z * mZRange;
-
-        // Generate complex data by reference
-        genEmissionColour(pParticle->mColour);
-        genEmissionDirection(pParticle->mDirection);
-        genEmissionVelocity(pParticle->mDirection);
-
-        // Generate simpler data
-        pParticle->mTimeToLive = genEmissionTTL();
-        
-    }
+}
 
 }
 

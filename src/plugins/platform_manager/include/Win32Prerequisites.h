@@ -37,10 +37,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    // Predeclare classes 
-    class Win32ConfigDialog;
-    class Win32ErrorDialog;
-    class Win32Window;
+// Predeclare classes
+class Win32ConfigDialog;
+class Win32Window;
 
 
 }

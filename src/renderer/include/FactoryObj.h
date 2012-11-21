@@ -29,28 +29,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Abstract factory class. Does nothing by itself, but derived classes can add
-        functionality.
-    */
-    template< typename T > class FactoryObj
-    {
-    public:
-        virtual ~FactoryObj() {};
+/** Abstract factory class. Does nothing by itself, but derived classes can add
+    functionality.
+*/
+template< typename T > class FactoryObj {
+public:
+  virtual ~FactoryObj() {};
 
-        /** Returns the factory type.
-            @return
-                The factory type.
-        */
-        virtual String getType() = 0;
+  /** Returns the factory type.
+      @return
+          The factory type.
+  */
+  virtual String getType() = 0;
 
-        /** 'Produces' a new object.
-            @param name Name of the object to create
-            @return
-                An object created by the factory. The type of the object depends on
-                the factory.
-        */
-        virtual T* createObj( const String& name ) = 0;    
-    };
+  /** 'Produces' a new object.
+      @param name Name of the object to create
+      @return
+          An object created by the factory. The type of the object depends on
+          the factory.
+  */
+  virtual T* createObj( const String& name ) = 0;
+};
 
 } // namespace
 

@@ -27,241 +27,203 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    SceneQuery::SceneQuery(SceneManager* mgr)
-        : mParentSceneMgr(mgr), mQueryMask(0xFFFFFFFF), mWorldFragmentType(SceneQuery::WFT_NONE)
-    {
-    }
-    //-----------------------------------------------------------------------
-    SceneQuery::~SceneQuery()
-    {
-    }
-    //-----------------------------------------------------------------------
-    void SceneQuery::setQueryMask(unsigned long mask)
-    {
-        mQueryMask = mask;
-    }
-    //-----------------------------------------------------------------------
-    unsigned long SceneQuery::getQueryMask(void)
-    {
-        return mQueryMask;
-    }
-    //-----------------------------------------------------------------------
-    void SceneQuery::setWorldFragmentType(enum SceneQuery::WorldFragmentType wft)
-    {
-        // Check supported
-        if (mSupportedWorldFragments.find(wft) == mSupportedWorldFragments.end())
-        {
-            Except(Exception::ERR_INVALIDPARAMS, "This world fragment type is not supported.",
-                "SceneQuery::setWorldFragmentType");
-        }
-        mWorldFragmentType = wft;
-    }
-    //-----------------------------------------------------------------------
-    SceneQuery::WorldFragmentType 
-    SceneQuery::getWorldFragmentType(void)
-    {
-        return mWorldFragmentType;
-    }
-    //-----------------------------------------------------------------------
-    RegionSceneQuery::RegionSceneQuery(SceneManager* mgr)
-        :SceneQuery(mgr), mLastResult(NULL)
-    {
-    }
-    //-----------------------------------------------------------------------
-    RegionSceneQuery::~RegionSceneQuery()
-    {
-        clearResults();
-    }
-    //-----------------------------------------------------------------------
-    SceneQueryResult& RegionSceneQuery::getLastResults(void)
-    {
-        assert(mLastResult);
-        return *mLastResult;
-    }
-    //-----------------------------------------------------------------------
-    void RegionSceneQuery::clearResults(void)
-    {
-        if (mLastResult)
-        {
-            delete mLastResult;
-        }
-        mLastResult = NULL;
-    }
-	//---------------------------------------------------------------------
-    SceneQueryResult&
-    RegionSceneQuery::execute(void)
-    {
-        clearResults();
-        mLastResult = new SceneQueryResult();
-        // Call callback version with self as listener
-        execute(this);
-        return *mLastResult;
-    }
-	//---------------------------------------------------------------------
-    bool RegionSceneQuery::
-        queryResult(MovableObject* obj)
-    {
-        // Add to internal list
-        mLastResult->movables.push_back(obj);
-        // Continue
-        return true;
-    }
-	//---------------------------------------------------------------------
-    bool RegionSceneQuery::queryResult(SceneQuery::WorldFragment* fragment)
-    {
-        // Add to internal list
-        mLastResult->worldFragments.push_back(fragment);
-        // Continue
-        return true;
-    }
-    //-----------------------------------------------------------------------
-    AxisAlignedBoxSceneQuery::AxisAlignedBoxSceneQuery(SceneManager* mgr)
-        : RegionSceneQuery(mgr)
-    {
-    }
-    //-----------------------------------------------------------------------
-    AxisAlignedBoxSceneQuery::~AxisAlignedBoxSceneQuery()
-    {
-    }
-    //-----------------------------------------------------------------------
-    void AxisAlignedBoxSceneQuery::setBox(const AxisAlignedBox& box)
-    {
-        mAABB = box;
-    }
-    //-----------------------------------------------------------------------
-    const AxisAlignedBox& AxisAlignedBoxSceneQuery::getBox(void)
-    {
-        return mAABB;
-    }
-    //-----------------------------------------------------------------------
-    SphereSceneQuery::SphereSceneQuery(SceneManager* mgr)
-        : RegionSceneQuery(mgr)
-    {
-    }
-    //-----------------------------------------------------------------------
-    SphereSceneQuery::~SphereSceneQuery()
-    {
-    }
-    //-----------------------------------------------------------------------
-    void SphereSceneQuery::setSphere(const Sphere& sphere)
-    {
-        mSphere = sphere;
-    }
-    //-----------------------------------------------------------------------
-    const Sphere& SphereSceneQuery::getSphere()
-    {
-        return mSphere;
-    }
-    //-----------------------------------------------------------------------
-    RaySceneQuery::RaySceneQuery(SceneManager* mgr) : RegionSceneQuery(mgr)
-    {
-        mSortByDistance = false;
-        mMaxResults = 0;
-    }
-    //-----------------------------------------------------------------------
-    RaySceneQuery::~RaySceneQuery()
-    {
-    }
-    //-----------------------------------------------------------------------
-    void RaySceneQuery::setRay(const Ray& ray)
-    {
-        mRay = ray;
-    }
-    //-----------------------------------------------------------------------
-    const Ray& RaySceneQuery::getRay(void)
-    {
-        return mRay;
-    }
-    //-----------------------------------------------------------------------
-    void RaySceneQuery::setSortByDistance(bool sort, ushort maxresults)
-    {
-        mSortByDistance = sort;
-        mMaxResults = maxresults;
-    }
-    //-----------------------------------------------------------------------
-    bool RaySceneQuery::getSortByDistance(void)
-    {
-        return mSortByDistance;
-    }
-    //-----------------------------------------------------------------------
-    ushort RaySceneQuery::getMaxResults(void)
-    {
-        return mMaxResults;
-    }
-    //-----------------------------------------------------------------------
-    /*
-    PyramidSceneQuery::PyramidSceneQuery(SceneManager* mgr) : RegionSceneQuery(mgr)
-    {
-    }
-    //-----------------------------------------------------------------------
-    PyramidSceneQuery::~PyramidSceneQuery()
-    {
-    }
-    */
-    //-----------------------------------------------------------------------
-    IntersectionSceneQuery::IntersectionSceneQuery(SceneManager* mgr)
-    : SceneQuery(mgr), mLastResult(NULL)
-    {
-    }
-    //-----------------------------------------------------------------------
-    IntersectionSceneQuery::~IntersectionSceneQuery()
-    {
-        clearResults();
-    }
-    //-----------------------------------------------------------------------
-    IntersectionSceneQueryResult& IntersectionSceneQuery::getLastResults(void)
-    {
-        assert(mLastResult);
-        return *mLastResult;
-    }
-    //-----------------------------------------------------------------------
-    void IntersectionSceneQuery::clearResults(void)
-    {
-        if (mLastResult)
-        {
-            delete mLastResult;
-        }
-        mLastResult = NULL;
-    }
-	//---------------------------------------------------------------------
-    IntersectionSceneQueryResult&
-    IntersectionSceneQuery::execute(void)
-    {
-        clearResults();
-        mLastResult = new IntersectionSceneQueryResult();
-        // Call callback version with self as listener
-        execute(this);
-        return *mLastResult;
-    }
-	//---------------------------------------------------------------------
-    bool IntersectionSceneQuery::
-        queryResult(MovableObject* first, MovableObject* second)
-    {
-        // Add to internal list
-        mLastResult->movables2movables.push_back(
-            SceneQueryMovableObjectPair(first, second)
-            );
-        // Continue
-        return true;
-    }
-	//---------------------------------------------------------------------
-    bool IntersectionSceneQuery::
-        queryResult(MovableObject* movable, SceneQuery::WorldFragment* fragment)
-    {
-        // Add to internal list
-        mLastResult->movables2world.push_back(
-            SceneQueryMovableObjectWorldFragmentPair(movable, fragment)
-            );
-        // Continue
-        return true;
-    }
+//-----------------------------------------------------------------------
+SceneQuery::SceneQuery(SceneManager* mgr)
+  : mParentSceneMgr(mgr), mQueryMask(0xFFFFFFFF), mWorldFragmentType(SceneQuery::WFT_NONE) {
+}
+//-----------------------------------------------------------------------
+SceneQuery::~SceneQuery() {
+}
+//-----------------------------------------------------------------------
+void SceneQuery::setQueryMask(unsigned long mask) {
+  mQueryMask = mask;
+}
+//-----------------------------------------------------------------------
+unsigned long SceneQuery::getQueryMask(void) {
+  return mQueryMask;
+}
+//-----------------------------------------------------------------------
+void SceneQuery::setWorldFragmentType(enum SceneQuery::WorldFragmentType wft) {
+  // Check supported
+  if (mSupportedWorldFragments.find(wft) == mSupportedWorldFragments.end()) {
+    Except(Exception::ERR_INVALIDPARAMS, "This world fragment type is not supported.",
+           "SceneQuery::setWorldFragmentType");
+  }
+  mWorldFragmentType = wft;
+}
+//-----------------------------------------------------------------------
+SceneQuery::WorldFragmentType
+SceneQuery::getWorldFragmentType(void) {
+  return mWorldFragmentType;
+}
+//-----------------------------------------------------------------------
+RegionSceneQuery::RegionSceneQuery(SceneManager* mgr)
+  :SceneQuery(mgr), mLastResult(NULL) {
+}
+//-----------------------------------------------------------------------
+RegionSceneQuery::~RegionSceneQuery() {
+  clearResults();
+}
+//-----------------------------------------------------------------------
+SceneQueryResult& RegionSceneQuery::getLastResults(void) {
+  assert(mLastResult);
+  return *mLastResult;
+}
+//-----------------------------------------------------------------------
+void RegionSceneQuery::clearResults(void) {
+  if (mLastResult) {
+    delete mLastResult;
+  }
+  mLastResult = NULL;
+}
+//---------------------------------------------------------------------
+SceneQueryResult&
+RegionSceneQuery::execute(void) {
+  clearResults();
+  mLastResult = new SceneQueryResult();
+  // Call callback version with self as listener
+  execute(this);
+  return *mLastResult;
+}
+//---------------------------------------------------------------------
+bool RegionSceneQuery::
+queryResult(MovableObject* obj) {
+  // Add to internal list
+  mLastResult->movables.push_back(obj);
+  // Continue
+  return true;
+}
+//---------------------------------------------------------------------
+bool RegionSceneQuery::queryResult(SceneQuery::WorldFragment* fragment) {
+  // Add to internal list
+  mLastResult->worldFragments.push_back(fragment);
+  // Continue
+  return true;
+}
+//-----------------------------------------------------------------------
+AxisAlignedBoxSceneQuery::AxisAlignedBoxSceneQuery(SceneManager* mgr)
+  : RegionSceneQuery(mgr) {
+}
+//-----------------------------------------------------------------------
+AxisAlignedBoxSceneQuery::~AxisAlignedBoxSceneQuery() {
+}
+//-----------------------------------------------------------------------
+void AxisAlignedBoxSceneQuery::setBox(const AxisAlignedBox& box) {
+  mAABB = box;
+}
+//-----------------------------------------------------------------------
+const AxisAlignedBox& AxisAlignedBoxSceneQuery::getBox(void) {
+  return mAABB;
+}
+//-----------------------------------------------------------------------
+SphereSceneQuery::SphereSceneQuery(SceneManager* mgr)
+  : RegionSceneQuery(mgr) {
+}
+//-----------------------------------------------------------------------
+SphereSceneQuery::~SphereSceneQuery() {
+}
+//-----------------------------------------------------------------------
+void SphereSceneQuery::setSphere(const Sphere& sphere) {
+  mSphere = sphere;
+}
+//-----------------------------------------------------------------------
+const Sphere& SphereSceneQuery::getSphere() {
+  return mSphere;
+}
+//-----------------------------------------------------------------------
+RaySceneQuery::RaySceneQuery(SceneManager* mgr) : RegionSceneQuery(mgr) {
+  mSortByDistance = false;
+  mMaxResults = 0;
+}
+//-----------------------------------------------------------------------
+RaySceneQuery::~RaySceneQuery() {
+}
+//-----------------------------------------------------------------------
+void RaySceneQuery::setRay(const Ray& ray) {
+  mRay = ray;
+}
+//-----------------------------------------------------------------------
+const Ray& RaySceneQuery::getRay(void) {
+  return mRay;
+}
+//-----------------------------------------------------------------------
+void RaySceneQuery::setSortByDistance(bool sort, ushort maxresults) {
+  mSortByDistance = sort;
+  mMaxResults = maxresults;
+}
+//-----------------------------------------------------------------------
+bool RaySceneQuery::getSortByDistance(void) {
+  return mSortByDistance;
+}
+//-----------------------------------------------------------------------
+ushort RaySceneQuery::getMaxResults(void) {
+  return mMaxResults;
+}
+//-----------------------------------------------------------------------
+/*
+PyramidSceneQuery::PyramidSceneQuery(SceneManager* mgr) : RegionSceneQuery(mgr)
+{
+}
+//-----------------------------------------------------------------------
+PyramidSceneQuery::~PyramidSceneQuery()
+{
+}
+*/
+//-----------------------------------------------------------------------
+IntersectionSceneQuery::IntersectionSceneQuery(SceneManager* mgr)
+  : SceneQuery(mgr), mLastResult(NULL) {
+}
+//-----------------------------------------------------------------------
+IntersectionSceneQuery::~IntersectionSceneQuery() {
+  clearResults();
+}
+//-----------------------------------------------------------------------
+IntersectionSceneQueryResult& IntersectionSceneQuery::getLastResults(void) {
+  assert(mLastResult);
+  return *mLastResult;
+}
+//-----------------------------------------------------------------------
+void IntersectionSceneQuery::clearResults(void) {
+  if (mLastResult) {
+    delete mLastResult;
+  }
+  mLastResult = NULL;
+}
+//---------------------------------------------------------------------
+IntersectionSceneQueryResult&
+IntersectionSceneQuery::execute(void) {
+  clearResults();
+  mLastResult = new IntersectionSceneQueryResult();
+  // Call callback version with self as listener
+  execute(this);
+  return *mLastResult;
+}
+//---------------------------------------------------------------------
+bool IntersectionSceneQuery::
+queryResult(MovableObject* first, MovableObject* second) {
+  // Add to internal list
+  mLastResult->movables2movables.push_back(
+    SceneQueryMovableObjectPair(first, second)
+  );
+  // Continue
+  return true;
+}
+//---------------------------------------------------------------------
+bool IntersectionSceneQuery::
+queryResult(MovableObject* movable, SceneQuery::WorldFragment* fragment) {
+  // Add to internal list
+  mLastResult->movables2world.push_back(
+    SceneQueryMovableObjectWorldFragmentPair(movable, fragment)
+  );
+  // Continue
+  return true;
+}
 
 
 
 
 }
-    
+
 
 
 

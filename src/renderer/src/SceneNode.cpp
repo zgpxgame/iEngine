@@ -35,292 +35,252 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 //-----------------------------------------------------------------------
-SceneNode::SceneNode(SceneManager* creator) 
-: Node(), mCreator(creator), mWireBoundingBox(0), mShowBoundingBox(false)
-{
-    needUpdate();
+SceneNode::SceneNode(SceneManager* creator)
+  : Node(), mCreator(creator), mWireBoundingBox(0), mShowBoundingBox(false) {
+  needUpdate();
 }
 //-----------------------------------------------------------------------
-SceneNode::SceneNode(SceneManager* creator, const String& name) 
-: Node(name), mCreator(creator), mWireBoundingBox(0), mShowBoundingBox(false)
-{
-    needUpdate();
+SceneNode::SceneNode(SceneManager* creator, const String& name)
+  : Node(name), mCreator(creator), mWireBoundingBox(0), mShowBoundingBox(false) {
+  needUpdate();
 }
 //-----------------------------------------------------------------------
-SceneNode::~SceneNode()
-{
-	if (mWireBoundingBox) {
-		delete mWireBoundingBox;
-	}
+SceneNode::~SceneNode() {
+  if (mWireBoundingBox) {
+    delete mWireBoundingBox;
+  }
 }
 //-----------------------------------------------------------------------
-void SceneNode::_update(bool updateChildren, bool parentHasChanged)
-{
-    // 根据父结点更新自己的变换，然后更新子结点的变换及边界框
-    Node::_update(updateChildren, parentHasChanged);
+void SceneNode::_update(bool updateChildren, bool parentHasChanged) {
+  // 根据父结点更新自己的变换，然后更新子结点的变换及边界框
+  Node::_update(updateChildren, parentHasChanged);
 
-    // 更新自己的边界框（合并自己结点上的物体，及子结点的边界框）
-    _updateBounds();
+  // 更新自己的边界框（合并自己结点上的物体，及子结点的边界框）
+  _updateBounds();
 
 }
 
 //-----------------------------------------------------------------------
-void SceneNode::attachObject(MovableObject* obj)
-{
-    obj->_notifyAttached(this);
+void SceneNode::attachObject(MovableObject* obj) {
+  obj->_notifyAttached(this);
 
-    // Also add to name index
-    mObjectsByName.insert(ObjectMap::value_type(obj->getName(), obj));
+  // Also add to name index
+  mObjectsByName.insert(ObjectMap::value_type(obj->getName(), obj));
 
-    // Make sure bounds get updated (must go right to the top)
-    needUpdate();
+  // Make sure bounds get updated (must go right to the top)
+  needUpdate();
 }
 //-----------------------------------------------------------------------
-unsigned short SceneNode::numAttachedObjects(void)
-{
-    return static_cast< unsigned short >( mObjectsByName.size() );
+unsigned short SceneNode::numAttachedObjects(void) {
+  return static_cast< unsigned short >( mObjectsByName.size() );
 }
 //-----------------------------------------------------------------------
-MovableObject* SceneNode::getAttachedObject(unsigned short index)
-{
-    if (index < mObjectsByName.size())
-    {
-        ObjectMap::iterator i = mObjectsByName.begin();
-        // Increment (must do this one at a time)            
-        while (index--)++i;
-
-        return i->second;
-    }
-    else
-    {
-        Except(Exception::ERR_INVALIDPARAMS, "Object index out of bounds.", "SceneNode::getAttachedObject");
-    }
-    return 0;
-}
-//-----------------------------------------------------------------------
-MovableObject* SceneNode::getAttachedObject(const String& name)
-{
-    // Look up 
-    ObjectMap::iterator i = mObjectsByName.find(name);
-
-    if (i == mObjectsByName.end())
-    {
-        Except(Exception::ERR_ITEM_NOT_FOUND, "Attached object " + 
-            name + " not found.", "SceneNode::getAttachedObject");
-    }
+MovableObject* SceneNode::getAttachedObject(unsigned short index) {
+  if (index < mObjectsByName.size()) {
+    ObjectMap::iterator i = mObjectsByName.begin();
+    // Increment (must do this one at a time)
+    while (index--)++i;
 
     return i->second;
+  } else {
+    Except(Exception::ERR_INVALIDPARAMS, "Object index out of bounds.", "SceneNode::getAttachedObject");
+  }
+  return 0;
+}
+//-----------------------------------------------------------------------
+MovableObject* SceneNode::getAttachedObject(const String& name) {
+  // Look up
+  ObjectMap::iterator i = mObjectsByName.find(name);
+
+  if (i == mObjectsByName.end()) {
+    Except(Exception::ERR_ITEM_NOT_FOUND, "Attached object " +
+           name + " not found.", "SceneNode::getAttachedObject");
+  }
+
+  return i->second;
 
 }
 //-----------------------------------------------------------------------
-MovableObject* SceneNode::detachObject(unsigned short index)
-{
-    MovableObject* ret;
-    if (index < mObjectsByName.size())
-    {
+MovableObject* SceneNode::detachObject(unsigned short index) {
+  MovableObject* ret;
+  if (index < mObjectsByName.size()) {
 
-        ObjectMap::iterator i = mObjectsByName.begin();
-        // Increment (must do this one at a time)            
-        while (index--)++i;
+    ObjectMap::iterator i = mObjectsByName.begin();
+    // Increment (must do this one at a time)
+    while (index--)++i;
 
-        ret = i->second;
-        mObjectsByName.erase(i);
-        ret->_notifyAttached((SceneNode*)0);
-
-        // Make sure bounds get updated (must go right to the top)
-        needUpdate();
-
-        return ret;
-
-    }
-    else
-    {
-        Except(Exception::ERR_INVALIDPARAMS, "Object index out of bounds.", "SceneNode::getAttchedEntity");
-    }
-    return 0;
-
-}
-//-----------------------------------------------------------------------
-MovableObject* SceneNode::detachObject(const String& name)
-{
-    ObjectMap::iterator it = mObjectsByName.find(name);
-    if (it == mObjectsByName.end())
-    {
-        Except(Exception::ERR_ITEM_NOT_FOUND, "Object " + name + " is not attached "
-            "to this node.", "SceneNode::detachObject");
-    }
-    MovableObject* ret = it->second;
-    mObjectsByName.erase(it);
+    ret = i->second;
+    mObjectsByName.erase(i);
     ret->_notifyAttached((SceneNode*)0);
+
     // Make sure bounds get updated (must go right to the top)
     needUpdate();
-    
+
     return ret;
 
-}
-//-----------------------------------------------------------------------
-void SceneNode::attachCamera(Camera* cam)
-{
-    attachObject(cam);
-}
-//-----------------------------------------------------------------------
-void SceneNode::attachLight(Light* lgt)
-{
-    attachObject(lgt);
-}
-//-----------------------------------------------------------------------
-void SceneNode::detachAllObjects(void)
-{
-    mObjectsByName.clear();
-    // Make sure bounds get updated (must go right to the top)
-    needUpdate();
-}
-//-----------------------------------------------------------------------
-void SceneNode::_updateBounds(void)
-{
-    // Reset bounds first
-    mWorldAABB.setNull();
-
-    // Update bounds from own attached objects
-    ObjectMap::iterator i;
-    AxisAlignedBox bx;
-    for (i = mObjectsByName.begin(); i != mObjectsByName.end(); ++i)
-    {
-        // Merge world bounds of each object
-        mWorldAABB.merge(i->second->getWorldBoundingBox(true));
-    }
-
-    // Merge with children
-    ChildNodeMap::iterator child;
-    for (child = mChildren.begin(); child != mChildren.end(); ++child)
-    {
-        SceneNode* sceneChild = static_cast<SceneNode*>(child->second);
-        mWorldAABB.merge(sceneChild->mWorldAABB);
-    }
+  } else {
+    Except(Exception::ERR_INVALIDPARAMS, "Object index out of bounds.", "SceneNode::getAttchedEntity");
+  }
+  return 0;
 
 }
 //-----------------------------------------------------------------------
-void SceneNode::_findVisibleObjects(Camera* cam, RenderQueue* queue, bool includeChildren, bool displayNodes)
-{
-    // Check self visible
-    if (!cam->isVisible(mWorldAABB))
-        return;
+MovableObject* SceneNode::detachObject(const String& name) {
+  ObjectMap::iterator it = mObjectsByName.find(name);
+  if (it == mObjectsByName.end()) {
+    Except(Exception::ERR_ITEM_NOT_FOUND, "Object " + name + " is not attached "
+           "to this node.", "SceneNode::detachObject");
+  }
+  MovableObject* ret = it->second;
+  mObjectsByName.erase(it);
+  ret->_notifyAttached((SceneNode*)0);
+  // Make sure bounds get updated (must go right to the top)
+  needUpdate();
 
-    // Add all entities
-    ObjectMap::iterator iobj;
-    ObjectMap::iterator iobjend = mObjectsByName.end();
-    for (iobj = mObjectsByName.begin(); iobj != iobjend; ++iobj)
-    {
-        // Tell attached objects about camera position (incase any extra processing they want to do)
-        iobj->second->_notifyCurrentCamera(cam);
-        if (iobj->second->isVisible())
-        {
-            iobj->second->_updateRenderQueue(queue);
-        }
+  return ret;
+
+}
+//-----------------------------------------------------------------------
+void SceneNode::attachCamera(Camera* cam) {
+  attachObject(cam);
+}
+//-----------------------------------------------------------------------
+void SceneNode::attachLight(Light* lgt) {
+  attachObject(lgt);
+}
+//-----------------------------------------------------------------------
+void SceneNode::detachAllObjects(void) {
+  mObjectsByName.clear();
+  // Make sure bounds get updated (must go right to the top)
+  needUpdate();
+}
+//-----------------------------------------------------------------------
+void SceneNode::_updateBounds(void) {
+  // Reset bounds first
+  mWorldAABB.setNull();
+
+  // Update bounds from own attached objects
+  ObjectMap::iterator i;
+  AxisAlignedBox bx;
+  for (i = mObjectsByName.begin(); i != mObjectsByName.end(); ++i) {
+    // Merge world bounds of each object
+    mWorldAABB.merge(i->second->getWorldBoundingBox(true));
+  }
+
+  // Merge with children
+  ChildNodeMap::iterator child;
+  for (child = mChildren.begin(); child != mChildren.end(); ++child) {
+    SceneNode* sceneChild = static_cast<SceneNode*>(child->second);
+    mWorldAABB.merge(sceneChild->mWorldAABB);
+  }
+
+}
+//-----------------------------------------------------------------------
+void SceneNode::_findVisibleObjects(Camera* cam, RenderQueue* queue, bool includeChildren, bool displayNodes) {
+  // Check self visible
+  if (!cam->isVisible(mWorldAABB))
+    return;
+
+  // Add all entities
+  ObjectMap::iterator iobj;
+  ObjectMap::iterator iobjend = mObjectsByName.end();
+  for (iobj = mObjectsByName.begin(); iobj != iobjend; ++iobj) {
+    // Tell attached objects about camera position (incase any extra processing they want to do)
+    iobj->second->_notifyCurrentCamera(cam);
+    if (iobj->second->isVisible()) {
+      iobj->second->_updateRenderQueue(queue);
     }
+  }
 
-    if (includeChildren)
-    {
-        ChildNodeMap::iterator child, childend;
-        childend = mChildren.end();
-        for (child = mChildren.begin(); child != childend; ++child)
-        {
-            SceneNode* sceneChild = static_cast<SceneNode*>(child->second);
-            sceneChild->_findVisibleObjects(cam, queue, includeChildren, displayNodes);
-        }
+  if (includeChildren) {
+    ChildNodeMap::iterator child, childend;
+    childend = mChildren.end();
+    for (child = mChildren.begin(); child != childend; ++child) {
+      SceneNode* sceneChild = static_cast<SceneNode*>(child->second);
+      sceneChild->_findVisibleObjects(cam, queue, includeChildren, displayNodes);
     }
+  }
 
-    if (displayNodes)
-    {
-        // Include self in the render queue
-        queue->addRenderable(this);
-    }
+  if (displayNodes) {
+    // Include self in the render queue
+    queue->addRenderable(this);
+  }
 
-	// Check if the bounding box should be shown.
-	// See if our flag is set or if the scene manager flag is set.
-	if (mShowBoundingBox || mCreator->getShowBoundingBoxes()) 
-	{ 
-		_addBoundingBoxToQueue(queue);
-	}
+  // Check if the bounding box should be shown.
+  // See if our flag is set or if the scene manager flag is set.
+  if (mShowBoundingBox || mCreator->getShowBoundingBoxes()) {
+    _addBoundingBoxToQueue(queue);
+  }
 
 
 }
 
 
 void SceneNode::_addBoundingBoxToQueue(RenderQueue* queue) {
-	// Create a WireBoundingBox if needed.
-	if (mWireBoundingBox == NULL) {
-		mWireBoundingBox = new WireBoundingBox();
-	}
-	mWireBoundingBox->setupBoundingBox(mWorldAABB);
-	queue->addRenderable(mWireBoundingBox);
+  // Create a WireBoundingBox if needed.
+  if (mWireBoundingBox == NULL) {
+    mWireBoundingBox = new WireBoundingBox();
+  }
+  mWireBoundingBox->setupBoundingBox(mWorldAABB);
+  queue->addRenderable(mWireBoundingBox);
 }
 
 void SceneNode::showBoundingBox(bool bShow) {
-	mShowBoundingBox = bShow;
+  mShowBoundingBox = bShow;
 }
 
 bool SceneNode::getShowBoundingBox() {
-	return mShowBoundingBox;
+  return mShowBoundingBox;
 }
 
 
 //-----------------------------------------------------------------------
-Node* SceneNode::createChildImpl(void)
-{
-    return mCreator->createSceneNode();
+Node* SceneNode::createChildImpl(void) {
+  return mCreator->createSceneNode();
 }
 //-----------------------------------------------------------------------
-Node* SceneNode::createChildImpl(const String& name)
-{
-    return mCreator->createSceneNode(name);
+Node* SceneNode::createChildImpl(const String& name) {
+  return mCreator->createSceneNode(name);
 }
 //-----------------------------------------------------------------------
-AxisAlignedBox SceneNode::_getWorldAABB(void) const
-{
-    return mWorldAABB;
+AxisAlignedBox SceneNode::_getWorldAABB(void) const {
+  return mWorldAABB;
 }
 //-----------------------------------------------------------------------
-SceneNode::ObjectIterator SceneNode::getAttachedObjectIterator(void)
-{
-    return ObjectIterator(mObjectsByName.begin(), mObjectsByName.end());
+SceneNode::ObjectIterator SceneNode::getAttachedObjectIterator(void) {
+  return ObjectIterator(mObjectsByName.begin(), mObjectsByName.end());
 }
 //-----------------------------------------------------------------------
-SceneManager* SceneNode::getCreator(void)
-{
-    return mCreator;
+SceneManager* SceneNode::getCreator(void) {
+  return mCreator;
 }
 //-----------------------------------------------------------------------
-void SceneNode::removeAndDestroyChild(const String& name)
-{
-    SceneNode* pChild = static_cast<SceneNode*>(getChild(name));
-    pChild->removeAndDestroyAllChildren();
+void SceneNode::removeAndDestroyChild(const String& name) {
+  SceneNode* pChild = static_cast<SceneNode*>(getChild(name));
+  pChild->removeAndDestroyAllChildren();
 
-    removeChild(name);
-    pChild->getCreator()->destroySceneNode(name);
+  removeChild(name);
+  pChild->getCreator()->destroySceneNode(name);
 
 }
 //-----------------------------------------------------------------------
-void SceneNode::removeAndDestroyChild(unsigned short index)
-{
-    SceneNode* pChild = static_cast<SceneNode*>(getChild(index));
-    pChild->removeAndDestroyAllChildren();
+void SceneNode::removeAndDestroyChild(unsigned short index) {
+  SceneNode* pChild = static_cast<SceneNode*>(getChild(index));
+  pChild->removeAndDestroyAllChildren();
 
-    removeChild(index);
-    pChild->getCreator()->destroySceneNode(pChild->getName());
+  removeChild(index);
+  pChild->getCreator()->destroySceneNode(pChild->getName());
 }
 //-----------------------------------------------------------------------
-void SceneNode::removeAndDestroyAllChildren(void)
-{
-    ChildNodeMap::iterator i, iend;
-    iend = mChildren.end();
-    for (i = mChildren.begin(); i != iend; ++i)
-    {
-        SceneNode* sn = static_cast<SceneNode*>(i->second);
-        sn->removeAndDestroyAllChildren();
-        sn->getCreator()->destroySceneNode(sn->getName());
-    }
-mChildren.clear();
+void SceneNode::removeAndDestroyAllChildren(void) {
+  ChildNodeMap::iterator i, iend;
+  iend = mChildren.end();
+  for (i = mChildren.begin(); i != iend; ++i) {
+    SceneNode* sn = static_cast<SceneNode*>(i->second);
+    sn->removeAndDestroyAllChildren();
+    sn->getCreator()->destroySceneNode(sn->getName());
+  }
+  mChildren.clear();
 }
 
 

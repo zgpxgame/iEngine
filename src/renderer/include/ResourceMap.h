@@ -35,7 +35,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #   pragma warning( disable : 4172 )
 #endif
 namespace renderer {
-    typedef HashMap< String, Resource*, _StringHash > ResourceMap;
+typedef HashMap< String, Resource*, _StringHash > ResourceMap;
 }
 #endif
 #if defined( _MSC_VER )

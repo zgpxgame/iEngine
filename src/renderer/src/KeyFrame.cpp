@@ -25,57 +25,47 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "KeyFrame.h"
 
-namespace renderer
-{
-    //---------------------------------------------------------------------
-    KeyFrame::KeyFrame(Real time) : mTime(time)
-    {
-        mTranslate = Vector3::ZERO;
-        mScale.x = mScale.y = mScale.z = 1.0;
-        mRotate = Quaternion::IDENTITY;
-    }
-    //---------------------------------------------------------------------
-    KeyFrame::KeyFrame() : mTime(0.0)
-    {
-        mTranslate = Vector3::ZERO;
-        mScale.x = mScale.y = mScale.z = 1.0;
-        mRotate = Quaternion::IDENTITY;
-    }
-    //---------------------------------------------------------------------
-    Real KeyFrame::getTime(void) const
-    {
-        return mTime;
-    }
-    //---------------------------------------------------------------------
-    void KeyFrame::setTranslate(const Vector3& trans)
-    {
-        mTranslate = trans;
-    }
-    //---------------------------------------------------------------------
-    Vector3 KeyFrame::getTranslate(void) const
-    {
-        return mTranslate;
-    }
-    //---------------------------------------------------------------------
-    void KeyFrame::setScale(const Vector3& scale)
-    {
-        mScale = scale;
-    }
-    //---------------------------------------------------------------------
-    Vector3 KeyFrame::getScale(void) const
-    {
-        return mScale;
-    }
-    //---------------------------------------------------------------------
-    void KeyFrame::setRotation(const Quaternion& rot)
-    {
-        mRotate = rot;
-    }
-    //---------------------------------------------------------------------
-    Quaternion KeyFrame::getRotation(void) const
-    {
-        return mRotate;
-    }
+namespace renderer {
+//---------------------------------------------------------------------
+KeyFrame::KeyFrame(Real time) : mTime(time) {
+  mTranslate = Vector3::ZERO;
+  mScale.x = mScale.y = mScale.z = 1.0;
+  mRotate = Quaternion::IDENTITY;
+}
+//---------------------------------------------------------------------
+KeyFrame::KeyFrame() : mTime(0.0) {
+  mTranslate = Vector3::ZERO;
+  mScale.x = mScale.y = mScale.z = 1.0;
+  mRotate = Quaternion::IDENTITY;
+}
+//---------------------------------------------------------------------
+Real KeyFrame::getTime(void) const {
+  return mTime;
+}
+//---------------------------------------------------------------------
+void KeyFrame::setTranslate(const Vector3& trans) {
+  mTranslate = trans;
+}
+//---------------------------------------------------------------------
+Vector3 KeyFrame::getTranslate(void) const {
+  return mTranslate;
+}
+//---------------------------------------------------------------------
+void KeyFrame::setScale(const Vector3& scale) {
+  mScale = scale;
+}
+//---------------------------------------------------------------------
+Vector3 KeyFrame::getScale(void) const {
+  return mScale;
+}
+//---------------------------------------------------------------------
+void KeyFrame::setRotation(const Quaternion& rot) {
+  mRotate = rot;
+}
+//---------------------------------------------------------------------
+Quaternion KeyFrame::getRotation(void) const {
+  return mRotate;
+}
 
 }
 

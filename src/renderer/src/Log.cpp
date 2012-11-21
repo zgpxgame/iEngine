@@ -27,42 +27,38 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    Log::Log( const String& name, bool debuggerOuput )
-    {
-        mfpLog.open(name.c_str());
-        mDebugOut = debuggerOuput;
-        mLogLevel = LL_NORMAL;
-    }
-    //-----------------------------------------------------------------------
-    Log::~Log()
-    {
-        mfpLog.close();
-    }
-    //-----------------------------------------------------------------------
-    void Log::logMessage( const String& message, LogMessageLevel lml )
-    {
-        if ((mLogLevel + lml) >= LOG_THRESHOLD)
-        {
-            if (mDebugOut)
-                fprintf( stderr, "%s\n", message.c_str());
+//-----------------------------------------------------------------------
+Log::Log( const String& name, bool debuggerOuput ) {
+  mfpLog.open(name.c_str());
+  mDebugOut = debuggerOuput;
+  mLogLevel = LL_NORMAL;
+}
+//-----------------------------------------------------------------------
+Log::~Log() {
+  mfpLog.close();
+}
+//-----------------------------------------------------------------------
+void Log::logMessage( const String& message, LogMessageLevel lml ) {
+  if ((mLogLevel + lml) >= LOG_THRESHOLD) {
+    if (mDebugOut)
+      fprintf( stderr, "%s\n", message.c_str());
 
-            // Write time into log
-            struct tm *pTime;
-            time_t ctTime; time(&ctTime);
-            pTime = localtime( &ctTime );
-            mfpLog << std::setw(2) << std::setfill('0') << pTime->tm_hour
-                << ":" << std::setw(2) << std::setfill('0') << pTime->tm_min
-                << ":" << std::setw(2) << std::setfill('0') << pTime->tm_sec << ": " << message << std::endl;
+    // Write time into log
+    struct tm *pTime;
+    time_t ctTime;
+    time(&ctTime);
+    pTime = localtime( &ctTime );
+    mfpLog << std::setw(2) << std::setfill('0') << pTime->tm_hour
+           << ":" << std::setw(2) << std::setfill('0') << pTime->tm_min
+           << ":" << std::setw(2) << std::setfill('0') << pTime->tm_sec << ": " << message << std::endl;
 
-            // Flush stcmdream to ensure it is written (incase of a crash, we need log to be up to date)
-            mfpLog.flush();
-        }
+    // Flush stcmdream to ensure it is written (incase of a crash, we need log to be up to date)
+    mfpLog.flush();
+  }
 
-    }
-    //-----------------------------------------------------------------------
-    void Log::setLogDetail(LoggingLevel ll)
-    {
-        mLogLevel = ll;
-    }
+}
+//-----------------------------------------------------------------------
+void Log::setLogDetail(LoggingLevel ll) {
+  mLogLevel = ll;
+}
 }

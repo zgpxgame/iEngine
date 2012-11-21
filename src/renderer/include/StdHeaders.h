@@ -2,7 +2,7 @@
 #define __StdHeaders_H__
 
 #ifdef __BORLANDC__
-    #define __STD_ALGORITHM
+#define __STD_ALGORITHM
 #endif
 
 #include <cassert>
@@ -22,9 +22,9 @@
 #include <deque>
 
 #if OGRE_WCHAR_T_STRINGS
-    typedef std::wstring String;
+typedef std::wstring String;
 #else
-    typedef std::string String;
+typedef std::string String;
 #endif
 
 // Note - not in the original STL, but exists in SGI STL and STLport
@@ -48,9 +48,8 @@
 #include <sstream>
 
 #ifdef __BORLANDC__
-namespace renderer
-{
-    using namespace std;
+namespace renderer {
+using namespace std;
 }
 #endif
 

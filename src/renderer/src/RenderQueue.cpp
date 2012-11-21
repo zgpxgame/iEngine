@@ -31,89 +31,76 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //---------------------------------------------------------------------
-    RenderQueue::RenderQueue()
-    {
-        // Create the 'main' queue up-front since we'll always need that
-        mGroups.insert(RenderQueueGroupMap::value_type(RENDER_QUEUE_MAIN, new RenderQueueGroup()));
+//---------------------------------------------------------------------
+RenderQueue::RenderQueue() {
+  // Create the 'main' queue up-front since we'll always need that
+  mGroups.insert(RenderQueueGroupMap::value_type(RENDER_QUEUE_MAIN, new RenderQueueGroup()));
 
-        // set default queue
-        mDefaultQueueGroup = RENDER_QUEUE_MAIN;
+  // set default queue
+  mDefaultQueueGroup = RENDER_QUEUE_MAIN;
 
-    }
-    //---------------------------------------------------------------------
-    RenderQueue::~RenderQueue()
-    {
-        // Destroy the queues for good
-        RenderQueueGroupMap::iterator i, iend;
-        i = mGroups.begin();
-        iend = mGroups.end();
-        for (; i != iend; ++i)
-        {
-            delete i->second;
-        }
-        mGroups.clear();
+}
+//---------------------------------------------------------------------
+RenderQueue::~RenderQueue() {
+  // Destroy the queues for good
+  RenderQueueGroupMap::iterator i, iend;
+  i = mGroups.begin();
+  iend = mGroups.end();
+  for (; i != iend; ++i) {
+    delete i->second;
+  }
+  mGroups.clear();
 
 
-    }
-    //-----------------------------------------------------------------------
-    void RenderQueue::addRenderable(Renderable* pRend, RenderQueueGroupID groupID, ushort priority)
-    {
-        // Find group
-        RenderQueueGroupMap::iterator groupIt;
-        RenderQueueGroup* pGroup;
+}
+//-----------------------------------------------------------------------
+void RenderQueue::addRenderable(Renderable* pRend, RenderQueueGroupID groupID, ushort priority) {
+  // Find group
+  RenderQueueGroupMap::iterator groupIt;
+  RenderQueueGroup* pGroup;
 
-        groupIt = mGroups.find(groupID);
-        if (groupIt == mGroups.end())
-        {
-            // Insert new
-            pGroup = new RenderQueueGroup();
-            mGroups.insert(RenderQueueGroupMap::value_type(groupID, pGroup));
-        }
-        else
-        {
-            pGroup = groupIt->second;
-        }
+  groupIt = mGroups.find(groupID);
+  if (groupIt == mGroups.end()) {
+    // Insert new
+    pGroup = new RenderQueueGroup();
+    mGroups.insert(RenderQueueGroupMap::value_type(groupID, pGroup));
+  } else {
+    pGroup = groupIt->second;
+  }
 
-        pGroup->addRenderable(pRend, priority);
+  pGroup->addRenderable(pRend, priority);
 
-    }
-    //-----------------------------------------------------------------------
-    void RenderQueue::clear(void)
-    {
-        // Clear the queues
-        RenderQueueGroupMap::iterator i, iend;
-        i = mGroups.begin();
-        iend = mGroups.end();
-        for (; i != iend; ++i)
-        {
-            i->second->clear();
-        }
+}
+//-----------------------------------------------------------------------
+void RenderQueue::clear(void) {
+  // Clear the queues
+  RenderQueueGroupMap::iterator i, iend;
+  i = mGroups.begin();
+  iend = mGroups.end();
+  for (; i != iend; ++i) {
+    i->second->clear();
+  }
 
-        // NB this leaves the items present (but empty)
-        // We're assuming that frame-by-frame, the same groups are likely to 
-        //  be used, so no point destroying the vectors and incurring the overhead
-        //  that would cause, let them be destroyed in the destructor.
-    }
-    //-----------------------------------------------------------------------
-    RenderQueue::QueueGroupIterator RenderQueue::_getQueueGroupIterator(void)
-    {
-        return QueueGroupIterator(mGroups.begin(), mGroups.end());
-    }
-    //-----------------------------------------------------------------------
-    void RenderQueue::addRenderable(Renderable* pRend, ushort priority)
-    {
-        addRenderable(pRend, mDefaultQueueGroup, priority);
-    }
-    //-----------------------------------------------------------------------
-    RenderQueueGroupID RenderQueue::getDefaultQueueGroup(void)
-    {
-        return mDefaultQueueGroup;
-    }
-    //-----------------------------------------------------------------------
-    void RenderQueue::setDefaultQueueGroup(RenderQueueGroupID grp)
-    {
-        mDefaultQueueGroup = grp;
-    }
+  // NB this leaves the items present (but empty)
+  // We're assuming that frame-by-frame, the same groups are likely to
+  //  be used, so no point destroying the vectors and incurring the overhead
+  //  that would cause, let them be destroyed in the destructor.
+}
+//-----------------------------------------------------------------------
+RenderQueue::QueueGroupIterator RenderQueue::_getQueueGroupIterator(void) {
+  return QueueGroupIterator(mGroups.begin(), mGroups.end());
+}
+//-----------------------------------------------------------------------
+void RenderQueue::addRenderable(Renderable* pRend, ushort priority) {
+  addRenderable(pRend, mDefaultQueueGroup, priority);
+}
+//-----------------------------------------------------------------------
+RenderQueueGroupID RenderQueue::getDefaultQueueGroup(void) {
+  return mDefaultQueueGroup;
+}
+//-----------------------------------------------------------------------
+void RenderQueue::setDefaultQueueGroup(RenderQueueGroupID grp) {
+  mDefaultQueueGroup = grp;
+}
 }
 

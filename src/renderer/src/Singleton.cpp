@@ -26,6 +26,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    template <typename T> T* Singleton <T>::ms_Singleton = 0;
+template <typename T> T* Singleton <T>::ms_Singleton = 0;
 
 }

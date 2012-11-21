@@ -29,22 +29,20 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Prerequisites.h"
 
 
-namespace renderer 
-{
-    
-    /** Records the assignment of a single vertex to a single bone with the corresponding weight.
-    @remarks
-        This simple struct simply holds a vertex index, bone index and weight representing the
-        assignment of a vertex to a bone for skeletal animation. There may be many of these
-        per vertex if blended vertex assignments are allowed.
-    */
-    typedef struct VertexBoneAssignment_s
-    {
-        unsigned short vertexIndex;
-        unsigned short boneIndex;
-        Real weight;
+namespace renderer {
 
-    } VertexBoneAssignment;
+/** Records the assignment of a single vertex to a single bone with the corresponding weight.
+@remarks
+    This simple struct simply holds a vertex index, bone index and weight representing the
+    assignment of a vertex to a bone for skeletal animation. There may be many of these
+    per vertex if blended vertex assignments are allowed.
+*/
+typedef struct VertexBoneAssignment_s {
+  unsigned short vertexIndex;
+  unsigned short boneIndex;
+  Real weight;
+
+} VertexBoneAssignment;
 
 
 }

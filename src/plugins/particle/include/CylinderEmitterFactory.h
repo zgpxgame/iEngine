@@ -32,30 +32,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Factory class for particle emitter of type "Cylinder".
-    @remarks
-        Creates instances of CylinderEmitter to be used in particle systems. 
-    */
-    class _ParticleFXExport CylinderEmitterFactory : public ParticleEmitterFactory
-    {
-    protected:
+/** Factory class for particle emitter of type "Cylinder".
+@remarks
+    Creates instances of CylinderEmitter to be used in particle systems.
+*/
+class _ParticleFXExport CylinderEmitterFactory : public ParticleEmitterFactory {
+protected:
 
-    public:
-        /** See ParticleEmitterFactory */
-        String getName() 
-        { 
-            return "Cylinder"; 
-        }
+public:
+  /** See ParticleEmitterFactory */
+  String getName() {
+    return "Cylinder";
+  }
 
-        /** See ParticleEmitterFactory */
-        ParticleEmitter* createEmitter(void) 
-        {
-            ParticleEmitter* emit = new CylinderEmitter();
-            mEmitters.push_back(emit);
-            return emit;
-        }
+  /** See ParticleEmitterFactory */
+  ParticleEmitter* createEmitter(void) {
+    ParticleEmitter* emit = new CylinderEmitter();
+    mEmitters.push_back(emit);
+    return emit;
+  }
 
-    };
+};
 
 }
 

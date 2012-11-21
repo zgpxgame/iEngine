@@ -35,52 +35,51 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace renderer	{
 
 
-	
-    /** A tagged point on a skeleton, which can be used to attach entities to on specific
-        other entities.
-    @remarks
-        A Skeleton, like a Mesh, is shared between Entity objects and simply updated as required
-        when it comes to rendering. However there are times when you want to attach another object
-        to an animated entity, and make sure that attachment follows the parent entity's animation
-        (for example, a character holding a gun in his / her hand). This class simply identifies
-        attachment points on a skeleton which can be used to attach child objects. 
-    @par
-        The child objects themselves are not physically attached to this class; as it's name suggests
-        this class just 'tags' the area. The actual child objects are attached to the Entity using the
-        skeleton which has this tag point. Use the Entity::attachMovableObjectToBone method to attach
-        the objects, which creates a new TagPoint on demand.
-    */
-    class TagPoint : public Bone
-	{
 
-	public:
-		TagPoint(unsigned short handle, Skeleton* creator);
-		virtual ~TagPoint();
+/** A tagged point on a skeleton, which can be used to attach entities to on specific
+    other entities.
+@remarks
+    A Skeleton, like a Mesh, is shared between Entity objects and simply updated as required
+    when it comes to rendering. However there are times when you want to attach another object
+    to an animated entity, and make sure that attachment follows the parent entity's animation
+    (for example, a character holding a gun in his / her hand). This class simply identifies
+    attachment points on a skeleton which can be used to attach child objects.
+@par
+    The child objects themselves are not physically attached to this class; as it's name suggests
+    this class just 'tags' the area. The actual child objects are attached to the Entity using the
+    skeleton which has this tag point. Use the Entity::attachMovableObjectToBone method to attach
+    the objects, which creates a new TagPoint on demand.
+*/
+class TagPoint : public Bone {
 
-		Entity *getParentEntity(void);
-		
-		void setParentEntity(Entity *pEntity);
-		void setChildObject(MovableObject *pObject);
+public:
+  TagPoint(unsigned short handle, Skeleton* creator);
+  virtual ~TagPoint();
 
-		//Matrix4 getCombinedTransform();
-		Matrix4 getParentEntityTransform();
+  Entity *getParentEntity(void);
 
-        void _update(bool updateChildren, bool parentHasChanged);
+  void setParentEntity(Entity *pEntity);
+  void setChildObject(MovableObject *pObject);
 
-        Matrix4 _getFullTransform(void);
+  //Matrix4 getCombinedTransform();
+  Matrix4 getParentEntityTransform();
 
-		Matrix4 _getNodeFullTransform(void);
+  void _update(bool updateChildren, bool parentHasChanged);
 
-        void needUpdate();
+  Matrix4 _getFullTransform(void);
 
-        /** Overridden from Node in order to include parent Entity transform. */
-        void _updateFromParent(void) const;
+  Matrix4 _getNodeFullTransform(void);
 
-	private:
-		Entity *mParentEntity;
-		MovableObject *mChildObject;
-		
-	};
+  void needUpdate();
+
+  /** Overridden from Node in order to include parent Entity transform. */
+  void _updateFromParent(void) const;
+
+private:
+  Entity *mParentEntity;
+  MovableObject *mChildObject;
+
+};
 
 
 } //namespace

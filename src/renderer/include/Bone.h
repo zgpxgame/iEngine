@@ -30,96 +30,94 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Node.h"
 
 
-namespace renderer 
-{
-    /** A bone in a skeleton.
-    @remarks
-        See Skeleton for more information about the principles behind skeletal animation.
-        This class is a node in the joint hierarchy. Mesh vertices also have assignments
-        to bones to define how they move in relation to the skeleton.
-    */
-    class _RendererExport Bone : public Node
-    {
-    public:
-        /** Constructor, not to be used directly (use Bone::createChild or Skeleton::createBone) */
-        Bone(unsigned short handle, Skeleton* creator);
-        /** Constructor, not to be used directly (use Bone::createChild or Skeleton::createBone) */
-        Bone(const String& name, unsigned short handle, Skeleton* creator);
-        ~Bone();
+namespace renderer {
+/** A bone in a skeleton.
+@remarks
+    See Skeleton for more information about the principles behind skeletal animation.
+    This class is a node in the joint hierarchy. Mesh vertices also have assignments
+    to bones to define how they move in relation to the skeleton.
+*/
+class _RendererExport Bone : public Node {
+public:
+  /** Constructor, not to be used directly (use Bone::createChild or Skeleton::createBone) */
+  Bone(unsigned short handle, Skeleton* creator);
+  /** Constructor, not to be used directly (use Bone::createChild or Skeleton::createBone) */
+  Bone(const String& name, unsigned short handle, Skeleton* creator);
+  ~Bone();
 
-        /** Creates a new Bone as a child of this bone.
-        @remarks
-            This method creates a new bone which will inherit the transforms of this
-            bone, with the handle specified.
-            @param 
-                handle The numeric handle to give the new bone; must be unique within the Skeleton.
-            @param
-                translate Initial translation offset of child relative to parent
-            @param
-                rotate Initial rotation relative to parent
-        */
-        Bone* createChild(unsigned short handle, 
-            const Vector3& translate = Vector3::ZERO, const Quaternion& rotate = Quaternion::IDENTITY);
+  /** Creates a new Bone as a child of this bone.
+  @remarks
+      This method creates a new bone which will inherit the transforms of this
+      bone, with the handle specified.
+      @param
+          handle The numeric handle to give the new bone; must be unique within the Skeleton.
+      @param
+          translate Initial translation offset of child relative to parent
+      @param
+          rotate Initial rotation relative to parent
+  */
+  Bone* createChild(unsigned short handle,
+                    const Vector3& translate = Vector3::ZERO, const Quaternion& rotate = Quaternion::IDENTITY);
 
 
-		TagPoint *createChildTagPoint(const Quaternion &offsetOrientation = Quaternion::IDENTITY, 
-								      const Vector3	   &offsetPosition    = Vector3::UNIT_SCALE);
+  TagPoint *createChildTagPoint(const Quaternion &offsetOrientation = Quaternion::IDENTITY,
+                                const Vector3	   &offsetPosition    = Vector3::UNIT_SCALE);
 
-        /** Gets the numeric handle for this bone (unique within the skeleton). */
-        unsigned short getHandle(void) const;
+  /** Gets the numeric handle for this bone (unique within the skeleton). */
+  unsigned short getHandle(void) const;
 
-        /** Sets the current position / orientation to be the 'binding pose' ie the layout in which 
-            bones were originally bound to a mesh.
-        */
-        void setBindingPose(void);
+  /** Sets the current position / orientation to be the 'binding pose' ie the layout in which
+      bones were originally bound to a mesh.
+  */
+  void setBindingPose(void);
 
-        /** Resets the position and orientation of this Bone to the original binding position.
-        @remarks
-            Bones are bound to the mesh in a binding pose. They are then modified from this
-            position during animation. This method returns the bone to it's original position and
-            orientation.
-        */
-        void reset(void);
+  /** Resets the position and orientation of this Bone to the original binding position.
+  @remarks
+      Bones are bound to the mesh in a binding pose. They are then modified from this
+      position during animation. This method returns the bone to it's original position and
+      orientation.
+  */
+  void reset(void);
 
-        /** Sets whether or not this bone is manually controlled. 
-        @remarks
-            Manually controlled bones can be altered by the application at runtime, 
-            and their positions will not be reset by the animation routines. Note 
-            that you should also make sure that there are no AnimationTrack objects
-            referencing this bone, or if there are, you should delete them using
-            pAnimation->destroyTrack(pBone->getHandle());
-        */
-        void setManuallyControlled(bool manuallyControlled);
+  /** Sets whether or not this bone is manually controlled.
+  @remarks
+      Manually controlled bones can be altered by the application at runtime,
+      and their positions will not be reset by the animation routines. Note
+      that you should also make sure that there are no AnimationTrack objects
+      referencing this bone, or if there are, you should delete them using
+      pAnimation->destroyTrack(pBone->getHandle());
+  */
+  void setManuallyControlled(bool manuallyControlled);
 
-        /** Getter for mManuallyControlled Flag */
-        bool isManuallyControlled();
+  /** Getter for mManuallyControlled Flag */
+  bool isManuallyControlled();
 
-        
-        /** Gets the inverse transform which takes bone space to origin from the binding pose. 
-        @remarks
-            Internal use only.
-        */
-        Matrix4 _getBindingPoseInverseTransform(void);
 
-    protected:
-        /// The numeric handle of this bone
-        unsigned short mHandle;
+  /** Gets the inverse transform which takes bone space to origin from the binding pose.
+  @remarks
+      Internal use only.
+  */
+  Matrix4 _getBindingPoseInverseTransform(void);
 
-        /** Bones set as manuallyControlled are not reseted in Skeleton::reset() */
-        bool mManuallyControlled;
+protected:
+  /// The numeric handle of this bone
+  unsigned short mHandle;
 
-        /** See Node. */
-        Node* createChildImpl(void);
-        /** See Node. */
-        Node* createChildImpl(const String& name);
+  /** Bones set as manuallyControlled are not reseted in Skeleton::reset() */
+  bool mManuallyControlled;
 
-        /// Pointer back to creator, for child creation (central memory allocation)
-        Skeleton* mCreator;
+  /** See Node. */
+  Node* createChildImpl(void);
+  /** See Node. */
+  Node* createChildImpl(const String& name);
 
-        /// The inversed derived transform of the bone in the binding pose
-        Matrix4 mBindDerivedInverseTransform;
+  /// Pointer back to creator, for child creation (central memory allocation)
+  Skeleton* mCreator;
 
-    };
+  /// The inversed derived transform of the bone in the binding pose
+  Matrix4 mBindDerivedInverseTransform;
+
+};
 
 
 }

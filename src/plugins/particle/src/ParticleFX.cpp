@@ -43,101 +43,95 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    std::vector<ParticleEmitterFactory*> emitterFactories;
-    std::vector<ParticleAffectorFactory*> affectorFactories;
+std::vector<ParticleEmitterFactory*> emitterFactories;
+std::vector<ParticleAffectorFactory*> affectorFactories;
 
-    //-----------------------------------------------------------------------
-    void registerParticleFactories(void)
-    {
-        // -- Create all new particle emitter factories --
-        ParticleEmitterFactory* pEmitFact;
+//-----------------------------------------------------------------------
+void registerParticleFactories(void) {
+  // -- Create all new particle emitter factories --
+  ParticleEmitterFactory* pEmitFact;
 
-        // PointEmitter
-        pEmitFact = new PointEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
-        emitterFactories.push_back(pEmitFact);
+  // PointEmitter
+  pEmitFact = new PointEmitterFactory();
+  ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+  emitterFactories.push_back(pEmitFact);
 
-        // BoxEmitter
-        pEmitFact = new BoxEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
-        emitterFactories.push_back(pEmitFact);
+  // BoxEmitter
+  pEmitFact = new BoxEmitterFactory();
+  ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+  emitterFactories.push_back(pEmitFact);
 
-        // EllipsoidEmitter
-        pEmitFact = new EllipsoidEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
-        emitterFactories.push_back(pEmitFact);
-        
-	    // CylinderEmitter
-        pEmitFact = new CylinderEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
-        emitterFactories.push_back(pEmitFact);
-	
-        // RingEmitter
-        pEmitFact = new RingEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
-        emitterFactories.push_back(pEmitFact);
+  // EllipsoidEmitter
+  pEmitFact = new EllipsoidEmitterFactory();
+  ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+  emitterFactories.push_back(pEmitFact);
 
-        // HollowEllipsoidEmitter
-        pEmitFact = new HollowEllipsoidEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
-        emitterFactories.push_back(pEmitFact);
+  // CylinderEmitter
+  pEmitFact = new CylinderEmitterFactory();
+  ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+  emitterFactories.push_back(pEmitFact);
 
-        // -- Create all new particle affector factories --
-        ParticleAffectorFactory* pAffFact;
+  // RingEmitter
+  pEmitFact = new RingEmitterFactory();
+  ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+  emitterFactories.push_back(pEmitFact);
 
-        // LinearForceAffector
-        pAffFact = new LinearForceAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
-        affectorFactories.push_back(pAffFact);
+  // HollowEllipsoidEmitter
+  pEmitFact = new HollowEllipsoidEmitterFactory();
+  ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+  emitterFactories.push_back(pEmitFact);
 
-        // ColourFaderAffector
-        pAffFact = new ColourFaderAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
-        affectorFactories.push_back(pAffFact);
+  // -- Create all new particle affector factories --
+  ParticleAffectorFactory* pAffFact;
 
-        // ColourFaderAffector
-        pAffFact = new ColourFaderAffectorFactory2();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
-        affectorFactories.push_back(pAffFact);
+  // LinearForceAffector
+  pAffFact = new LinearForceAffectorFactory();
+  ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+  affectorFactories.push_back(pAffFact);
 
-        // ScaleAffector
-        pAffFact = new ScaleAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
-        affectorFactories.push_back(pAffFact);
+  // ColourFaderAffector
+  pAffFact = new ColourFaderAffectorFactory();
+  ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+  affectorFactories.push_back(pAffFact);
 
-    }
-    //-----------------------------------------------------------------------
-    void destroyParticleFactories(void)
-    {
-        std::vector<ParticleEmitterFactory*>::iterator ei;
-        std::vector<ParticleAffectorFactory*>::iterator ai;
+  // ColourFaderAffector
+  pAffFact = new ColourFaderAffectorFactory2();
+  ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+  affectorFactories.push_back(pAffFact);
 
-        for (ei = emitterFactories.begin(); ei != emitterFactories.end(); ++ei)
-        {
-            delete (*ei);
-        }
+  // ScaleAffector
+  pAffFact = new ScaleAffectorFactory();
+  ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+  affectorFactories.push_back(pAffFact);
 
-        for (ai = affectorFactories.begin(); ai != affectorFactories.end(); ++ai)
-        {
-            delete (*ai);
-        }
+}
+//-----------------------------------------------------------------------
+void destroyParticleFactories(void) {
+  std::vector<ParticleEmitterFactory*>::iterator ei;
+  std::vector<ParticleAffectorFactory*>::iterator ai;
+
+  for (ei = emitterFactories.begin(); ei != emitterFactories.end(); ++ei) {
+    delete (*ei);
+  }
+
+  for (ai = affectorFactories.begin(); ai != affectorFactories.end(); ++ai) {
+    delete (*ai);
+  }
 
 
-    }
-    //-----------------------------------------------------------------------
-    extern "C" EXPORT void dllStartPlugin(void) throw()
-    {
-        // Particle SFX
-        registerParticleFactories();
-    }
+}
+//-----------------------------------------------------------------------
+extern "C" EXPORT void dllStartPlugin(void) throw() {
+  // Particle SFX
+  registerParticleFactories();
+}
 
-    //-----------------------------------------------------------------------
-    extern "C" EXPORT void dllStopPlugin(void)
-    {
-        // Particle SFX
-        destroyParticleFactories();
+//-----------------------------------------------------------------------
+extern "C" EXPORT void dllStopPlugin(void) {
+  // Particle SFX
+  destroyParticleFactories();
 
-    }
+}
 
 
 }

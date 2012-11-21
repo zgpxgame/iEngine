@@ -28,108 +28,103 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    ColourValue ColourValue::Black = ColourValue(0.0,0.0,0.0);
-    ColourValue ColourValue::White = ColourValue(1.0,1.0,1.0);
-    ColourValue ColourValue::Red = ColourValue(1.0,0.0,0.0);
-    ColourValue ColourValue::Green = ColourValue(0.0,1.0,0.0);
-    ColourValue ColourValue::Blue = ColourValue(0.0,0.0,1.0);
+ColourValue ColourValue::Black = ColourValue(0.0,0.0,0.0);
+ColourValue ColourValue::White = ColourValue(1.0,1.0,1.0);
+ColourValue ColourValue::Red = ColourValue(1.0,0.0,0.0);
+ColourValue ColourValue::Green = ColourValue(0.0,1.0,0.0);
+ColourValue ColourValue::Blue = ColourValue(0.0,0.0,1.0);
 
-    //---------------------------------------------------------------------
-    unsigned long ColourValue::getAsLongRGBA(void) const
-    {
-        unsigned char val8;
-        unsigned long val32 = 0;
+//---------------------------------------------------------------------
+unsigned long ColourValue::getAsLongRGBA(void) const {
+  unsigned char val8;
+  unsigned long val32 = 0;
 
-        // Convert to 32bit pattern
-        // (RGBA = 8888)
+  // Convert to 32bit pattern
+  // (RGBA = 8888)
 
-        // Red
-        val8 = (unsigned char)(r * 255);
-        val32 = val8 << 24;
+  // Red
+  val8 = (unsigned char)(r * 255);
+  val32 = val8 << 24;
 
-        // Green
-        val8 = (unsigned char)(g * 255);
-        val32 += val8 << 16;
+  // Green
+  val8 = (unsigned char)(g * 255);
+  val32 += val8 << 16;
 
-        // Blue
-        val8 = (unsigned char)(b * 255);
-        val32 += val8 << 8;
+  // Blue
+  val8 = (unsigned char)(b * 255);
+  val32 += val8 << 8;
 
-        // Alpha
-        val8 = (unsigned char)(a * 255);
-        val32 += val8;
+  // Alpha
+  val8 = (unsigned char)(a * 255);
+  val32 += val8;
 
-        return val32;
-    }
-    //---------------------------------------------------------------------
-    unsigned long ColourValue::getAsLongARGB(void) const
-    {
-        unsigned char val8;
-        unsigned long val32 = 0;
+  return val32;
+}
+//---------------------------------------------------------------------
+unsigned long ColourValue::getAsLongARGB(void) const {
+  unsigned char val8;
+  unsigned long val32 = 0;
 
-        // Convert to 32bit pattern
-        // (ARGB = 8888)
+  // Convert to 32bit pattern
+  // (ARGB = 8888)
 
-        // Alpha
-        val8 = (unsigned char)(a * 255);
-        val32 = val8 << 24;
+  // Alpha
+  val8 = (unsigned char)(a * 255);
+  val32 = val8 << 24;
 
-        // Red
-        val8 = (unsigned char)(r * 255);
-        val32 += val8 << 16;
+  // Red
+  val8 = (unsigned char)(r * 255);
+  val32 += val8 << 16;
 
-        // Green
-        val8 = (unsigned char)(g * 255);
-        val32 += val8 << 8;
+  // Green
+  val8 = (unsigned char)(g * 255);
+  val32 += val8 << 8;
 
-        // Blue
-        val8 = (unsigned char)(b * 255);
-        val32 += val8;
+  // Blue
+  val8 = (unsigned char)(b * 255);
+  val32 += val8;
 
 
-        return val32;
-    }
-    //---------------------------------------------------------------------
-    ABGR ColourValue::getAsLongABGR(void) const
-    {
-        unsigned char val8;
-        unsigned long val32 = 0;
+  return val32;
+}
+//---------------------------------------------------------------------
+ABGR ColourValue::getAsLongABGR(void) const {
+  unsigned char val8;
+  unsigned long val32 = 0;
 
-        // Convert to 32bit pattern
-        // (ABRG = 8888)
+  // Convert to 32bit pattern
+  // (ABRG = 8888)
 
-        // Alpha
-        val8 = (unsigned char)(a * 255);
-        val32 = val8 << 24;
+  // Alpha
+  val8 = (unsigned char)(a * 255);
+  val32 = val8 << 24;
 
-        // Blue
-        val8 = (unsigned char)(b * 255);
-        val32 += val8 << 16;
+  // Blue
+  val8 = (unsigned char)(b * 255);
+  val32 += val8 << 16;
 
-        // Green
-        val8 = (unsigned char)(g * 255);
-        val32 += val8 << 8;
+  // Green
+  val8 = (unsigned char)(g * 255);
+  val32 += val8 << 8;
 
-        // Red
-        val8 = (unsigned char)(r * 255);
-        val32 += val8;
+  // Red
+  val8 = (unsigned char)(r * 255);
+  val32 += val8;
 
 
-        return val32;
-    }
-    //---------------------------------------------------------------------
-    bool ColourValue::operator==(const ColourValue& rhs) const
-    {
-        return (r == rhs.r &&
-            g == rhs.g &&
-            b == rhs.b &&
-            a == rhs.a);
-    }
-    //---------------------------------------------------------------------
-    bool ColourValue::operator!=(const ColourValue& rhs) const
-    {
-        return !(*this == rhs);
-    }
+  return val32;
+}
+//---------------------------------------------------------------------
+bool ColourValue::operator==(const ColourValue& rhs) const {
+  return (r == rhs.r &&
+          g == rhs.g &&
+          b == rhs.b &&
+          a == rhs.a);
+}
+//---------------------------------------------------------------------
+bool ColourValue::operator!=(const ColourValue& rhs) const {
+  return !(*this == rhs);
+}
 
 }
 

@@ -27,37 +27,35 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Prerequisites.h"
 
-namespace renderer
-{
-    /** Platform-independent Timer class. 
-    @remarks
-        You should never create a Timer instance manually; instead, use PlatformManager::createTimer.
-    */
-    class _RendererExport Timer 
-	{
-	protected:	
-		clock_t zeroClock ;
-	
-	public:
-		/** Creates a timer. 
-        @remarks
-            You must call reset() after creating it; the constructor cannot do it because the 
-            call would not be polymorphic.
-		*/
-		Timer() ;
-		
-		/** Resets timer 
-		*/
-		virtual void Reset();
-		
-		/** Returns milliseconds since initialisation or last reset
-		*/
-		virtual unsigned long GetMilliseconds() ;
-		
-		/** Returns milliseconds since initialisation or last reset, only CPU time measured
-		*/	
-		virtual unsigned long getMillisecondsCPU();
-		
-	} ;
+namespace renderer {
+/** Platform-independent Timer class.
+@remarks
+    You should never create a Timer instance manually; instead, use PlatformManager::createTimer.
+*/
+class _RendererExport Timer {
+protected:
+  clock_t zeroClock ;
+
+public:
+  /** Creates a timer.
+      @remarks
+          You must call reset() after creating it; the constructor cannot do it because the
+          call would not be polymorphic.
+  */
+  Timer() ;
+
+  /** Resets timer
+  */
+  virtual void Reset();
+
+  /** Returns milliseconds since initialisation or last reset
+  */
+  virtual unsigned long GetMilliseconds() ;
+
+  /** Returns milliseconds since initialisation or last reset, only CPU time measured
+  */
+  virtual unsigned long getMillisecondsCPU();
+
+} ;
 }
 #endif

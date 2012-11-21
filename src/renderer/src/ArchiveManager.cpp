@@ -30,61 +30,55 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "LogManager.h"
 
 namespace renderer {
-    typedef void (*createFunc)( ArchiveEx**, const String& );
+typedef void (*createFunc)( ArchiveEx**, const String& );
 
-    //-----------------------------------------------------------------------
-    template<> ArchiveManager* Singleton<ArchiveManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+template<> ArchiveManager* Singleton<ArchiveManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    ArchiveEx* ArchiveManager::load( const String& filename, const String& archiveType, int priority /* =1 */ )
-    {
-        ArchiveEx* pArch = (ArchiveEx*)(getByName(filename));
-        if (!pArch)
-        {
-            // Search factories
-            ArchiveFactoryMap::iterator it = mArchFactories.find(archiveType);
-            if (it == mArchFactories.end())
-                // Factory not found
-                Except(Exception::ERR_ITEM_NOT_FOUND, "Cannot find an archive factory "
-                    "to deal with archive of type " + archiveType, "ArchiveManager::load");
+//-----------------------------------------------------------------------
+ArchiveEx* ArchiveManager::load( const String& filename, const String& archiveType, int priority /* =1 */ ) {
+  ArchiveEx* pArch = (ArchiveEx*)(getByName(filename));
+  if (!pArch) {
+    // Search factories
+    ArchiveFactoryMap::iterator it = mArchFactories.find(archiveType);
+    if (it == mArchFactories.end())
+      // Factory not found
+      Except(Exception::ERR_ITEM_NOT_FOUND, "Cannot find an archive factory "
+             "to deal with archive of type " + archiveType, "ArchiveManager::load");
 
-            pArch = it->second->createObj( filename );
+    pArch = it->second->createObj( filename );
 
-            ResourceManager::load(pArch, priority);
-        }
-        return pArch;
-    }
+    ResourceManager::load(pArch, priority);
+  }
+  return pArch;
+}
 
-    //-----------------------------------------------------------------------
-    Resource* ArchiveManager::create( const String& name ) {
-        return NULL;
-    }
+//-----------------------------------------------------------------------
+Resource* ArchiveManager::create( const String& name ) {
+  return NULL;
+}
 
-    //-----------------------------------------------------------------------
-    ArchiveManager& ArchiveManager::getSingleton(void)
-    {
-        return Singleton<ArchiveManager>::getSingleton();
-    }
+//-----------------------------------------------------------------------
+ArchiveManager& ArchiveManager::getSingleton(void) {
+  return Singleton<ArchiveManager>::getSingleton();
+}
 
-    //-----------------------------------------------------------------------
-    ArchiveManager::~ArchiveManager()
-    {
-        // Unload & delete resources in turn
-        for( ResourceMap::iterator it = mResources.begin(); it != mResources.end(); ++it )
-        {
-            it->second->unload();
-        }
+//-----------------------------------------------------------------------
+ArchiveManager::~ArchiveManager() {
+  // Unload & delete resources in turn
+  for( ResourceMap::iterator it = mResources.begin(); it != mResources.end(); ++it ) {
+    it->second->unload();
+  }
 
-        // Empty the list
-        mResources.clear();
-    }
-    //-----------------------------------------------------------------------
-    void ArchiveManager::addArchiveFactory(ArchiveFactory* factory)
-    {        
-        mArchFactories.insert( ArchiveFactoryMap::value_type( factory->getType(), factory ) );
-        LogManager::getSingleton().logMessage("ArchiveFactory for archive type " +     factory->getType() + " registered.");
-    }
+  // Empty the list
+  mResources.clear();
+}
+//-----------------------------------------------------------------------
+void ArchiveManager::addArchiveFactory(ArchiveFactory* factory) {
+  mArchFactories.insert( ArchiveFactoryMap::value_type( factory->getType(), factory ) );
+  LogManager::getSingleton().logMessage("ArchiveFactory for archive type " +     factory->getType() + " registered.");
+}
 
 }
 

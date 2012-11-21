@@ -27,94 +27,82 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    void StringUtil::trim(String& str, bool left, bool right)
-    {
-        size_t lspaces, rspaces, len = str.length(), i;
+//-----------------------------------------------------------------------
+void StringUtil::trim(String& str, bool left, bool right) {
+  size_t lspaces, rspaces, len = str.length(), i;
 
-        lspaces = rspaces = 0;
+  lspaces = rspaces = 0;
 
-        if( left )
-        {
-            // Find spaces / tabs on the left
-            for( i = 0;
-                i < len && ( str.at(i) == ' ' || str.at(i) == '\t' || str.at(i) == '\r');
-                ++lspaces, ++i );
-        }
-        
-        if( right && lspaces < len )
-        {
-            // Find spaces / tabs on the right
-            for( i = len - 1;
-                i >= 0 && ( str.at(i) == ' ' || str.at(i) == '\t' || str.at(i) == '\r');
-                rspaces++, i-- );
-        }
+  if( left ) {
+    // Find spaces / tabs on the left
+    for( i = 0;
+         i < len && ( str.at(i) == ' ' || str.at(i) == '\t' || str.at(i) == '\r');
+         ++lspaces, ++i );
+  }
 
-        str = str.substr(lspaces, len-lspaces-rspaces);
+  if( right && lspaces < len ) {
+    // Find spaces / tabs on the right
+    for( i = len - 1;
+         i >= 0 && ( str.at(i) == ' ' || str.at(i) == '\t' || str.at(i) == '\r');
+         rspaces++, i-- );
+  }
+
+  str = str.substr(lspaces, len-lspaces-rspaces);
+}
+
+//-----------------------------------------------------------------------
+std::vector<String> StringUtil::split(const String& str, const String& delims, unsigned int maxSplits) {
+  // static unsigned dl;
+  std::vector<String> ret;
+  unsigned int numSplits = 0;
+
+  // Use STL methods
+  size_t start, pos;
+  start = 0;
+  do {
+    pos = str.find_first_of(delims, start);
+    if (pos == start) {
+      // Do nothing
+      start = pos + 1;
+    } else if (pos == String::npos || (maxSplits && numSplits == maxSplits)) {
+      // Copy the rest of the string
+      ret.push_back( str.substr(start) );
+    } else {
+      // Copy up to delimiter
+      ret.push_back( str.substr(start, pos - start) );
+      start = pos + 1;
     }
+    // parse up to next real data
+    start = str.find_first_not_of(delims, start);
+    ++numSplits;
 
-    //-----------------------------------------------------------------------
-    std::vector<String> StringUtil::split(const String& str, const String& delims, unsigned int maxSplits)
-    {
-        // static unsigned dl;
-        std::vector<String> ret;
-        unsigned int numSplits = 0;
-
-        // Use STL methods 
-        size_t start, pos;
-        start = 0;
-        do 
-        {
-            pos = str.find_first_of(delims, start);
-            if (pos == start)
-            {
-                // Do nothing
-                start = pos + 1;
-            }
-            else if (pos == String::npos || (maxSplits && numSplits == maxSplits))
-            {
-                // Copy the rest of the string
-                ret.push_back( str.substr(start) );
-            }
-            else
-            {
-                // Copy up to delimiter
-                ret.push_back( str.substr(start, pos - start) );
-                start = pos + 1;
-            }
-            // parse up to next real data
-            start = str.find_first_not_of(delims, start);
-            ++numSplits;
-
-        } while (pos != String::npos);
+  } while (pos != String::npos);
 
 
 
-        return ret;
-    }
+  return ret;
+}
 
-    //-----------------------------------------------------------------------
-    String StringUtil::toLowerCase(String& str) 
-    {
-        std::transform(
-            str.begin(),
-            str.end(),
-            str.begin(),
-            static_cast<int(*)(int)>(::tolower) );
+//-----------------------------------------------------------------------
+String StringUtil::toLowerCase(String& str) {
+  std::transform(
+    str.begin(),
+    str.end(),
+    str.begin(),
+    static_cast<int(*)(int)>(::tolower) );
 
-        return str;
-    }
+  return str;
+}
 
-    //-----------------------------------------------------------------------
-    String StringUtil::toUpperCase(String& str) 
-    {
-        std::transform(
-            str.begin(),
-            str.end(),
-            str.begin(),
-            static_cast<int(*)(int)>(::toupper) );
+//-----------------------------------------------------------------------
+String StringUtil::toUpperCase(String& str) {
+  std::transform(
+    str.begin(),
+    str.end(),
+    str.begin(),
+    static_cast<int(*)(int)>(::toupper) );
 
-        return str;
-    }
+  return str;
+}
 }
 

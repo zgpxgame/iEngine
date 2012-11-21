@@ -4,19 +4,18 @@
 #include "ArchiveFactory.h"
 
 namespace renderer {
-    /** Specialisation of ArchiveFactory for folders. */
+/** Specialisation of ArchiveFactory for folders. */
 
-    class FileSystemFactory : public ArchiveFactory
-    {
-    public:
-        virtual ~FileSystemFactory();
+class FileSystemFactory : public ArchiveFactory {
+public:
+  virtual ~FileSystemFactory();
 
-        String getArchiveType(void);
-        ArchiveEx* createArchive(const String& name);
+  String getArchiveType(void);
+  ArchiveEx* createArchive(const String& name);
 
-        ArchiveEx *createObj( const String& name );
-        String getType();        
-    };
+  ArchiveEx *createObj( const String& name );
+  String getType();
+};
 
 }
 

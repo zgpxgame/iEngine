@@ -32,30 +32,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Factory class for particle emitter of type "HollowEllipsoid".
-    @remarks
-        Creates instances of HollowEllipsoidEmitter to be used in particle systems. 
-    */
-    class _ParticleFXExport HollowEllipsoidEmitterFactory : public ParticleEmitterFactory
-    {
-    protected:
+/** Factory class for particle emitter of type "HollowEllipsoid".
+@remarks
+    Creates instances of HollowEllipsoidEmitter to be used in particle systems.
+*/
+class _ParticleFXExport HollowEllipsoidEmitterFactory : public ParticleEmitterFactory {
+protected:
 
-    public:
-        /** See ParticleEmitterFactory */
-        String getName() 
-        { 
-            return "HollowEllipsoid"; 
-        }
+public:
+  /** See ParticleEmitterFactory */
+  String getName() {
+    return "HollowEllipsoid";
+  }
 
-        /** See ParticleEmitterFactory */
-        ParticleEmitter* createEmitter(void) 
-        {
-            ParticleEmitter* emit = new HollowEllipsoidEmitter();
-            mEmitters.push_back(emit);
-            return emit;
-        }
+  /** See ParticleEmitterFactory */
+  ParticleEmitter* createEmitter(void) {
+    ParticleEmitter* emit = new HollowEllipsoidEmitter();
+    mEmitters.push_back(emit);
+    return emit;
+  }
 
-    };
+};
 
 }
 

@@ -48,11 +48,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    // Predeclare classes
-    class PointEmitter;
-    class PointEmitterFactory;
-    class LinearForceAffector;
-    class LinearForceAffectorFactory;
+// Predeclare classes
+class PointEmitter;
+class PointEmitterFactory;
+class LinearForceAffector;
+class LinearForceAffectorFactory;
 
 
 

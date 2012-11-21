@@ -35,77 +35,71 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    DynLib::DynLib( const String& name )
-    {
-        OgreGuard("DynLib::DynLib");
+//-----------------------------------------------------------------------
+DynLib::DynLib( const String& name ) {
+  OgreGuard("DynLib::DynLib");
 
-        mName = name;
+  mName = name;
 #if OGRE_PLATFORM == PLATFORM_LINUX || OGRE_PLATFORM == PLATFORM_APPLE
-        // dlopen() does not add .so to the filename, like windows does for .dll
-        if (mName.substr(mName.length() - 3, 3) != ".so")
-            mName += ".so";
+  // dlopen() does not add .so to the filename, like windows does for .dll
+  if (mName.substr(mName.length() - 3, 3) != ".so")
+    mName += ".so";
 #endif
-        mIsLoaded = false;
-        m_hInst = NULL;
+  mIsLoaded = false;
+  m_hInst = NULL;
 
-        OgreUnguard();
-    }
+  OgreUnguard();
+}
 
-    //-----------------------------------------------------------------------
-    DynLib::~DynLib()
-    {
-        if( mIsLoaded )
-            unload();
-    }
+//-----------------------------------------------------------------------
+DynLib::~DynLib() {
+  if( mIsLoaded )
+    unload();
+}
 
-    //-----------------------------------------------------------------------
-    void DynLib::load()
-    {
-        OgreGuard("DynLib::load");
+//-----------------------------------------------------------------------
+void DynLib::load() {
+  OgreGuard("DynLib::load");
 
-        // Log library load
-        LogManager::getSingleton().logMessage("Loading library " + mName);
+  // Log library load
+  LogManager::getSingleton().logMessage("Loading library " + mName);
 
-        m_hInst = (DYNLIB_HANDLE)DYNLIB_LOAD( mName.c_str() );
+  m_hInst = (DYNLIB_HANDLE)DYNLIB_LOAD( mName.c_str() );
 
-        if( !m_hInst )
-            Except(
-                Exception::ERR_INTERNAL_ERROR, 
-                "Could not load dynamic library " + mName + 
-                ".  System Error: " + DYNLIB_ERROR(),
-                "DynLib::load" );
+  if( !m_hInst )
+    Except(
+      Exception::ERR_INTERNAL_ERROR,
+      "Could not load dynamic library " + mName +
+      ".  System Error: " + DYNLIB_ERROR(),
+      "DynLib::load" );
 
-        mIsLoaded = true;
+  mIsLoaded = true;
 
-        OgreUnguard();
-    }
+  OgreUnguard();
+}
 
-    //-----------------------------------------------------------------------
-    void DynLib::unload()
-    {
-        OgreGuard("DynLib::unload");
+//-----------------------------------------------------------------------
+void DynLib::unload() {
+  OgreGuard("DynLib::unload");
 
-        // Log library unload
-        if (mIsLoaded)
-        {
-            LogManager::getSingleton().logMessage("Unloading library " + mName);
+  // Log library unload
+  if (mIsLoaded) {
+    LogManager::getSingleton().logMessage("Unloading library " + mName);
 
-            if( DYNLIB_UNLOAD( m_hInst ) )
-                Except(
-                    Exception::ERR_INTERNAL_ERROR, 
-                    "Could not unload dynamic library " + mName +
-                    ".  System Error: " + DYNLIB_ERROR(),
-                    "DynLib::unload");
-        }
-        mIsLoaded = false;
+    if( DYNLIB_UNLOAD( m_hInst ) )
+      Except(
+        Exception::ERR_INTERNAL_ERROR,
+        "Could not unload dynamic library " + mName +
+        ".  System Error: " + DYNLIB_ERROR(),
+        "DynLib::unload");
+  }
+  mIsLoaded = false;
 
-        OgreUnguard();
-    }
+  OgreUnguard();
+}
 
-    //-----------------------------------------------------------------------
-    void* DynLib::getSymbol( const String& strName ) const throw()
-    {
-        return DYNLIB_GETSYM( m_hInst, strName.c_str() );
-    }
+//-----------------------------------------------------------------------
+void* DynLib::getSymbol( const String& strName ) const throw() {
+  return DYNLIB_GETSYM( m_hInst, strName.c_str() );
+}
 }

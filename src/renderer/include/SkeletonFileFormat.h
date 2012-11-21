@@ -29,60 +29,60 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-/** Definition of the OGRE .skeleton file format 
+/** Definition of the OGRE .skeleton file format
 
-    .skeleton files are binary files (for read efficiency at runtime) and are arranged into chunks 
+    .skeleton files are binary files (for read efficiency at runtime) and are arranged into chunks
     of data, very like 3D Studio's format.
     A chunk always consists of:
         unsigned short CHUNK_ID        : one of the following chunk ids identifying the chunk
         unsigned long  LENGTH          : length of the chunk in bytes, including this header
         void*          DATA            : the data, which may contain other sub-chunks (various data types)
-    
+
     A .skeleton file contains both the definition of the Skeleton object and the animations it contains. It
     contains only a single skeleton but can contain multiple animations.
 
 
 */
-    enum SkeletonChunkID {
-        SKELETON_HEADER            = 0x1000,
-            // char* version           : Version number check
-        SKELETON_BONE              = 0x2000,
-        // Repeating section defining each bone in the system. 
-        // Bones are assigned indexes automatically based on their order of declaration
-        // starting with 0.
+enum SkeletonChunkID {
+  SKELETON_HEADER            = 0x1000,
+  // char* version           : Version number check
+  SKELETON_BONE              = 0x2000,
+  // Repeating section defining each bone in the system.
+  // Bones are assigned indexes automatically based on their order of declaration
+  // starting with 0.
 
-            // char* name                       : name of the bone
-            // unsigned short handle            : handle of the bone, should be contiguous & start at 0
-            // Vector3 position                 : position of this bone relative to parent 
-            // Quaternion orientation           : orientation of this bone relative to parent 
+  // char* name                       : name of the bone
+  // unsigned short handle            : handle of the bone, should be contiguous & start at 0
+  // Vector3 position                 : position of this bone relative to parent
+  // Quaternion orientation           : orientation of this bone relative to parent
 
-        SKELETON_BONE_PARENT       = 0x3000,
-        // Record of the parent of a single bone, used to build the node tree
-        // Repeating section, listed in Bone Index order, one per Bone
+  SKELETON_BONE_PARENT       = 0x3000,
+  // Record of the parent of a single bone, used to build the node tree
+  // Repeating section, listed in Bone Index order, one per Bone
 
-            // unsigned short handle             : child bone
-            // unsigned short parentHandle   : parent bone
+  // unsigned short handle             : child bone
+  // unsigned short parentHandle   : parent bone
 
-        SKELETON_ANIMATION         = 0x4000,
-        // A single animation for this skeleton
+  SKELETON_ANIMATION         = 0x4000,
+  // A single animation for this skeleton
 
-            // char* name                       : Name of the animation
-            // Real length                      : Length of the animation in seconds
+  // char* name                       : Name of the animation
+  // Real length                      : Length of the animation in seconds
 
-            SKELETON_ANIMATION_TRACK = 0x4100,
-            // A single animation track (relates to a single bone)
-            // Repeating section (within SKELETON_ANIMATION)
-                
-                // unsigned short boneIndex     : Index of bone to apply to
+  SKELETON_ANIMATION_TRACK = 0x4100,
+  // A single animation track (relates to a single bone)
+  // Repeating section (within SKELETON_ANIMATION)
 
-                SKELETON_ANIMATION_TRACK_KEYFRAME = 0x4110,
-                // A single keyframe within the track
-                // Repeating section
+  // unsigned short boneIndex     : Index of bone to apply to
 
-                    // Real time                    : The time position (seconds)
-                    // Quaternion rotate            : Rotation to apply at this keyframe
-                    // Vector3 translate            : Translation to apply at this keyframe
-    };
+  SKELETON_ANIMATION_TRACK_KEYFRAME = 0x4110,
+  // A single keyframe within the track
+  // Repeating section
+
+  // Real time                    : The time position (seconds)
+  // Quaternion rotate            : Rotation to apply at this keyframe
+  // Vector3 translate            : Translation to apply at this keyframe
+};
 
 } // namespace
 

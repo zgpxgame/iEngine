@@ -33,119 +33,107 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    RingEmitter::CmdInnerX RingEmitter::msCmdInnerX;
-    RingEmitter::CmdInnerY RingEmitter::msCmdInnerY;
+RingEmitter::CmdInnerX RingEmitter::msCmdInnerX;
+RingEmitter::CmdInnerY RingEmitter::msCmdInnerY;
 
-    //-----------------------------------------------------------------------
-    RingEmitter::RingEmitter()
-    {
-        initDefaults("Ring");
-        // Add custom parameters
-        ParamDictionary* pDict = getParamDictionary();
+//-----------------------------------------------------------------------
+RingEmitter::RingEmitter() {
+  initDefaults("Ring");
+  // Add custom parameters
+  ParamDictionary* pDict = getParamDictionary();
 
-        pDict->addParameter(ParameterDef("inner_width", "Parametric value describing the proportion of the "
-            "shape which is hollow.", PT_REAL), &msCmdInnerX);
-        pDict->addParameter(ParameterDef("inner_height", "Parametric value describing the proportion of the "
-            "shape which is hollow.", PT_REAL), &msCmdInnerY);
+  pDict->addParameter(ParameterDef("inner_width", "Parametric value describing the proportion of the "
+                                   "shape which is hollow.", PT_REAL), &msCmdInnerX);
+  pDict->addParameter(ParameterDef("inner_height", "Parametric value describing the proportion of the "
+                                   "shape which is hollow.", PT_REAL), &msCmdInnerY);
 
-        // default is half empty
-        setInnerSize(0.5,0.5);
-    }
-    //-----------------------------------------------------------------------
-    void RingEmitter::_initParticle(Particle* pParticle)
-    {
-        Real alpha, a, b, x, y, z;
+  // default is half empty
+  setInnerSize(0.5,0.5);
+}
+//-----------------------------------------------------------------------
+void RingEmitter::_initParticle(Particle* pParticle) {
+  Real alpha, a, b, x, y, z;
 
-        // create a random angle from 0 .. PI*2
-        alpha = Math::RangeRandom(0,Math::TWO_PI);
-  
-        // create two random radius values that are bigger than the inner size
-        a = Math::RangeRandom(mInnerSizex,1.0);
-        b = Math::RangeRandom(mInnerSizey,1.0);
+  // create a random angle from 0 .. PI*2
+  alpha = Math::RangeRandom(0,Math::TWO_PI);
 
-        // with a and b we have defined a random ellipse inside the inner
-        // ellipse and the outer circle (radius 1.0)
-        // with alpha, and a and b we select a random point on this ellipse
-        // and calculate it's coordinates
-        x = a * Math::Sin(alpha);
-        y = b * Math::Cos(alpha);
-        // the height is simple running from 0 to 1
-        z = Math::UnitRandom();     // 0..1
+  // create two random radius values that are bigger than the inner size
+  a = Math::RangeRandom(mInnerSizex,1.0);
+  b = Math::RangeRandom(mInnerSizey,1.0);
 
-        // scale the found point to the ring's size and move it
-        // relatively to the center of the emitter point
+  // with a and b we have defined a random ellipse inside the inner
+  // ellipse and the outer circle (radius 1.0)
+  // with alpha, and a and b we select a random point on this ellipse
+  // and calculate it's coordinates
+  x = a * Math::Sin(alpha);
+  y = b * Math::Cos(alpha);
+  // the height is simple running from 0 to 1
+  z = Math::UnitRandom();     // 0..1
 
-        pParticle->mPosition = mPosition + 
-         + x * mXRange + y * mYRange + z * mZRange;
+  // scale the found point to the ring's size and move it
+  // relatively to the center of the emitter point
 
-        // Generate complex data by reference
-        genEmissionColour(pParticle->mColour);
-        genEmissionDirection(pParticle->mDirection);
-        genEmissionVelocity(pParticle->mDirection);
+  pParticle->mPosition = mPosition +
+                         + x * mXRange + y * mYRange + z * mZRange;
 
-        // Generate simpler data
-        pParticle->mTimeToLive = genEmissionTTL();
-        
-    }
-    //-----------------------------------------------------------------------
-    void RingEmitter::setInnerSize(Real x, Real y)
-    {
-        // TODO: should really throw some exception
-        if ((x > 0) && (x < 1.0) &&
-            (y > 0) && (y < 1.0))
-            {
-            mInnerSizex = x;
-            mInnerSizey = y;
-            }
-    }
-    //-----------------------------------------------------------------------
-    void RingEmitter::setInnerSizeX(Real x)
-    {
-        assert(x > 0 && x < 1.0);
+  // Generate complex data by reference
+  genEmissionColour(pParticle->mColour);
+  genEmissionDirection(pParticle->mDirection);
+  genEmissionVelocity(pParticle->mDirection);
 
-        mInnerSizex = x;
-    }
-    //-----------------------------------------------------------------------
-    void RingEmitter::setInnerSizeY(Real y)
-    {
-        assert(y > 0 && y < 1.0);
+  // Generate simpler data
+  pParticle->mTimeToLive = genEmissionTTL();
 
-        mInnerSizey = y;
-    }
-    //-----------------------------------------------------------------------
-    Real RingEmitter::getInnerSizeX(void)
-    {
-        return mInnerSizex;
-    }
-    //-----------------------------------------------------------------------
-    Real RingEmitter::getInnerSizeY(void)
-    {
-        return mInnerSizey;
-    }
-    //-----------------------------------------------------------------------
-    //-----------------------------------------------------------------------
-    // Command objects
-    //-----------------------------------------------------------------------
-    //-----------------------------------------------------------------------
-    String RingEmitter::CmdInnerX::doGet(void* target)
-    {
-        return StringConverter::toString(
-            static_cast<RingEmitter*>(target)->getInnerSizeX() );
-    }
-    void RingEmitter::CmdInnerX::doSet(void* target, const String& val)
-    {
-        static_cast<RingEmitter*>(target)->setInnerSizeX(StringConverter::parseReal(val));
-    }
-    //-----------------------------------------------------------------------
-    String RingEmitter::CmdInnerY::doGet(void* target)
-    {
-        return StringConverter::toString(
-            static_cast<RingEmitter*>(target)->getInnerSizeY() );
-    }
-    void RingEmitter::CmdInnerY::doSet(void* target, const String& val)
-    {
-        static_cast<RingEmitter*>(target)->setInnerSizeY(StringConverter::parseReal(val));
-    }
+}
+//-----------------------------------------------------------------------
+void RingEmitter::setInnerSize(Real x, Real y) {
+  // TODO: should really throw some exception
+  if ((x > 0) && (x < 1.0) &&
+      (y > 0) && (y < 1.0)) {
+    mInnerSizex = x;
+    mInnerSizey = y;
+  }
+}
+//-----------------------------------------------------------------------
+void RingEmitter::setInnerSizeX(Real x) {
+  assert(x > 0 && x < 1.0);
+
+  mInnerSizex = x;
+}
+//-----------------------------------------------------------------------
+void RingEmitter::setInnerSizeY(Real y) {
+  assert(y > 0 && y < 1.0);
+
+  mInnerSizey = y;
+}
+//-----------------------------------------------------------------------
+Real RingEmitter::getInnerSizeX(void) {
+  return mInnerSizex;
+}
+//-----------------------------------------------------------------------
+Real RingEmitter::getInnerSizeY(void) {
+  return mInnerSizey;
+}
+//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+// Command objects
+//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+String RingEmitter::CmdInnerX::doGet(void* target) {
+  return StringConverter::toString(
+           static_cast<RingEmitter*>(target)->getInnerSizeX() );
+}
+void RingEmitter::CmdInnerX::doSet(void* target, const String& val) {
+  static_cast<RingEmitter*>(target)->setInnerSizeX(StringConverter::parseReal(val));
+}
+//-----------------------------------------------------------------------
+String RingEmitter::CmdInnerY::doGet(void* target) {
+  return StringConverter::toString(
+           static_cast<RingEmitter*>(target)->getInnerSizeY() );
+}
+void RingEmitter::CmdInnerY::doSet(void* target, const String& val) {
+  static_cast<RingEmitter*>(target)->setInnerSizeY(StringConverter::parseReal(val));
+}
 
 }
 

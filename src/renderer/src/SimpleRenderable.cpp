@@ -28,159 +28,138 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    uint SimpleRenderable::ms_uGenNameCount = 0;
+uint SimpleRenderable::ms_uGenNameCount = 0;
 
-    SimpleRenderable::SimpleRenderable()
-    {
-        m_matWorldTransform = Matrix4::IDENTITY;
+SimpleRenderable::SimpleRenderable() {
+  m_matWorldTransform = Matrix4::IDENTITY;
 
-        m_strMatName = "BaseWhite"; 
-        m_pMaterial = reinterpret_cast< Material* >( MaterialManager::getSingleton().getByName( "BaseWhite" ) );
+  m_strMatName = "BaseWhite";
+  m_pMaterial = reinterpret_cast< Material* >( MaterialManager::getSingleton().getByName( "BaseWhite" ) );
 
-        m_pVertexCache = NULL;
-        m_pIndexCache = NULL;
-        m_pNormalCache = NULL;
-        m_pDiffuseCache = NULL;
-        m_pSpecularCache = NULL;
+  m_pVertexCache = NULL;
+  m_pIndexCache = NULL;
+  m_pNormalCache = NULL;
+  m_pDiffuseCache = NULL;
+  m_pSpecularCache = NULL;
 
-        for( int i=0; i<OGRE_MAX_TEXTURE_COORD_SETS; i++ )
-            m_pTexCache[i] = NULL;
+  for( int i=0; i<OGRE_MAX_TEXTURE_COORD_SETS; i++ )
+    m_pTexCache[i] = NULL;
 
-        m_pParentSceneManager = NULL;
+  m_pParentSceneManager = NULL;
 
-        mParentNode = NULL;
-        m_pCamera = NULL;
+  mParentNode = NULL;
+  m_pCamera = NULL;
 
-        // Generate name
-        m_strName += _TO_CHAR("SimpleRenderable");
-        m_strName += StringConverter::toString(ms_uGenNameCount++);
-    }
+  // Generate name
+  m_strName += _TO_CHAR("SimpleRenderable");
+  m_strName += StringConverter::toString(ms_uGenNameCount++);
+}
 
-    Real **SimpleRenderable::getVertexCache()
-    {
-        return &m_pVertexCache;
-    }
+Real **SimpleRenderable::getVertexCache() {
+  return &m_pVertexCache;
+}
 
-    unsigned short **SimpleRenderable::getIndexCache()
-    {
-        return &m_pIndexCache;
-    }
+unsigned short **SimpleRenderable::getIndexCache() {
+  return &m_pIndexCache;
+}
 
-    Real **SimpleRenderable::getNormalCache()
-    {
-        return &m_pNormalCache;
-    }
+Real **SimpleRenderable::getNormalCache() {
+  return &m_pNormalCache;
+}
 
-    RGBA **SimpleRenderable::getDiffuseCache()
-    {
-        return &m_pDiffuseCache;
-    }
+RGBA **SimpleRenderable::getDiffuseCache() {
+  return &m_pDiffuseCache;
+}
 
-    RGBA **SimpleRenderable::getSpecularCache()
-    {
-        return &m_pSpecularCache;
-    }
+RGBA **SimpleRenderable::getSpecularCache() {
+  return &m_pSpecularCache;
+}
 
-    Real **SimpleRenderable::getTexCoordCache( unsigned short cn )
-    {
-        assert( cn < OGRE_MAX_TEXTURE_COORD_SETS );
+Real **SimpleRenderable::getTexCoordCache( unsigned short cn ) {
+  assert( cn < OGRE_MAX_TEXTURE_COORD_SETS );
 
-        return &m_pTexCache[cn];
-    }
+  return &m_pTexCache[cn];
+}
 
-    void SimpleRenderable::setMaterial( const String& matName )
-    {
-        m_strMatName = matName;
-        m_pMaterial = reinterpret_cast<Material*>(
-            MaterialManager::getSingleton().getByName( m_strMatName ) );
-		if (!m_pMaterial)
-			Except( Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + m_strMatName,
-				"SimpleRenderable::setMaterial" );
-    
-        // Won't load twice anyway
-        m_pMaterial->load();
-    }
+void SimpleRenderable::setMaterial( const String& matName ) {
+  m_strMatName = matName;
+  m_pMaterial = reinterpret_cast<Material*>(
+                  MaterialManager::getSingleton().getByName( m_strMatName ) );
+  if (!m_pMaterial)
+    Except( Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + m_strMatName,
+            "SimpleRenderable::setMaterial" );
 
-    Material* SimpleRenderable::getMaterial(void) const
-    {
-        return m_pMaterial;
-    }
+  // Won't load twice anyway
+  m_pMaterial->load();
+}
 
-    void SimpleRenderable::setRenderOperation( const RenderOperation& rend )
-    {
-        mRendOp = rend;
-    }
+Material* SimpleRenderable::getMaterial(void) const {
+  return m_pMaterial;
+}
 
-    RenderOperation& SimpleRenderable::getRenderOperation()
-    {
-        return mRendOp;
-    }
+void SimpleRenderable::setRenderOperation( const RenderOperation& rend ) {
+  mRendOp = rend;
+}
 
-    void SimpleRenderable::getRenderOperation( RenderOperation& rend )
-    {
-        rend = mRendOp;
-    }
+RenderOperation& SimpleRenderable::getRenderOperation() {
+  return mRendOp;
+}
 
-    void SimpleRenderable::setWorldTransform( const Matrix4& xform )
-    {
-        m_matWorldTransform = xform;
-    }
+void SimpleRenderable::getRenderOperation( RenderOperation& rend ) {
+  rend = mRendOp;
+}
 
-    void SimpleRenderable::getWorldTransforms( Matrix4* xform )
-    {
-        *xform = m_matWorldTransform * mParentNode->_getFullTransform();
-    }
+void SimpleRenderable::setWorldTransform( const Matrix4& xform ) {
+  m_matWorldTransform = xform;
+}
 
-    void SimpleRenderable::_notifyCurrentCamera(Camera* cam)
-    {
-        m_pCamera = cam;
-    }
+void SimpleRenderable::getWorldTransforms( Matrix4* xform ) {
+  *xform = m_matWorldTransform * mParentNode->_getFullTransform();
+}
 
-    void SimpleRenderable::setBoundingBox( const AxisAlignedBox& box )
-    {
-        mBox = box;
-    }
+void SimpleRenderable::_notifyCurrentCamera(Camera* cam) {
+  m_pCamera = cam;
+}
 
-    const AxisAlignedBox& SimpleRenderable::getBoundingBox(void) const
-    {
-        return mBox;
-    }
+void SimpleRenderable::setBoundingBox( const AxisAlignedBox& box ) {
+  mBox = box;
+}
 
-    void SimpleRenderable::_updateRenderQueue(RenderQueue* queue)
-    {
-        queue->addRenderable( this );
-    }
+const AxisAlignedBox& SimpleRenderable::getBoundingBox(void) const {
+  return mBox;
+}
 
-    SimpleRenderable::~SimpleRenderable()
-    {
-        if( m_pVertexCache )
-            delete[] m_pVertexCache;
+void SimpleRenderable::_updateRenderQueue(RenderQueue* queue) {
+  queue->addRenderable( this );
+}
 
-        if( m_pIndexCache )
-            delete[] m_pIndexCache;
+SimpleRenderable::~SimpleRenderable() {
+  if( m_pVertexCache )
+    delete[] m_pVertexCache;
 
-        if( m_pNormalCache )
-            delete[] m_pNormalCache;
+  if( m_pIndexCache )
+    delete[] m_pIndexCache;
 
-        for( int i=0; i<OGRE_MAX_TEXTURE_COORD_SETS; i++ )
-            if( m_pTexCache[i] )
-                delete[] m_pTexCache[i];
+  if( m_pNormalCache )
+    delete[] m_pNormalCache;
 
-        if( m_pDiffuseCache )
-            delete[] m_pDiffuseCache;
+  for( int i=0; i<OGRE_MAX_TEXTURE_COORD_SETS; i++ )
+    if( m_pTexCache[i] )
+      delete[] m_pTexCache[i];
 
-        if( m_pSpecularCache )
-            delete[] m_pSpecularCache;
-    }
-    //-----------------------------------------------------------------------
-    const String& SimpleRenderable::getName(void) const
-    {
-        return m_strName;
-    }
-    //-----------------------------------------------------------------------
-    const String SimpleRenderable::getMovableType(void) const
-    {
-        return "SimpleRenderable";
-    }
+  if( m_pDiffuseCache )
+    delete[] m_pDiffuseCache;
+
+  if( m_pSpecularCache )
+    delete[] m_pSpecularCache;
+}
+//-----------------------------------------------------------------------
+const String& SimpleRenderable::getName(void) const {
+  return m_strName;
+}
+//-----------------------------------------------------------------------
+const String SimpleRenderable::getMovableType(void) const {
+  return "SimpleRenderable";
+}
 
 }

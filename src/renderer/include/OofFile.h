@@ -39,50 +39,50 @@ namespace renderer {
             unsigned short DATA_LENGTH    : length of the contained data in bytes
             void*           DATA            : the data, which may contain other sub-chunks (various data types)
 */
-    enum OofChunkIDs {
-        OOF_HEADER                = 0x1000,
-            // ENTIRE HEADER ALWAYS UNCOMPRESSED
-            // bool compression
-            // unsigned short numMaterials
-            // unsigned short numObjects
-        OOF_MATERIAL            = 0x2000,
-            // char* name (\n terminated)
-            // AMBIENT
-            // float r, g, b
-            // DIFFUSE
-            // float r, g, b
-            // SPECULAR
-            // float r, g, b
-            // SHININESS
-            // float val;
-            OOF_TEXTURE_LAYER    = 0x2200, // optional, repeat per layer
-                // char* name (\n terminated)
-                // TODO - scale, offset, effects
-        OOF_OBJECT                = 0x3000,
-            // char* name (\n terminated)
-            // unsigned short numSharedVertices
-            OOF_VSHAREDPOSITIONS        = 0x3100, // present only if numSharedVertices > 0
-                // float* (x,y,z) * numVertices
-            OOF_VSHAREDNORMALS        = 0x3200, // optional, present only if numSharedVertices > 0
-                // float* (x,y,z) * numVertices
-            OOF_VSHAREDTEXCOORDS        = 0x3300, // optional, present only if numSharedVertices > 0
-                // float* (u,v) * numVertices
-            OOF_VSHAREDCOLOURS        = 0x3400, // optional, present only if numSharedVertices > 0
-                // float* (r,g,b) * numVertices
-            OOF_MATERIAL_GROUP    = 0x3500, // optional, present only if numSharedVertices > 0
-                // unsigned short materialIndex
-                // unsigned short numFaces
-                // unsigned short* faceVertexIndices ((v1, v2, v3) * numFaces)
-                // unsigned short numDedicatedVertices
-                OOF_VPOSITIONS        = 0x3510, //present only if numDedicatedVertices > 0
-                    // float* (x,y,z) * numVertices
-                OOF_VNORMALS        = 0x3520, // optional, present only if numDedicatedVertices > 0
-                    // float* (x,y,z) * numVertices
-                OOF_VTEXCOORDS        = 0x3530, // optional, present only if numDedicatedVertices > 0
-                    // float* (u,v) * numVertices
-                OOF_VCOLOURS        = 0x3540, // optional, present only if numDedicatedVertices > 0
-                    // float* (r,g,b) * numVertices
-    };
+enum OofChunkIDs {
+  OOF_HEADER                = 0x1000,
+  // ENTIRE HEADER ALWAYS UNCOMPRESSED
+  // bool compression
+  // unsigned short numMaterials
+  // unsigned short numObjects
+  OOF_MATERIAL            = 0x2000,
+  // char* name (\n terminated)
+  // AMBIENT
+  // float r, g, b
+  // DIFFUSE
+  // float r, g, b
+  // SPECULAR
+  // float r, g, b
+  // SHININESS
+  // float val;
+  OOF_TEXTURE_LAYER    = 0x2200, // optional, repeat per layer
+  // char* name (\n terminated)
+  // TODO - scale, offset, effects
+  OOF_OBJECT                = 0x3000,
+  // char* name (\n terminated)
+  // unsigned short numSharedVertices
+  OOF_VSHAREDPOSITIONS        = 0x3100, // present only if numSharedVertices > 0
+  // float* (x,y,z) * numVertices
+  OOF_VSHAREDNORMALS        = 0x3200, // optional, present only if numSharedVertices > 0
+  // float* (x,y,z) * numVertices
+  OOF_VSHAREDTEXCOORDS        = 0x3300, // optional, present only if numSharedVertices > 0
+  // float* (u,v) * numVertices
+  OOF_VSHAREDCOLOURS        = 0x3400, // optional, present only if numSharedVertices > 0
+  // float* (r,g,b) * numVertices
+  OOF_MATERIAL_GROUP    = 0x3500, // optional, present only if numSharedVertices > 0
+  // unsigned short materialIndex
+  // unsigned short numFaces
+  // unsigned short* faceVertexIndices ((v1, v2, v3) * numFaces)
+  // unsigned short numDedicatedVertices
+  OOF_VPOSITIONS        = 0x3510, //present only if numDedicatedVertices > 0
+  // float* (x,y,z) * numVertices
+  OOF_VNORMALS        = 0x3520, // optional, present only if numDedicatedVertices > 0
+  // float* (x,y,z) * numVertices
+  OOF_VTEXCOORDS        = 0x3530, // optional, present only if numDedicatedVertices > 0
+  // float* (u,v) * numVertices
+  OOF_VCOLOURS        = 0x3540, // optional, present only if numDedicatedVertices > 0
+  // float* (r,g,b) * numVertices
+};
 
 } // namespace
 

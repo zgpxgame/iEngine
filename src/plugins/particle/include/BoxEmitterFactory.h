@@ -32,30 +32,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Factory class for particle emitter of type "Box".
-    @remarks
-        Creates instances of BoxEmitter to be used in particle systems. 
-    */
-    class _ParticleFXExport BoxEmitterFactory : public ParticleEmitterFactory
-    {
-    protected:
+/** Factory class for particle emitter of type "Box".
+@remarks
+    Creates instances of BoxEmitter to be used in particle systems.
+*/
+class _ParticleFXExport BoxEmitterFactory : public ParticleEmitterFactory {
+protected:
 
-    public:
-        /** See ParticleEmitterFactory */
-        String getName() 
-        { 
-            return "Box"; 
-        }
+public:
+  /** See ParticleEmitterFactory */
+  String getName() {
+    return "Box";
+  }
 
-        /** See ParticleEmitterFactory */
-        ParticleEmitter* createEmitter(void) 
-        {
-            ParticleEmitter* emit = new BoxEmitter();
-            mEmitters.push_back(emit);
-            return emit;
-        }
+  /** See ParticleEmitterFactory */
+  ParticleEmitter* createEmitter(void) {
+    ParticleEmitter* emit = new BoxEmitter();
+    mEmitters.push_back(emit);
+    return emit;
+  }
 
-    };
+};
 
 }
 

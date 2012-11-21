@@ -37,140 +37,139 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace renderer {
 
 
-    /** Class for managing Controller instances.
-        @remarks
-            This class is responsible to keeping tabs on all the Controller instances registered
-            and updating them when requested. It also provides a number of convenience methods
-            for creating commonly used controllers (such as texture animators).
-    */
-    class _RendererExport ControllerManager : public Singleton<ControllerManager>
-    {
-    protected:
-        typedef std::set<Controller*> ControllerList;
-        ControllerList mControllers;
+/** Class for managing Controller instances.
+    @remarks
+        This class is responsible to keeping tabs on all the Controller instances registered
+        and updating them when requested. It also provides a number of convenience methods
+        for creating commonly used controllers (such as texture animators).
+*/
+class _RendererExport ControllerManager : public Singleton<ControllerManager> {
+protected:
+  typedef std::set<Controller*> ControllerList;
+  ControllerList mControllers;
 
-        /// Global predefined controller
-        SharedPtr<ControllerValue> mFrameTimeController;
+  /// Global predefined controller
+  SharedPtr<ControllerValue> mFrameTimeController;
 
-    public:
-        ControllerManager();
-        ~ControllerManager();
+public:
+  ControllerManager();
+  ~ControllerManager();
 
-        /** Creates a new controller and registers it with the manager.
-        */
-        Controller* createController(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func);
+  /** Creates a new controller and registers it with the manager.
+  */
+  Controller* createController(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func);
 
-        /** Destroys all the controllers in existence.
-        */
-        void clearControllers(void);
+  /** Destroys all the controllers in existence.
+  */
+  void clearControllers(void);
 
-        /** Updates all the registered controllers.
-        */
-        void updateAllControllers(void);
-
-
-        /** Returns a ControllerValue which provides the time since the last frame as a control value source.
-            @remarks
-                A common source value to use to feed into a controller is the time since the last frame. This method
-                returns a pointer to a common source value which provides this information.
-            @par
-                Remember the value will only be up to date after the RenderSystem::beginFrame method is called.
-            @see
-                RenderSystem::beginFrame
-        */
-        SharedPtr<ControllerValue> getFrameTimeSource(void);
-
-        /** Creates a texture layer animator controller.
-            @remarks
-                This helper method creates the Controller, ControllerValue and ControllerFunction classes required
-                to animate a texture.
-            @param
-                layer TextureLayer object to animate
-            @param
-                sequenceTime The amount of time in seconds it will take to loop through all the frames.
-        */
-        Controller* createTextureAnimator(Material::TextureLayer* layer, Real sequenceTime);
-
-        /** Creates a basic time-based texture coordinate modifier designed for creating scrolling textures.
-            @remarks
-                This simple method allows you to easily create constant-speed scrolling textures. If you want more
-                control, look up the ControllerManager::createTextureWaveTransformer for more complex wave-based
-                scrollers / stretchers / rotaters.
-            @param
-                layer The texture layer to animate.
-            @param
-                uSpeed Speed of horizontal (u-coord) scroll, in complete wraps per second
-            @param
-                vSpeed Speed of vertical (v-coord) scroll, in complete wraps per second
-        */
-        Controller* createTextureScroller(Material::TextureLayer* layer, Real uSpeed, Real vSpeed);
-
-        /** Creates a basic time-based texture coordinate modifier designed for creating rotating textures.
-            @return
-                This simple method allows you to easily create constant-speed rotating textures. If you want more
-                control, look up the ControllerManager::createTextureWaveTransformer for more complex wave-based
-                scrollers / stretchers / rotaters.
-            @param
-                layer The texture layer to rotate.
-            @param
-                vSpeed Speed of rotation, in complete anticlockwise revolutions per second
-        */
-        Controller* createTextureRotater(Material::TextureLayer* layer, Real speed);
-
-        /** Creates a very flexible time-based texture transformation which can alter the scale, position or
-            rotation of a texture based on a wave function.
-            @param
-                layer The texture layer to affect
-            @param
-                ttype The type of transform, either translate (scroll), scale (stretch) or rotate (spin)
-            @param
-                waveType The shape of the wave, see WaveformType enum for details
-            @param
-                base The base value of the output
-            @param
-                frequency The speed of the wave in cycles per second
-            @param
-                phase The offset of the start of the wave, e.g. 0.5 to start half-way through the wave
-            @param
-                amplitude Scales the output so that instead of lying within 0..1 it lies within 0..1*amplitude for exaggerated effects
-        */
-        Controller* createTextureWaveTransformer(Material::TextureLayer* layer, Material::TextureLayer::TextureTransformType ttype,
-            WaveformType waveType, Real base = 0, Real frequency = 1, Real phase = 0, Real amplitude = 1);
+  /** Updates all the registered controllers.
+  */
+  void updateAllControllers(void);
 
 
-        /** Override standard Singleton retrieval.
-            @remarks
-                Why do we do this? Well, it's because the Singleton implementation is in a .h file,
-                which means it gets compiled into anybody who includes it. This is needed for the Singleton
-                template to work, but we actually only want it compiled into the implementation of the
-                class based on the Singleton, not all of them. If we don't change this, we get link errors
-                when trying to use the Singleton-based class from an outside dll.
-            @par
-                This method just delegates to the template version anyway, but the implementation stays in this
-                single compilation unit, preventing link errors.
-        */
-        static ControllerManager& getSingleton(void);
+  /** Returns a ControllerValue which provides the time since the last frame as a control value source.
+      @remarks
+          A common source value to use to feed into a controller is the time since the last frame. This method
+          returns a pointer to a common source value which provides this information.
+      @par
+          Remember the value will only be up to date after the RenderSystem::beginFrame method is called.
+      @see
+          RenderSystem::beginFrame
+  */
+  SharedPtr<ControllerValue> getFrameTimeSource(void);
 
-        /** Removes & destroys the controller passed in as a pointer.
-        */
-        void destroyController(Controller* controller);
+  /** Creates a texture layer animator controller.
+      @remarks
+          This helper method creates the Controller, ControllerValue and ControllerFunction classes required
+          to animate a texture.
+      @param
+          layer TextureLayer object to animate
+      @param
+          sequenceTime The amount of time in seconds it will take to loop through all the frames.
+  */
+  Controller* createTextureAnimator(Material::TextureLayer* layer, Real sequenceTime);
 
-		/** Return relative speed of time as perceived by time based controllers.
-        @remarks
-            See setTimeFactor for full information on the meaning of this value.
-		*/
-		Real getTimeFactor(void) const;
+  /** Creates a basic time-based texture coordinate modifier designed for creating scrolling textures.
+      @remarks
+          This simple method allows you to easily create constant-speed scrolling textures. If you want more
+          control, look up the ControllerManager::createTextureWaveTransformer for more complex wave-based
+          scrollers / stretchers / rotaters.
+      @param
+          layer The texture layer to animate.
+      @param
+          uSpeed Speed of horizontal (u-coord) scroll, in complete wraps per second
+      @param
+          vSpeed Speed of vertical (v-coord) scroll, in complete wraps per second
+  */
+  Controller* createTextureScroller(Material::TextureLayer* layer, Real uSpeed, Real vSpeed);
 
-		/** Set the relative speed to update frame time based controllers.
-        @remarks
-            Normally any controllers which use time as an input (FrameTimeController) are updated
-            automatically in line with the real passage of time. This method allows you to change
-            that, so that controllers are told that the time is passing slower or faster than it
-            actually is. Use this to globally speed up / slow down the effect of time-based controllers.
-        @param tf The virtual speed of time (1.0 is real time).
-		*/
-		void setTimeFactor(Real tf);
-    };
+  /** Creates a basic time-based texture coordinate modifier designed for creating rotating textures.
+      @return
+          This simple method allows you to easily create constant-speed rotating textures. If you want more
+          control, look up the ControllerManager::createTextureWaveTransformer for more complex wave-based
+          scrollers / stretchers / rotaters.
+      @param
+          layer The texture layer to rotate.
+      @param
+          vSpeed Speed of rotation, in complete anticlockwise revolutions per second
+  */
+  Controller* createTextureRotater(Material::TextureLayer* layer, Real speed);
+
+  /** Creates a very flexible time-based texture transformation which can alter the scale, position or
+      rotation of a texture based on a wave function.
+      @param
+          layer The texture layer to affect
+      @param
+          ttype The type of transform, either translate (scroll), scale (stretch) or rotate (spin)
+      @param
+          waveType The shape of the wave, see WaveformType enum for details
+      @param
+          base The base value of the output
+      @param
+          frequency The speed of the wave in cycles per second
+      @param
+          phase The offset of the start of the wave, e.g. 0.5 to start half-way through the wave
+      @param
+          amplitude Scales the output so that instead of lying within 0..1 it lies within 0..1*amplitude for exaggerated effects
+  */
+  Controller* createTextureWaveTransformer(Material::TextureLayer* layer, Material::TextureLayer::TextureTransformType ttype,
+      WaveformType waveType, Real base = 0, Real frequency = 1, Real phase = 0, Real amplitude = 1);
+
+
+  /** Override standard Singleton retrieval.
+      @remarks
+          Why do we do this? Well, it's because the Singleton implementation is in a .h file,
+          which means it gets compiled into anybody who includes it. This is needed for the Singleton
+          template to work, but we actually only want it compiled into the implementation of the
+          class based on the Singleton, not all of them. If we don't change this, we get link errors
+          when trying to use the Singleton-based class from an outside dll.
+      @par
+          This method just delegates to the template version anyway, but the implementation stays in this
+          single compilation unit, preventing link errors.
+  */
+  static ControllerManager& getSingleton(void);
+
+  /** Removes & destroys the controller passed in as a pointer.
+  */
+  void destroyController(Controller* controller);
+
+  /** Return relative speed of time as perceived by time based controllers.
+      @remarks
+          See setTimeFactor for full information on the meaning of this value.
+  */
+  Real getTimeFactor(void) const;
+
+  /** Set the relative speed to update frame time based controllers.
+      @remarks
+          Normally any controllers which use time as an input (FrameTimeController) are updated
+          automatically in line with the real passage of time. This method allows you to change
+          that, so that controllers are told that the time is passing slower or faster than it
+          actually is. Use this to globally speed up / slow down the effect of time-based controllers.
+      @param tf The virtual speed of time (1.0 is real time).
+  */
+  void setTimeFactor(Real tf);
+};
 
 
 }

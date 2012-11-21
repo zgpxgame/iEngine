@@ -32,30 +32,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Factory class for particle emitter of type "Ellipsoid".
-    @remarks
-        Creates instances of EllipsoidEmitter to be used in particle systems. 
-    */
-    class _ParticleFXExport EllipsoidEmitterFactory : public ParticleEmitterFactory
-    {
-    protected:
+/** Factory class for particle emitter of type "Ellipsoid".
+@remarks
+    Creates instances of EllipsoidEmitter to be used in particle systems.
+*/
+class _ParticleFXExport EllipsoidEmitterFactory : public ParticleEmitterFactory {
+protected:
 
-    public:
-        /** See ParticleEmitterFactory */
-        String getName() 
-        { 
-            return "Ellipsoid"; 
-        }
+public:
+  /** See ParticleEmitterFactory */
+  String getName() {
+    return "Ellipsoid";
+  }
 
-        /** See ParticleEmitterFactory */
-        ParticleEmitter* createEmitter(void) 
-        {
-            ParticleEmitter* emit = new EllipsoidEmitter();
-            mEmitters.push_back(emit);
-            return emit;
-        }
+  /** See ParticleEmitterFactory */
+  ParticleEmitter* createEmitter(void) {
+    ParticleEmitter* emit = new EllipsoidEmitter();
+    mEmitters.push_back(emit);
+    return emit;
+  }
 
-    };
+};
 
 }
 

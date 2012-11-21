@@ -30,28 +30,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Wraps a chunk of memory, storing both size and a pointer to the data.
-        @remarks
-            This class simply wraps a chunk of memory. It provides extra info
-            about the size of the data contained within it, simple allocation
-            and free methods, and simple stream-like 'read' methods for
-            parsing through the memory chunk rather like a file.
-        @par
-            This class contains all the functionality of the DataChunk
-            superclass, only that when an object of this class gets deleted,
-            it also deletes the allocated memory (SD stands for Self-Delete).
-    */
-    class _RendererExport SDDataChunk : public DataChunk
-    {
-    public:
-        SDDataChunk();
-        SDDataChunk( void *pData, size_t size );
-        /** Overloaded destructor.
-            @note
-                Deletes the allocated chunk
-        */        
-        ~SDDataChunk();
-    };
+/** Wraps a chunk of memory, storing both size and a pointer to the data.
+    @remarks
+        This class simply wraps a chunk of memory. It provides extra info
+        about the size of the data contained within it, simple allocation
+        and free methods, and simple stream-like 'read' methods for
+        parsing through the memory chunk rather like a file.
+    @par
+        This class contains all the functionality of the DataChunk
+        superclass, only that when an object of this class gets deleted,
+        it also deletes the allocated memory (SD stands for Self-Delete).
+*/
+class _RendererExport SDDataChunk : public DataChunk {
+public:
+  SDDataChunk();
+  SDDataChunk( void *pData, size_t size );
+  /** Overloaded destructor.
+      @note
+          Deletes the allocated chunk
+  */
+  ~SDDataChunk();
+};
 
 }
 

@@ -31,33 +31,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    RenderWindow::RenderWindow()
-        : RenderTarget()
-    {
-    }
+RenderWindow::RenderWindow()
+  : RenderTarget() {
+}
 
-    //-----------------------------------------------------------------------
-    void RenderWindow::getMetrics(int &width, int &height, int &colourDepth, int &left, int &top)
-    {
-        width = mWidth;
-        height = mHeight;
-        colourDepth = mColourDepth;
-        left = mLeft;
-        top = mTop;
-    }
-    //-----------------------------------------------------------------------
-    bool RenderWindow::isFullScreen(void)
-    {
-        return mIsFullScreen;
-    }
-    //-----------------------------------------------------------------------
-    void RenderWindow::update(void)
-    {
-        // call superclass
-        RenderTarget::update();
+//-----------------------------------------------------------------------
+void RenderWindow::getMetrics(int &width, int &height, int &colourDepth, int &left, int &top) {
+  width = mWidth;
+  height = mHeight;
+  colourDepth = mColourDepth;
+  left = mLeft;
+  top = mTop;
+}
+//-----------------------------------------------------------------------
+bool RenderWindow::isFullScreen(void) {
+  return mIsFullScreen;
+}
+//-----------------------------------------------------------------------
+void RenderWindow::update(void) {
+  // call superclass
+  RenderTarget::update();
 
-        // Swap buffers
-        swapBuffers(Root::getSingleton().getRenderSystem()->getWaitForVerticalBlank());
-    }
+  // Swap buffers
+  swapBuffers(Root::getSingleton().getRenderSystem()->getWaitForVerticalBlank());
+}
 
 }

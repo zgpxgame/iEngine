@@ -41,7 +41,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #       define OgreGuard( a ) renderer::AutomaticGuardUnguard _auto_guard_object( __FUNC__ )
 #   endif
 
-#   define OgreUnguard() 
+#   define OgreUnguard()
 #   define OgreUnguardRet( a ) return a
 
 #else
@@ -73,109 +73,106 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define OGRE_CALL_STACK_DEPTH 512
 
 namespace renderer {
-    /** When thrown, provides information about an error that has occurred inside the engine.
-        @remarks
-            OGRE never uses return values to indicate errors. Instead, if an
-            error occurs, an exception is thrown, and this is the object that
-            encapsulates the detail of the problem. The application using
-            OGRE should always ensure that the exceptions are caught, so all
-            OGRE engine functions should occur within a
-            try{} catch(Ogre::Exception& e) {} block.
-        @par
-            The user application should never create any instances of this
-            object unless it wishes to unify its error handling using the
-            same object.
-    */
-    class _RendererExport Exception
-    {
-    protected:
-        long line;
-        int number;
-        String description;
-        String source;
-        String file;
-        ushort stackDepth;
-        static Exception* last;
+/** When thrown, provides information about an error that has occurred inside the engine.
+    @remarks
+        OGRE never uses return values to indicate errors. Instead, if an
+        error occurs, an exception is thrown, and this is the object that
+        encapsulates the detail of the problem. The application using
+        OGRE should always ensure that the exceptions are caught, so all
+        OGRE engine functions should occur within a
+        try{} catch(Ogre::Exception& e) {} block.
+    @par
+        The user application should never create any instances of this
+        object unless it wishes to unify its error handling using the
+        same object.
+*/
+class _RendererExport Exception {
+protected:
+  long line;
+  int number;
+  String description;
+  String source;
+  String file;
+  ushort stackDepth;
+  static Exception* last;
 
-        static OgreChar msFunctionStack[ OGRE_CALL_STACK_DEPTH ][ 256 ];
-        static ushort   msStackDepth;
-    public:
-        /** Static definitions of error codes.
-            @todo
-                Add many more exception codes, since we want the user to be able
-                to catch most of them.
-        */
-        enum ExceptionCodes {
-            UNIMPLEMENTED_FEATURE,
-            ERR_CANNOT_WRITE_TO_FILE,
-            ERR_NO_RENDERSYSTEM_SELECTED,
-            ERR_DIALOG_OPEN_ERROR,
-            ERR_INVALIDPARAMS,
-            ERR_RENDERINGAPI_ERROR,
-            ERR_DUPLICATE_ITEM,
-            ERR_ITEM_NOT_FOUND,
-            ERR_FILE_NOT_FOUND,
-            ERR_INTERNAL_ERROR,
-            ERR_RT_ASSERTION_FAILED
-        };
+  static OgreChar msFunctionStack[ OGRE_CALL_STACK_DEPTH ][ 256 ];
+  static ushort   msStackDepth;
+public:
+  /** Static definitions of error codes.
+      @todo
+          Add many more exception codes, since we want the user to be able
+          to catch most of them.
+  */
+  enum ExceptionCodes {
+    UNIMPLEMENTED_FEATURE,
+    ERR_CANNOT_WRITE_TO_FILE,
+    ERR_NO_RENDERSYSTEM_SELECTED,
+    ERR_DIALOG_OPEN_ERROR,
+    ERR_INVALIDPARAMS,
+    ERR_RENDERINGAPI_ERROR,
+    ERR_DUPLICATE_ITEM,
+    ERR_ITEM_NOT_FOUND,
+    ERR_FILE_NOT_FOUND,
+    ERR_INTERNAL_ERROR,
+    ERR_RT_ASSERTION_FAILED
+  };
 
-        /** Default constructor.
-        */
-        Exception( int number, const String& description, const String& source );
+  /** Default constructor.
+  */
+  Exception( int number, const String& description, const String& source );
 
-        /** Advanced constructor.
-        */
-        Exception( int number, const String& description, const String& source, char* file, long line );
+  /** Advanced constructor.
+  */
+  Exception( int number, const String& description, const String& source, char* file, long line );
 
-        /** Copy constructor.
-        */
-        Exception(const Exception& rhs);
+  /** Copy constructor.
+  */
+  Exception(const Exception& rhs);
 
-        /** Assignment operator.
-        */
-        void operator = (const Exception& rhs);
+  /** Assignment operator.
+  */
+  void operator = (const Exception& rhs);
 
-        /** Returns a string with the full description of this error.
-            @remarks
-                The description contains the error number, the description
-                supplied by the thrower, what routine threw the exception,
-                and will also supply extra platform-specific information
-                where applicable. For example - in the case of a rendering
-                library error, the description of the error will include both
-                the place in which OGRE found the problem, and a text
-                description from the 3D rendering library, if available.
-        */
-        String getFullDescription(void) const;
+  /** Returns a string with the full description of this error.
+      @remarks
+          The description contains the error number, the description
+          supplied by the thrower, what routine threw the exception,
+          and will also supply extra platform-specific information
+          where applicable. For example - in the case of a rendering
+          library error, the description of the error will include both
+          the place in which OGRE found the problem, and a text
+          description from the 3D rendering library, if available.
+  */
+  String getFullDescription(void) const;
 
-        /** Gets the error code.
-        */
-        int getNumber(void) throw();
+  /** Gets the error code.
+  */
+  int getNumber(void) throw();
 
-        /** Retrieves a pointer to the last exception created.
-        */
-        static Exception* getLastException(void) throw();
+  /** Retrieves a pointer to the last exception created.
+  */
+  static Exception* getLastException(void) throw();
 
-        /** Pushes a function on the stack.
-        */
-        static void _pushFunction( const String& strFuncName ) throw();
-        /** Pops a function from the stack.
-        */
-        static void _popFunction() throw();
+  /** Pushes a function on the stack.
+  */
+  static void _pushFunction( const String& strFuncName ) throw();
+  /** Pops a function from the stack.
+  */
+  static void _popFunction() throw();
 
-    };
+};
 
-    /** Internal class. Objects will automatically push/pop the function name for unwinding. */
-    class _RendererExport AutomaticGuardUnguard {
-    public:
-        AutomaticGuardUnguard(const String& funcName) throw()
-        {
-            Exception::_pushFunction(funcName);
-        }
-        ~AutomaticGuardUnguard() throw()
-        {
-            Exception::_popFunction();
-        }
-    };
+/** Internal class. Objects will automatically push/pop the function name for unwinding. */
+class _RendererExport AutomaticGuardUnguard {
+public:
+  AutomaticGuardUnguard(const String& funcName) throw() {
+    Exception::_pushFunction(funcName);
+  }
+  ~AutomaticGuardUnguard() throw() {
+    Exception::_popFunction();
+  }
+};
 
 } // Namespace Ogre
 #endif

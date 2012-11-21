@@ -31,28 +31,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "GLTexture.h"
 
 namespace renderer {
-    /** SDL/GL-specific implementation of a TextureManager */
-    class GLTextureManager : public TextureManager
-    {
-    public:
-        GLTextureManager();
-        virtual ~GLTextureManager();
+/** SDL/GL-specific implementation of a TextureManager */
+class GLTextureManager : public TextureManager {
+public:
+  GLTextureManager();
+  virtual ~GLTextureManager();
 
-        /** Creates a SDLTexture resource. 
-        */
-        virtual Texture* create( const String& name, TextureType texType);
-        /** Note that this function is not yet implemented.
-            @todo
-                Implement correct surface creation in the texture source file.
-        */
-        virtual Texture * createAsRenderTarget( const String& name ) { return NULL; }
+  /** Creates a SDLTexture resource.
+  */
+  virtual Texture* create( const String& name, TextureType texType);
+  /** Note that this function is not yet implemented.
+      @todo
+          Implement correct surface creation in the texture source file.
+  */
+  virtual Texture * createAsRenderTarget( const String& name ) {
+    return NULL;
+  }
 
-        virtual Texture * createManual( const String& name, TextureType texType,
-            uint width, uint height, uint num_mips, PixelFormat format, 
-            TextureUsage usage );
+  virtual Texture * createManual( const String& name, TextureType texType,
+                                  uint width, uint height, uint num_mips, PixelFormat format,
+                                  TextureUsage usage );
 
-        /** Unloads & destroys textures. */
-        void unloadAndDestroyAll();
-    };
+  /** Unloads & destroys textures. */
+  void unloadAndDestroyAll();
+};
 }
 #endif

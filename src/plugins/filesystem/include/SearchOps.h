@@ -9,18 +9,16 @@
 /* The max number of searches to allow at one time */
 #define MAX_FIND_SEARCHES 10
 
-struct _find_search_t
-{
-    int in_use;
-    char *pattern;
-    DIR *dirfd;
+struct _find_search_t {
+  int in_use;
+  char *pattern;
+  DIR *dirfd;
 };
 
 /* Our simplified data entry structure */
-struct _finddata_t
-{
-    char *name;
-    int attrib;
+struct _finddata_t {
+  char *name;
+  int attrib;
 };
 
 #define _A_NORMAL 0x00  /* Normalfile-Noread/writerestrictions */

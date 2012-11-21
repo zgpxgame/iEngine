@@ -29,87 +29,73 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    MovableObject::MovableObject()
-    {
-        mParentNode = 0;
-        mVisible = true;
-        mUserObject = 0;
-        mRenderQueueID = RENDER_QUEUE_MAIN;
-        mQueryFlags = 0xFFFFFFFF;
-        mWorldAABB.setNull();
-    }
-    //-----------------------------------------------------------------------
-    void MovableObject::_notifyAttached(Node* parent)
-    {
-        mParentNode = parent;
-    }
-    //-----------------------------------------------------------------------
-    Node* MovableObject::getParentNode(void) const
-    {
-        return mParentNode;
-    }
-    //-----------------------------------------------------------------------
-    bool MovableObject::isAttached(void) const
-    {
-        return (mParentNode != 0);
+//-----------------------------------------------------------------------
+MovableObject::MovableObject() {
+  mParentNode = 0;
+  mVisible = true;
+  mUserObject = 0;
+  mRenderQueueID = RENDER_QUEUE_MAIN;
+  mQueryFlags = 0xFFFFFFFF;
+  mWorldAABB.setNull();
+}
+//-----------------------------------------------------------------------
+void MovableObject::_notifyAttached(Node* parent) {
+  mParentNode = parent;
+}
+//-----------------------------------------------------------------------
+Node* MovableObject::getParentNode(void) const {
+  return mParentNode;
+}
+//-----------------------------------------------------------------------
+bool MovableObject::isAttached(void) const {
+  return (mParentNode != 0);
 
-    }
-    //-----------------------------------------------------------------------
-    void MovableObject::setVisible(bool visible)
-    {
-        mVisible = visible;
-    }
-    //-----------------------------------------------------------------------
-    bool MovableObject::isVisible(void) const
-    {
-        return mVisible;
+}
+//-----------------------------------------------------------------------
+void MovableObject::setVisible(bool visible) {
+  mVisible = visible;
+}
+//-----------------------------------------------------------------------
+bool MovableObject::isVisible(void) const {
+  return mVisible;
 
-    }
-    //-----------------------------------------------------------------------
-    void MovableObject::setRenderQueueGroup(RenderQueueGroupID queueID)
-    {
-        mRenderQueueID = queueID;
-    }
-    //-----------------------------------------------------------------------
-    RenderQueueGroupID MovableObject::getRenderQueueGroup(void)
-    {
-        return mRenderQueueID;
-    }
-    //-----------------------------------------------------------------------
-	Matrix4 MovableObject::_getParentNodeFullTransform(void) const
-	{
-		
-		if(mParentNode)
-		{
-			// object attached to a sceneNode
-			return mParentNode->_getFullTransform();
-		}
-        // fallback
-        return Matrix4::IDENTITY;
-	}
-    //-----------------------------------------------------------------------
-    const AxisAlignedBox& MovableObject::getWorldBoundingBox(bool derive) const
-    {
-        if (derive)
-        {
-            mWorldAABB = this->getBoundingBox();
-            mWorldAABB.transform(_getParentNodeFullTransform());
-        }
+}
+//-----------------------------------------------------------------------
+void MovableObject::setRenderQueueGroup(RenderQueueGroupID queueID) {
+  mRenderQueueID = queueID;
+}
+//-----------------------------------------------------------------------
+RenderQueueGroupID MovableObject::getRenderQueueGroup(void) {
+  return mRenderQueueID;
+}
+//-----------------------------------------------------------------------
+Matrix4 MovableObject::_getParentNodeFullTransform(void) const {
 
-        return mWorldAABB;
+  if(mParentNode) {
+    // object attached to a sceneNode
+    return mParentNode->_getFullTransform();
+  }
+  // fallback
+  return Matrix4::IDENTITY;
+}
+//-----------------------------------------------------------------------
+const AxisAlignedBox& MovableObject::getWorldBoundingBox(bool derive) const {
+  if (derive) {
+    mWorldAABB = this->getBoundingBox();
+    mWorldAABB.transform(_getParentNodeFullTransform());
+  }
 
-    }
-    //-----------------------------------------------------------------------
-	const Sphere& MovableObject::getWorldBoundingSphere(bool derive) const
-	{
-		if (derive)
-		{
-			mWorldBoundingSphere.setRadius(getBoundingRadius());
-			mWorldBoundingSphere.setCenter(mParentNode->_getDerivedPosition());
-		}
-		return mWorldBoundingSphere;
-	}
+  return mWorldAABB;
+
+}
+//-----------------------------------------------------------------------
+const Sphere& MovableObject::getWorldBoundingSphere(bool derive) const {
+  if (derive) {
+    mWorldBoundingSphere.setRadius(getBoundingRadius());
+    mWorldBoundingSphere.setCenter(mParentNode->_getDerivedPosition());
+  }
+  return mWorldBoundingSphere;
+}
 
 }
 

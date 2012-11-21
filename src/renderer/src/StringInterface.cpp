@@ -26,25 +26,22 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    ParamDictionaryMap StringInterface::msDictionary;
+ParamDictionaryMap StringInterface::msDictionary;
 
 
-    bool StringInterface::setParameter(const String& name, const String& value)
-    {
-        // Get dictionary
-        ParamDictionary* dict = getParamDictionary();
+bool StringInterface::setParameter(const String& name, const String& value) {
+  // Get dictionary
+  ParamDictionary* dict = getParamDictionary();
 
-        if (dict)
-        {
-            // Look up command object
-            ParamCommand* cmd = dict->getParamCommand(name);
-            if (cmd)
-            {
-                cmd->doSet(this, value);
-                return true;
-            }
-        }
-        // Fallback
-        return false;
+  if (dict) {
+    // Look up command object
+    ParamCommand* cmd = dict->getParamCommand(name);
+    if (cmd) {
+      cmd->doSet(this, value);
+      return true;
     }
+  }
+  // Fallback
+  return false;
+}
 }

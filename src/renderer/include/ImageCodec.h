@@ -29,38 +29,36 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Codec specialized in images.
-        @remarks
-            The users implementing subclasses of ImageCodec are required to return
-            a valid pointer to a ImageData class from the decode(...) function.
-    */
-    class _RendererExport ImageCodec
-    {
-	protected:
-		static bool _is_initialized;
+/** Codec specialized in images.
+    @remarks
+        The users implementing subclasses of ImageCodec are required to return
+        a valid pointer to a ImageData class from the decode(...) function.
+*/
+class _RendererExport ImageCodec {
+protected:
+  static bool _is_initialized;
 
-    public:
-        /** Codec return class for images. Has imformation about the size and the
-            pixel format of the image. */
-        class ImageData
-        {
-        public:
-            uint height;
-            uint width;
+public:
+  /** Codec return class for images. Has imformation about the size and the
+      pixel format of the image. */
+  class ImageData {
+  public:
+    uint height;
+    uint width;
 
-            PixelFormat format;
-        };
+    PixelFormat format;
+  };
 
-    public:
-        virtual void code( const DataChunk& input, DataChunk* output ) const;
-        virtual ImageData * decode( const DataChunk& input, DataChunk* output ) const;
-        /** Encodes data to a file.
-        @param input Chunk containing data to write
-        @param outFileName Filename to output to (extension implies type)
-        @param pData ImageData pointer
-        */
-        void SaveToFile( const DataChunk& input, const String& outFileName, ImageData* pData) const;
-    };
+public:
+  virtual void code( const DataChunk& input, DataChunk* output ) const;
+  virtual ImageData * decode( const DataChunk& input, DataChunk* output ) const;
+  /** Encodes data to a file.
+  @param input Chunk containing data to write
+  @param outFileName Filename to output to (extension implies type)
+  @param pData ImageData pointer
+  */
+  void SaveToFile( const DataChunk& input, const String& outFileName, ImageData* pData) const;
+};
 
 } // namespace
 

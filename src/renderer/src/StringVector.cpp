@@ -26,9 +26,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** @file OgreStringVector.cpp
-        @note 
-            Nothing done here, since all the member functions should be
-            inlined.
-    */
+/** @file OgreStringVector.cpp
+    @note
+        Nothing done here, since all the member functions should be
+        inlined.
+*/
 }

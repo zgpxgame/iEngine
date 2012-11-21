@@ -32,58 +32,55 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    // LogMessageLevel + LoggingLevel > LOG_THRESHOLD = message logged
-    #define LOG_THRESHOLD 4
+// LogMessageLevel + LoggingLevel > LOG_THRESHOLD = message logged
+#define LOG_THRESHOLD 4
 
-    /** The level of detail to which the log will go into.
-    */
-    enum LoggingLevel
-    {
-        LL_LOW = 1,
-        LL_NORMAL = 2,
-        LL_BOREME = 3
-    };
+/** The level of detail to which the log will go into.
+*/
+enum LoggingLevel {
+  LL_LOW = 1,
+  LL_NORMAL = 2,
+  LL_BOREME = 3
+};
 
-    /** The importance of a logged message.
-    */
-    enum LogMessageLevel
-    {
-        LML_TRIVIAL = 1,
-        LML_NORMAL = 2,
-        LML_CRITICAL = 3
-    };
+/** The importance of a logged message.
+*/
+enum LogMessageLevel {
+  LML_TRIVIAL = 1,
+  LML_NORMAL = 2,
+  LML_CRITICAL = 3
+};
 
-    /** Log class for writing debug/log data to files.
-        @note
-            <br>Should not be used directly, but trough the LogManager class.
-    */
-    class _RendererExport Log
-    {
-    protected:
-        std::ofstream mfpLog;
-        LoggingLevel mLogLevel;
-        bool mDebugOut;
+/** Log class for writing debug/log data to files.
+    @note
+        <br>Should not be used directly, but trough the LogManager class.
+*/
+class _RendererExport Log {
+protected:
+  std::ofstream mfpLog;
+  LoggingLevel mLogLevel;
+  bool mDebugOut;
 
-    public:
-        /** Usual constructor - called by LogManager.
-        */
-        Log( const String& name, bool debugOutput = true);
+public:
+  /** Usual constructor - called by LogManager.
+  */
+  Log( const String& name, bool debugOutput = true);
 
-        /** Default destructor.
-        */
-        ~Log();
+  /** Default destructor.
+  */
+  ~Log();
 
-        /** Log a message to the debugger and to log file (the default is
-            "<code>OGRE.log</code>"),
-        */
-        void logMessage(
-            const String& message,
-            LogMessageLevel lml = LML_NORMAL);
+  /** Log a message to the debugger and to log file (the default is
+      "<code>OGRE.log</code>"),
+  */
+  void logMessage(
+    const String& message,
+    LogMessageLevel lml = LML_NORMAL);
 
-        /** Sets the level of the log detail.
-        */
-        void setLogDetail(LoggingLevel ll);
-    };
+  /** Sets the level of the log detail.
+  */
+  void setLogDetail(LoggingLevel ll);
+};
 
 }
 

@@ -26,43 +26,37 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "GLTextureManager.h"
 
 namespace renderer {
-    //-----------------------------------------------------------------------------
-    GLTextureManager::GLTextureManager()
-        : TextureManager()
-    {
-    }
-    //-----------------------------------------------------------------------------
-    GLTextureManager::~GLTextureManager()
-    {
-        this->unloadAndDestroyAll();
-    }
-    //-----------------------------------------------------------------------------
-    Texture* GLTextureManager::create( const String& name, TextureType texType)
-    {
-        GLTexture* t = new GLTexture(name, texType);
-        t->enable32Bit(mIs32Bit);
-        return t;
-    }
-    //-----------------------------------------------------------------------------
-    Texture* GLTextureManager::createManual( const String& name, 
-        TextureType texType, uint width, uint height, uint num_mips, 
-        PixelFormat format, TextureUsage usage )
-    {
-        GLTexture* t = new GLTexture(name, texType, width, height, num_mips, format, usage);
-        t->enable32Bit(mIs32Bit);
-        return t;
-    }
-    //-----------------------------------------------------------------------------
-    void GLTextureManager::unloadAndDestroyAll()
-    {
-        // Unload & delete resources in turn
-        for (ResourceMap::iterator i = mResources.begin(); i != mResources.end(); ++i)
-        {
-            i->second->unload();
-            delete i->second;
-        }
+//-----------------------------------------------------------------------------
+GLTextureManager::GLTextureManager()
+  : TextureManager() {
+}
+//-----------------------------------------------------------------------------
+GLTextureManager::~GLTextureManager() {
+  this->unloadAndDestroyAll();
+}
+//-----------------------------------------------------------------------------
+Texture* GLTextureManager::create( const String& name, TextureType texType) {
+  GLTexture* t = new GLTexture(name, texType);
+  t->enable32Bit(mIs32Bit);
+  return t;
+}
+//-----------------------------------------------------------------------------
+Texture* GLTextureManager::createManual( const String& name,
+    TextureType texType, uint width, uint height, uint num_mips,
+    PixelFormat format, TextureUsage usage ) {
+  GLTexture* t = new GLTexture(name, texType, width, height, num_mips, format, usage);
+  t->enable32Bit(mIs32Bit);
+  return t;
+}
+//-----------------------------------------------------------------------------
+void GLTextureManager::unloadAndDestroyAll() {
+  // Unload & delete resources in turn
+  for (ResourceMap::iterator i = mResources.begin(); i != mResources.end(); ++i) {
+    i->second->unload();
+    delete i->second;
+  }
 
-        // Empty the list
-        mResources.clear();
-    }
+  // Empty the list
+  mResources.clear();
+}
 }

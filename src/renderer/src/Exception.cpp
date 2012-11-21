@@ -28,132 +28,121 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "LogManager.h"
 
 //#ifdef __BORLANDC__
-    #include <stdio.h>
+#include <stdio.h>
 //#endif
 
 namespace renderer {
 
-    Exception* Exception::last = NULL;
+Exception* Exception::last = NULL;
 
-    OgreChar Exception::msFunctionStack[ OGRE_CALL_STACK_DEPTH ][ 256 ];
-    ushort   Exception::msStackDepth = 0;
+OgreChar Exception::msFunctionStack[ OGRE_CALL_STACK_DEPTH ][ 256 ];
+ushort   Exception::msStackDepth = 0;
 
-    Exception::Exception(int num, const String& desc, const String& src) :
-        line( 0 ),
-        number( num ),
-        description( desc ),
-        source( src ),
-        stackDepth( msStackDepth )
-    {
-        // Log this error
-        LogManager::getSingleton().logMessage(this->getFullDescription());
+Exception::Exception(int num, const String& desc, const String& src) :
+  line( 0 ),
+  number( num ),
+  description( desc ),
+  source( src ),
+  stackDepth( msStackDepth ) {
+  // Log this error
+  LogManager::getSingleton().logMessage(this->getFullDescription());
 
-        // Set last
-        last = this;
-    }
+  // Set last
+  last = this;
+}
 
-    Exception::Exception(int num, const String& desc, const String& src, char* fil, long lin) :
-        line( lin ),
-        number( num ),
-        description( desc ),
-        source( src ),
-        file( fil ),
-        stackDepth( msStackDepth )
-    {
-        // Log this error
-        LogManager::getSingleton().logMessage(this->getFullDescription());
+Exception::Exception(int num, const String& desc, const String& src, char* fil, long lin) :
+  line( lin ),
+  number( num ),
+  description( desc ),
+  source( src ),
+  file( fil ),
+  stackDepth( msStackDepth ) {
+  // Log this error
+  LogManager::getSingleton().logMessage(this->getFullDescription());
 
-        // Set last
-        last = this;
-    }
+  // Set last
+  last = this;
+}
 
-    Exception::Exception(const Exception& rhs)
-        : line( rhs.line ), number( rhs.number ), description( rhs.description ), source( rhs.source ), file( rhs.file )
-    {
-    }
+Exception::Exception(const Exception& rhs)
+  : line( rhs.line ), number( rhs.number ), description( rhs.description ), source( rhs.source ), file( rhs.file ) {
+}
 
-    void Exception::operator = ( const Exception& rhs )
-    {
-        description = rhs.description;
-        number = rhs.number;
-        source = rhs.source;
-        file = rhs.file;
-        line = rhs.line;
-    }
+void Exception::operator = ( const Exception& rhs ) {
+  description = rhs.description;
+  number = rhs.number;
+  source = rhs.source;
+  file = rhs.file;
+  line = rhs.line;
+}
 
-    String Exception::getFullDescription(void) const
-    {
-        char strNum[12];
-        String desc;
+String Exception::getFullDescription(void) const {
+  char strNum[12];
+  String desc;
 
-        sprintf( strNum, "%d", number );
-        desc =  "An exception has been thrown!\n"
-                "\n"
-                "-----------------------------------\nDetails:\n-----------------------------------\n"
-                "Error #: ";
-        desc += strNum;
-        desc += "\nFunction: ";
-        desc += source;
-        desc += "\nDescription: ";
-        desc += description;
-        desc += ". ";
+  sprintf( strNum, "%d", number );
+  desc =  "An exception has been thrown!\n"
+          "\n"
+          "-----------------------------------\nDetails:\n-----------------------------------\n"
+          "Error #: ";
+  desc += strNum;
+  desc += "\nFunction: ";
+  desc += source;
+  desc += "\nDescription: ";
+  desc += description;
+  desc += ". ";
 
-        if( line > 0 )
-        {
-            desc += "\nFile: ";
-            desc += file;
+  if( line > 0 ) {
+    desc += "\nFile: ";
+    desc += file;
 
-            char szLine[20];
+    char szLine[20];
 
-            desc += "\nLine: ";
-            _snprintf(szLine, 20, "%ld", line);
+    desc += "\nLine: ";
+    _snprintf(szLine, 20, "%ld", line);
 
-            desc += szLine;
-        }
+    desc += szLine;
+  }
 
 #ifdef OGRE_STACK_UNWINDING
-        String funcStack = "\nStack unwinding: ";
+  String funcStack = "\nStack unwinding: ";
 
-        /* Will cause an overflow, that's why we check that it's smaller.
-           Also note that the call stack index may be greater than the actual call
-           stack size - that's why we begin unrolling with the smallest of the two. */
-        for( 
-            ushort stackUnroll = stackDepth <= OGRE_CALL_STACK_DEPTH ? ( stackDepth - 1 ) : ( OGRE_CALL_STACK_DEPTH - 1 ); 
-            stackUnroll < stackDepth; stackUnroll-- )
-        {
-            funcStack += msFunctionStack[ stackUnroll ];
-            funcStack += "(..) <- ";
-        }
+  /* Will cause an overflow, that's why we check that it's smaller.
+     Also note that the call stack index may be greater than the actual call
+     stack size - that's why we begin unrolling with the smallest of the two. */
+  for(
+    ushort stackUnroll = stackDepth <= OGRE_CALL_STACK_DEPTH ? ( stackDepth - 1 ) : ( OGRE_CALL_STACK_DEPTH - 1 );
+    stackUnroll < stackDepth; stackUnroll-- ) {
+    funcStack += msFunctionStack[ stackUnroll ];
+    funcStack += "(..) <- ";
+  }
 
-        desc += funcStack;
-        desc += "<<beginning of stack>>";
+  desc += funcStack;
+  desc += "<<beginning of stack>>";
 #endif
 
-        return desc;
-    }
+  return desc;
+}
 
-    int Exception::getNumber(void) throw()
-    {
-        return number;
-    }
+int Exception::getNumber(void) throw() {
+  return number;
+}
 
-    Exception* Exception::getLastException(void) throw()
-    {
-        return last;
-    }
+Exception* Exception::getLastException(void) throw() {
+  return last;
+}
 
-    //-----------------------------------------------------------------------
-    void Exception::_pushFunction( const String& strFuncName ) throw()
-    {
-        if( msStackDepth < OGRE_CALL_STACK_DEPTH )
-            strncpy( msFunctionStack[ msStackDepth ], strFuncName.c_str(), 255 );
-        msStackDepth++;
-    }
+//-----------------------------------------------------------------------
+void Exception::_pushFunction( const String& strFuncName ) throw() {
+  if( msStackDepth < OGRE_CALL_STACK_DEPTH )
+    strncpy( msFunctionStack[ msStackDepth ], strFuncName.c_str(), 255 );
+  msStackDepth++;
+}
 
-    //-----------------------------------------------------------------------
-    void Exception::_popFunction() throw()
-    {
-        msStackDepth--;
-    }
+//-----------------------------------------------------------------------
+void Exception::_popFunction() throw() {
+  msStackDepth--;
+}
 }
 

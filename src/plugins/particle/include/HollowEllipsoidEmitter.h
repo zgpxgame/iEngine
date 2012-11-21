@@ -30,91 +30,87 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Particle emitter which emits particles randomly from points inside a hollow ellipsoid.
-    @remarks
-        This particle emitter emits particles from a hollow ellipsoid area.
-        The initial direction of these particles can either be a single
-        direction (i.e. a line), a random scattering inside a cone, or a random
-        scattering in all directions, depending the 'angle' parameter, which
-        is the angle across which to scatter the particles either side of the
-        base direction of the emitter. 
-    */
-    class _ParticleFXExport HollowEllipsoidEmitter : public EllipsoidEmitter
-    {
-    public:
-        /** Command object for inner size (see ParamCommand).*/
-        class CmdInnerX : public ParamCommand
-        {
-        public:
-            String doGet(void* target);
-            void doSet(void* target, const String& val);
-        };
-        /** Command object for inner size (see ParamCommand).*/
-        class CmdInnerY : public ParamCommand
-        {
-        public:
-            String doGet(void* target);
-            void doSet(void* target, const String& val);
-        };
-        /** Command object for inner size (see ParamCommand).*/
-        class CmdInnerZ : public ParamCommand
-        {
-        public:
-            String doGet(void* target);
-            void doSet(void* target, const String& val);
-        };
-        // See AreaEmitter
+/** Particle emitter which emits particles randomly from points inside a hollow ellipsoid.
+@remarks
+    This particle emitter emits particles from a hollow ellipsoid area.
+    The initial direction of these particles can either be a single
+    direction (i.e. a line), a random scattering inside a cone, or a random
+    scattering in all directions, depending the 'angle' parameter, which
+    is the angle across which to scatter the particles either side of the
+    base direction of the emitter.
+*/
+class _ParticleFXExport HollowEllipsoidEmitter : public EllipsoidEmitter {
+public:
+  /** Command object for inner size (see ParamCommand).*/
+  class CmdInnerX : public ParamCommand {
+  public:
+    String doGet(void* target);
+    void doSet(void* target, const String& val);
+  };
+  /** Command object for inner size (see ParamCommand).*/
+  class CmdInnerY : public ParamCommand {
+  public:
+    String doGet(void* target);
+    void doSet(void* target, const String& val);
+  };
+  /** Command object for inner size (see ParamCommand).*/
+  class CmdInnerZ : public ParamCommand {
+  public:
+    String doGet(void* target);
+    void doSet(void* target, const String& val);
+  };
+  // See AreaEmitter
 
-        HollowEllipsoidEmitter();
+  HollowEllipsoidEmitter();
 
-        /** See ParticleEmitter. */
-        void _initParticle(Particle* pParticle);
+  /** See ParticleEmitter. */
+  void _initParticle(Particle* pParticle);
 
-        /** Sets the size of the clear space inside the area from where NO particles are emitted.
-        @param x,y,z
-            Parametric values describing the proportion of the shape which is hollow in each direction.
-            E.g. 0 is solid, 0.5 is half-hollow etc
-        */
-        void setInnerSize(Real x, Real y, Real z);
+  /** Sets the size of the clear space inside the area from where NO particles are emitted.
+  @param x,y,z
+      Parametric values describing the proportion of the shape which is hollow in each direction.
+      E.g. 0 is solid, 0.5 is half-hollow etc
+  */
+  void setInnerSize(Real x, Real y, Real z);
 
-        /** Sets the x component of the area inside the ellipsoid which doesn't emit particles. 
-        @param x
-            Parametric value describing the proportion of the shape which is hollow in this direction.
-            E.g. 0 is solid, 0.5 is half-hollow etc
-        */
-        void setInnerSizeX(Real x);
-        /** Sets the y component of the area inside the ellipsoid which doesn't emit particles. 
-        @param y
-            Parametric value describing the proportion of the shape which is hollow in this direction.
-            E.g. 0 is solid, 0.5 is half-hollow etc
-        */
-        void setInnerSizeY(Real y);
-        /** Sets the z component of the area inside the ellipsoid which doesn't emit particles. 
-        @param z
-            Parametric value describing the proportion of the shape which is hollow in this direction.
-            E.g. 0 is solid, 0.5 is half-hollow etc
-        */
-        void setInnerSizeZ(Real z);
-        /** Gets the x component of the area inside the ellipsoid which doesn't emit particles. */
-        Real getInnerSizeX(void);
-        /** Gets the y component of the area inside the ellipsoid which doesn't emit particles. */
-        Real getInnerSizeY(void);
-        /** Gets the z component of the area inside the ellipsoid which doesn't emit particles. */
-        Real getInnerSizeZ(void);
+  /** Sets the x component of the area inside the ellipsoid which doesn't emit particles.
+  @param x
+      Parametric value describing the proportion of the shape which is hollow in this direction.
+      E.g. 0 is solid, 0.5 is half-hollow etc
+  */
+  void setInnerSizeX(Real x);
+  /** Sets the y component of the area inside the ellipsoid which doesn't emit particles.
+  @param y
+      Parametric value describing the proportion of the shape which is hollow in this direction.
+      E.g. 0 is solid, 0.5 is half-hollow etc
+  */
+  void setInnerSizeY(Real y);
+  /** Sets the z component of the area inside the ellipsoid which doesn't emit particles.
+  @param z
+      Parametric value describing the proportion of the shape which is hollow in this direction.
+      E.g. 0 is solid, 0.5 is half-hollow etc
+  */
+  void setInnerSizeZ(Real z);
+  /** Gets the x component of the area inside the ellipsoid which doesn't emit particles. */
+  Real getInnerSizeX(void);
+  /** Gets the y component of the area inside the ellipsoid which doesn't emit particles. */
+  Real getInnerSizeY(void);
+  /** Gets the z component of the area inside the ellipsoid which doesn't emit particles. */
+  Real getInnerSizeZ(void);
 
-    protected:
-        // See ParticleEmitter
+protected:
+  // See ParticleEmitter
 
-        /// Size of 'clear' center area (> 0 and < 1.0)
-        Vector3 mInnerSize;
+  /// Size of 'clear' center area (> 0 and < 1.0)
+  Vector3 mInnerSize;
 
-        static CmdInnerX msCmdInnerX;
-        static CmdInnerY msCmdInnerY;
-        static CmdInnerZ msCmdInnerZ;
+  static CmdInnerX msCmdInnerX;
+  static CmdInnerY msCmdInnerY;
+  static CmdInnerZ msCmdInnerZ;
 
 
 
-    };
+};
 
 }
 

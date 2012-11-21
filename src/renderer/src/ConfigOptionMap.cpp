@@ -29,59 +29,49 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace renderer {
 
 #ifdef __OBSOLETE__DO__NOT__DEFINE__THIS__
-    ConfigOptionMap::ConfigOptionMap()
-    {
-    }
+ConfigOptionMap::ConfigOptionMap() {
+}
 
-    ConfigOptionMap::~ConfigOptionMap()
-    {
-    }
+ConfigOptionMap::~ConfigOptionMap() {
+}
 
-    void ConfigOptionMap::insert(const String& key, const ConfigOption& value)
-    {
-        mImpl.insert(MapImpl::value_type(key, value));
-    }
+void ConfigOptionMap::insert(const String& key, const ConfigOption& value) {
+  mImpl.insert(MapImpl::value_type(key, value));
+}
 
-    ConfigOptionMap::iterator ConfigOptionMap::find(const String& key)
-    {
-        MapImpl::iterator i = mImpl.find(key);
+ConfigOptionMap::iterator ConfigOptionMap::find(const String& key) {
+  MapImpl::iterator i = mImpl.find(key);
 
-        return iterator(i, mImpl.end());
+  return iterator(i, mImpl.end());
 
-    }
+}
 
 
-    ConfigOptionMap::iterator ConfigOptionMap::begin(void)
-    {
-        return iterator(mImpl.begin(), mImpl.end());
-    }
+ConfigOptionMap::iterator ConfigOptionMap::begin(void) {
+  return iterator(mImpl.begin(), mImpl.end());
+}
 
-    ConfigOptionMap::iterator::iterator(MapImpl::iterator startAt, MapImpl::iterator end)
-    {
-        mIter = startAt;
-        mEnd = end;
-    }
+ConfigOptionMap::iterator::iterator(MapImpl::iterator startAt, MapImpl::iterator end) {
+  mIter = startAt;
+  mEnd = end;
+}
 
-    bool ConfigOptionMap::iterator::end()
-    {
-        return (mIter == mEnd);
-    }
+bool ConfigOptionMap::iterator::end() {
+  return (mIter == mEnd);
+}
 
-    ConfigOptionMap::iterator& ConfigOptionMap::iterator::operator++()
-    {
-        mIter++;
-        return *this;
-    }
+ConfigOptionMap::iterator& ConfigOptionMap::iterator::operator++() {
+  mIter++;
+  return *this;
+}
 
-    const String& ConfigOptionMap::iterator::getKey()
-    {
-        return mIter->first;
-    }
+const String& ConfigOptionMap::iterator::getKey() {
+  return mIter->first;
+}
 
-    ConfigOption& ConfigOptionMap::iterator::getValue()
-    {
-        return mIter->second;
-    }
+ConfigOption& ConfigOptionMap::iterator::getValue() {
+  return mIter->second;
+}
 #endif
 
 }

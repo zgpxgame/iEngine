@@ -29,122 +29,103 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    Animation::InterpolationMode Animation::msDefaultInterpolationMode = Animation::IM_LINEAR;
-    //---------------------------------------------------------------------
-    Animation::Animation(const String& name, Real length) : mName(name), mLength(length)
-    {
-        mInterpolationMode = Animation::msDefaultInterpolationMode;
-    }
-    //---------------------------------------------------------------------
-    Animation::~Animation()
-    {
-        destroyAllTracks();
-    }
-    //---------------------------------------------------------------------
-    Real Animation::getLength(void) const
-    {
-        return mLength;
-    }
-    //---------------------------------------------------------------------
-    AnimationTrack* Animation::createTrack(unsigned short handle)
-    {
-        AnimationTrack* ret;
+Animation::InterpolationMode Animation::msDefaultInterpolationMode = Animation::IM_LINEAR;
+//---------------------------------------------------------------------
+Animation::Animation(const String& name, Real length) : mName(name), mLength(length) {
+  mInterpolationMode = Animation::msDefaultInterpolationMode;
+}
+//---------------------------------------------------------------------
+Animation::~Animation() {
+  destroyAllTracks();
+}
+//---------------------------------------------------------------------
+Real Animation::getLength(void) const {
+  return mLength;
+}
+//---------------------------------------------------------------------
+AnimationTrack* Animation::createTrack(unsigned short handle) {
+  AnimationTrack* ret;
 
-        ret = new AnimationTrack(this);
+  ret = new AnimationTrack(this);
 
-        mTrackList[handle] = ret;
-        return ret;
-    }
-    //---------------------------------------------------------------------
-    AnimationTrack* Animation::createTrack(unsigned short handle, Node* node)
-    {
-        AnimationTrack* ret = createTrack(handle);
+  mTrackList[handle] = ret;
+  return ret;
+}
+//---------------------------------------------------------------------
+AnimationTrack* Animation::createTrack(unsigned short handle, Node* node) {
+  AnimationTrack* ret = createTrack(handle);
 
-        ret->setAssociatedNode(node);
+  ret->setAssociatedNode(node);
 
-        return ret;
-    }
-    //---------------------------------------------------------------------
-    unsigned short Animation::getNumTracks(void) const
-    {
-        return (unsigned short)mTrackList.size();
-    }
-    //---------------------------------------------------------------------
-    AnimationTrack* Animation::getTrack(unsigned short handle) const
-    {
-        TrackList::const_iterator i = mTrackList.find(handle);
+  return ret;
+}
+//---------------------------------------------------------------------
+unsigned short Animation::getNumTracks(void) const {
+  return (unsigned short)mTrackList.size();
+}
+//---------------------------------------------------------------------
+AnimationTrack* Animation::getTrack(unsigned short handle) const {
+  TrackList::const_iterator i = mTrackList.find(handle);
 
-        if (i == mTrackList.end())
-        {
-            Except(Exception::ERR_ITEM_NOT_FOUND, 
-                "Cannot find track with the specified handle", 
-                "Animation::getTrackByHandle");
-        }
+  if (i == mTrackList.end()) {
+    Except(Exception::ERR_ITEM_NOT_FOUND,
+           "Cannot find track with the specified handle",
+           "Animation::getTrackByHandle");
+  }
 
-        return i->second;
+  return i->second;
 
-    }
-    //---------------------------------------------------------------------
-    void Animation::destroyTrack(unsigned short handle)
-    {
-        TrackList::iterator i = mTrackList.find(handle);
+}
+//---------------------------------------------------------------------
+void Animation::destroyTrack(unsigned short handle) {
+  TrackList::iterator i = mTrackList.find(handle);
 
-        delete i->second;
+  delete i->second;
 
-        mTrackList.erase(i);
-    }
-    //---------------------------------------------------------------------
-    void Animation::destroyAllTracks(void)
-    {
-        TrackList::iterator i;
-        for (i = mTrackList.begin(); i != mTrackList.end(); ++i)
-        {
-            delete i->second;
-        }
-        mTrackList.clear();
-    }
-    //---------------------------------------------------------------------
-    String Animation::getName(void) const
-    {
-        return mName;
-    }
-    //---------------------------------------------------------------------
-	void Animation::apply(Real timePos, Real weight, bool accumulate)
-    {
-        TrackList::iterator i;
-        for (i = mTrackList.begin(); i != mTrackList.end(); ++i)
-        {
-            i->second->apply(timePos, weight, accumulate);
-        }
+  mTrackList.erase(i);
+}
+//---------------------------------------------------------------------
+void Animation::destroyAllTracks(void) {
+  TrackList::iterator i;
+  for (i = mTrackList.begin(); i != mTrackList.end(); ++i) {
+    delete i->second;
+  }
+  mTrackList.clear();
+}
+//---------------------------------------------------------------------
+String Animation::getName(void) const {
+  return mName;
+}
+//---------------------------------------------------------------------
+void Animation::apply(Real timePos, Real weight, bool accumulate) {
+  TrackList::iterator i;
+  for (i = mTrackList.begin(); i != mTrackList.end(); ++i) {
+    i->second->apply(timePos, weight, accumulate);
+  }
 
 
-    }
-    //---------------------------------------------------------------------
-    void Animation::setInterpolationMode(InterpolationMode im)
-    {
-        mInterpolationMode = im;
-    }
-    //---------------------------------------------------------------------
-    Animation::InterpolationMode Animation::getInterpolationMode(void) const
-    {
-        return mInterpolationMode;
-    }
-    //---------------------------------------------------------------------
-    void Animation::setDefaultInterpolationMode(InterpolationMode im)
-    {
-        msDefaultInterpolationMode = im;
-    }
-    //---------------------------------------------------------------------
-    Animation::InterpolationMode Animation::getDefaultInterpolationMode(void)
-    {
-        return msDefaultInterpolationMode;
-    }
-    //---------------------------------------------------------------------
-    const Animation::TrackList& Animation::_getTrackList(void) const
-    {
-        return mTrackList;
+}
+//---------------------------------------------------------------------
+void Animation::setInterpolationMode(InterpolationMode im) {
+  mInterpolationMode = im;
+}
+//---------------------------------------------------------------------
+Animation::InterpolationMode Animation::getInterpolationMode(void) const {
+  return mInterpolationMode;
+}
+//---------------------------------------------------------------------
+void Animation::setDefaultInterpolationMode(InterpolationMode im) {
+  msDefaultInterpolationMode = im;
+}
+//---------------------------------------------------------------------
+Animation::InterpolationMode Animation::getDefaultInterpolationMode(void) {
+  return msDefaultInterpolationMode;
+}
+//---------------------------------------------------------------------
+const Animation::TrackList& Animation::_getTrackList(void) const {
+  return mTrackList;
 
-    }
+}
 
 }
 

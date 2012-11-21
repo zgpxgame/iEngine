@@ -27,66 +27,61 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Vector3.h"
 #include "Matrix3.h"
 
-namespace renderer
-{
+namespace renderer {
 
-    const Matrix4 Matrix4::ZERO(
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0 );
+const Matrix4 Matrix4::ZERO(
+  0, 0, 0, 0,
+  0, 0, 0, 0,
+  0, 0, 0, 0,
+  0, 0, 0, 0 );
 
-    const Matrix4 Matrix4::IDENTITY(
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1 );
-
-
-    inline Real
-        MINOR(const Matrix4& m, const int r0, const int r1, const int r2, const int c0, const int c1, const int c2)
-    {
-        return m[r0][c0] * (m[r1][c1] * m[r2][c2] - m[r2][c1] * m[r1][c2]) -
-            m[r0][c1] * (m[r1][c0] * m[r2][c2] - m[r2][c0] * m[r1][c2]) +
-            m[r0][c2] * (m[r1][c0] * m[r2][c1] - m[r2][c0] * m[r1][c1]);
-    }
+const Matrix4 Matrix4::IDENTITY(
+  1, 0, 0, 0,
+  0, 1, 0, 0,
+  0, 0, 1, 0,
+  0, 0, 0, 1 );
 
 
-    Matrix4 Matrix4::adjoint() const
-    {
-        return Matrix4( MINOR(*this, 1, 2, 3, 1, 2, 3),
-            -MINOR(*this, 0, 2, 3, 1, 2, 3),
-            MINOR(*this, 0, 1, 3, 1, 2, 3),
-            -MINOR(*this, 0, 1, 2, 1, 2, 3),
-
-            -MINOR(*this, 1, 2, 3, 0, 2, 3),
-            MINOR(*this, 0, 2, 3, 0, 2, 3),
-            -MINOR(*this, 0, 1, 3, 0, 2, 3),
-            MINOR(*this, 0, 1, 2, 0, 2, 3),
-
-            MINOR(*this, 1, 2, 3, 0, 1, 3),
-            -MINOR(*this, 0, 2, 3, 0, 1, 3),
-            MINOR(*this, 0, 1, 3, 0, 1, 3),
-            -MINOR(*this, 0, 1, 2, 0, 1, 3),
-
-            -MINOR(*this, 1, 2, 3, 0, 1, 2),
-            MINOR(*this, 0, 2, 3, 0, 1, 2),
-            -MINOR(*this, 0, 1, 3, 0, 1, 2),
-            MINOR(*this, 0, 1, 2, 0, 1, 2));
-    }
+inline Real
+MINOR(const Matrix4& m, const int r0, const int r1, const int r2, const int c0, const int c1, const int c2) {
+  return m[r0][c0] * (m[r1][c1] * m[r2][c2] - m[r2][c1] * m[r1][c2]) -
+         m[r0][c1] * (m[r1][c0] * m[r2][c2] - m[r2][c0] * m[r1][c2]) +
+         m[r0][c2] * (m[r1][c0] * m[r2][c1] - m[r2][c0] * m[r1][c1]);
+}
 
 
-    Real Matrix4::determinant() const
-    {
-        return m[0][0] * MINOR(*this, 1, 2, 3, 1, 2, 3) -
-            m[0][1] * MINOR(*this, 1, 2, 3, 0, 2, 3) +
-            m[0][2] * MINOR(*this, 1, 2, 3, 0, 1, 3) -
-            m[0][3] * MINOR(*this, 1, 2, 3, 0, 1, 2);
-    }
+Matrix4 Matrix4::adjoint() const {
+  return Matrix4( MINOR(*this, 1, 2, 3, 1, 2, 3),
+                  -MINOR(*this, 0, 2, 3, 1, 2, 3),
+                  MINOR(*this, 0, 1, 3, 1, 2, 3),
+                  -MINOR(*this, 0, 1, 2, 1, 2, 3),
 
-    Matrix4 Matrix4::inverse() const
-    {
-        return adjoint() * (1.0f / determinant());
-    }
+                  -MINOR(*this, 1, 2, 3, 0, 2, 3),
+                  MINOR(*this, 0, 2, 3, 0, 2, 3),
+                  -MINOR(*this, 0, 1, 3, 0, 2, 3),
+                  MINOR(*this, 0, 1, 2, 0, 2, 3),
+
+                  MINOR(*this, 1, 2, 3, 0, 1, 3),
+                  -MINOR(*this, 0, 2, 3, 0, 1, 3),
+                  MINOR(*this, 0, 1, 3, 0, 1, 3),
+                  -MINOR(*this, 0, 1, 2, 0, 1, 3),
+
+                  -MINOR(*this, 1, 2, 3, 0, 1, 2),
+                  MINOR(*this, 0, 2, 3, 0, 1, 2),
+                  -MINOR(*this, 0, 1, 3, 0, 1, 2),
+                  MINOR(*this, 0, 1, 2, 0, 1, 2));
+}
+
+
+Real Matrix4::determinant() const {
+  return m[0][0] * MINOR(*this, 1, 2, 3, 1, 2, 3) -
+         m[0][1] * MINOR(*this, 1, 2, 3, 0, 2, 3) +
+         m[0][2] * MINOR(*this, 1, 2, 3, 0, 1, 3) -
+         m[0][3] * MINOR(*this, 1, 2, 3, 0, 1, 2);
+}
+
+Matrix4 Matrix4::inverse() const {
+  return adjoint() * (1.0f / determinant());
+}
 
 }

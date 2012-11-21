@@ -43,87 +43,85 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Implementation of a Quaternion, i.e. a rotation around an axis.
-    */
-    class _RendererExport Quaternion
-    {
-    public:
-        Quaternion (
-            Real fW = 1.0,
-            Real fX = 0.0, Real fY = 0.0, Real fZ = 0.0);
-        Quaternion (const Quaternion& rkQ);
+/** Implementation of a Quaternion, i.e. a rotation around an axis.
+*/
+class _RendererExport Quaternion {
+public:
+  Quaternion (
+    Real fW = 1.0,
+    Real fX = 0.0, Real fY = 0.0, Real fZ = 0.0);
+  Quaternion (const Quaternion& rkQ);
 
-        void FromRotationMatrix (const Matrix3& kRot);
-        void ToRotationMatrix (Matrix3& kRot) const;
-        void FromAngleAxis (const Real& rfAngle, const Vector3& rkAxis);
-        void ToAngleAxis (Real& rfAngle, Vector3& rkAxis) const;
-        void FromAxes (const Vector3* akAxis);
-        void FromAxes (const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
-        void ToAxes (Vector3* akAxis) const;
-        void ToAxes (Vector3& xAxis, Vector3& yAxis, Vector3& zAxis);
+  void FromRotationMatrix (const Matrix3& kRot);
+  void ToRotationMatrix (Matrix3& kRot) const;
+  void FromAngleAxis (const Real& rfAngle, const Vector3& rkAxis);
+  void ToAngleAxis (Real& rfAngle, Vector3& rkAxis) const;
+  void FromAxes (const Vector3* akAxis);
+  void FromAxes (const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
+  void ToAxes (Vector3* akAxis) const;
+  void ToAxes (Vector3& xAxis, Vector3& yAxis, Vector3& zAxis);
 
-        Quaternion& operator= (const Quaternion& rkQ);
-        Quaternion operator+ (const Quaternion& rkQ) const;
-        Quaternion operator- (const Quaternion& rkQ) const;
-        Quaternion operator* (const Quaternion& rkQ) const;
-        Quaternion operator* (Real fScalar) const;
-        friend Quaternion operator* (Real fScalar,
-            const Quaternion& rkQ);
-        Quaternion operator- () const;
-        bool operator== (const Quaternion& rhs) const;
+  Quaternion& operator= (const Quaternion& rkQ);
+  Quaternion operator+ (const Quaternion& rkQ) const;
+  Quaternion operator- (const Quaternion& rkQ) const;
+  Quaternion operator* (const Quaternion& rkQ) const;
+  Quaternion operator* (Real fScalar) const;
+  friend Quaternion operator* (Real fScalar,
+                               const Quaternion& rkQ);
+  Quaternion operator- () const;
+  bool operator== (const Quaternion& rhs) const;
 
-        // functions of a quaternion
-        Real Dot (const Quaternion& rkQ) const;  // dot product
-        Real Norm () const;  // squared-length
-        Quaternion Inverse () const;  // apply to non-zero quaternion
-        Quaternion UnitInverse () const;  // apply to unit-length quaternion
-        Quaternion Exp () const;
-        Quaternion Log () const;
+  // functions of a quaternion
+  Real Dot (const Quaternion& rkQ) const;  // dot product
+  Real Norm () const;  // squared-length
+  Quaternion Inverse () const;  // apply to non-zero quaternion
+  Quaternion UnitInverse () const;  // apply to unit-length quaternion
+  Quaternion Exp () const;
+  Quaternion Log () const;
 
-        // rotation of a vector by a quaternion
-        Vector3 operator* (const Vector3& rkVector) const;
+  // rotation of a vector by a quaternion
+  Vector3 operator* (const Vector3& rkVector) const;
 
-        // spherical linear interpolation
-        static Quaternion Slerp (Real fT, const Quaternion& rkP,
-            const Quaternion& rkQ);
+  // spherical linear interpolation
+  static Quaternion Slerp (Real fT, const Quaternion& rkP,
+                           const Quaternion& rkQ);
 
-        static Quaternion SlerpExtraSpins (Real fT,
-            const Quaternion& rkP, const Quaternion& rkQ,
-            int iExtraSpins);
+  static Quaternion SlerpExtraSpins (Real fT,
+                                     const Quaternion& rkP, const Quaternion& rkQ,
+                                     int iExtraSpins);
 
-        // setup for spherical quadratic interpolation
-        static void Intermediate (const Quaternion& rkQ0,
-            const Quaternion& rkQ1, const Quaternion& rkQ2,
-            Quaternion& rka, Quaternion& rkB);
+  // setup for spherical quadratic interpolation
+  static void Intermediate (const Quaternion& rkQ0,
+                            const Quaternion& rkQ1, const Quaternion& rkQ2,
+                            Quaternion& rka, Quaternion& rkB);
 
-        // spherical quadratic interpolation
-        static Quaternion Squad (Real fT, const Quaternion& rkP,
-            const Quaternion& rkA, const Quaternion& rkB,
-            const Quaternion& rkQ);
+  // spherical quadratic interpolation
+  static Quaternion Squad (Real fT, const Quaternion& rkP,
+                           const Quaternion& rkA, const Quaternion& rkB,
+                           const Quaternion& rkQ);
 
-        // cutoff for sine near zero
-        static const Real ms_fEpsilon;
+  // cutoff for sine near zero
+  static const Real ms_fEpsilon;
 
-        // special values
-        static const Quaternion ZERO;
-        static const Quaternion IDENTITY;
+  // special values
+  static const Quaternion ZERO;
+  static const Quaternion IDENTITY;
 
-        Real w, x, y, z;
+  Real w, x, y, z;
 
-        /** Function for writing to a stream.
-        */
-        inline _RendererExport friend std::ostream& operator <<
-            ( std::ostream& o, const Quaternion& q )
-        {
-            o << "Quaternion(" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")";
-            return o;
-        }
+  /** Function for writing to a stream.
+  */
+  inline _RendererExport friend std::ostream& operator <<
+  ( std::ostream& o, const Quaternion& q ) {
+    o << "Quaternion(" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")";
+    return o;
+  }
 
-    };
+};
 
 }
 
 
 
 
-#endif 
+#endif

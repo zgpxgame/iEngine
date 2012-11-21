@@ -142,17 +142,17 @@ http://www.gnu.org/copyleft/lesser.txt.
 #       define GL_MIRRORED_REPEAT                0x8370
 #   endif
 // generate_mipmap
-#   ifdef GL_SGIS_generate_mipmap 
+#   ifdef GL_SGIS_generate_mipmap
 #       define GL_GENERATE_MIPMAP GL_GENERATE_MIPMAP_SGIS
 #   endif
 #endif
 
 namespace renderer {
-    // Forward declarations
-    class GLSupport;
-    class GLRenderSystem;
-    class GLTexture;
-    class GLTextureManager;
+// Forward declarations
+class GLSupport;
+class GLRenderSystem;
+class GLTexture;
+class GLTextureManager;
 
 }
 

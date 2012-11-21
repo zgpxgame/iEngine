@@ -4,24 +4,24 @@
 ** Copyright (C) 2002-2005, Marcelo E. Magallon <mmagallo[]debian org>
 ** Copyright (C) 2002, Lev Povalahev
 ** All rights reserved.
-** 
-** Redistribution and use in source and binary forms, with or without 
+**
+** Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are met:
-** 
-** * Redistributions of source code must retain the above copyright notice, 
+**
+** * Redistributions of source code must retain the above copyright notice,
 **   this list of conditions and the following disclaimer.
-** * Redistributions in binary form must reproduce the above copyright notice, 
-**   this list of conditions and the following disclaimer in the documentation 
+** * Redistributions in binary form must reproduce the above copyright notice,
+**   this list of conditions and the following disclaimer in the documentation
 **   and/or other materials provided with the distribution.
-** * The name of the author may be used to endorse or promote products 
+** * The name of the author may be used to endorse or promote products
 **   derived from this software without specific prior written permission.
 **
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-** AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+** AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ** IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-** ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-** LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-** CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+** ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+** LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+** CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
 ** SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
 ** INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 ** CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
@@ -70,72 +70,59 @@
  * These functions implement the functionality required in this file.
  */
 
-static GLuint _glewStrLen (const GLubyte* s)
-{
+static GLuint _glewStrLen (const GLubyte* s) {
   GLuint i=0;
   while (s+i != NULL && s[i] != '\0') i++;
   return i;
 }
 
-static GLuint _glewStrCLen (const GLubyte* s, GLubyte c)
-{
+static GLuint _glewStrCLen (const GLubyte* s, GLubyte c) {
   GLuint i=0;
   while (s+i != NULL && s[i] != '\0' && s[i] != c) i++;
   return i;
 }
 
-static GLboolean _glewStrSame (const GLubyte* a, const GLubyte* b, GLuint n)
-{
+static GLboolean _glewStrSame (const GLubyte* a, const GLubyte* b, GLuint n) {
   GLuint i=0;
   while (i < n && a+i != NULL && b+i != NULL && a[i] == b[i]) i++;
   return i == n ? GL_TRUE : GL_FALSE;
 }
 
-static GLboolean _glewStrSame1 (GLubyte** a, GLuint* na, const GLubyte* b, GLuint nb)
-{
-  while (*na > 0 && (**a == ' ' || **a == '\n' || **a == '\r' || **a == '\t'))
-  {
+static GLboolean _glewStrSame1 (GLubyte** a, GLuint* na, const GLubyte* b, GLuint nb) {
+  while (*na > 0 && (**a == ' ' || **a == '\n' || **a == '\r' || **a == '\t')) {
     (*a)++;
     (*na)--;
   }
-  if(*na >= nb)
-  {
+  if(*na >= nb) {
     GLuint i=0;
     while (i < nb && (*a)+i != NULL && b+i != NULL && (*a)[i] == b[i]) i++;
-	if(i == nb)
-	{
-		*a = *a + nb;
-		*na = *na - nb;
-		return GL_TRUE;
-	}
+    if(i == nb) {
+      *a = *a + nb;
+      *na = *na - nb;
+      return GL_TRUE;
+    }
   }
   return GL_FALSE;
 }
 
-static GLboolean _glewStrSame2 (GLubyte** a, GLuint* na, const GLubyte* b, GLuint nb)
-{
-  if(*na >= nb)
-  {
+static GLboolean _glewStrSame2 (GLubyte** a, GLuint* na, const GLubyte* b, GLuint nb) {
+  if(*na >= nb) {
     GLuint i=0;
     while (i < nb && (*a)+i != NULL && b+i != NULL && (*a)[i] == b[i]) i++;
-	if(i == nb)
-	{
-		*a = *a + nb;
-		*na = *na - nb;
-		return GL_TRUE;
-	}
+    if(i == nb) {
+      *a = *a + nb;
+      *na = *na - nb;
+      return GL_TRUE;
+    }
   }
   return GL_FALSE;
 }
 
-static GLboolean _glewStrSame3 (GLubyte** a, GLuint* na, const GLubyte* b, GLuint nb)
-{
-  if(*na >= nb)
-  {
+static GLboolean _glewStrSame3 (GLubyte** a, GLuint* na, const GLubyte* b, GLuint nb) {
+  if(*na >= nb) {
     GLuint i=0;
     while (i < nb && (*a)+i != NULL && b+i != NULL && (*a)[i] == b[i]) i++;
-    if (i == nb && (*na == nb || (*a)[i] == ' ' || (*a)[i] == '\n' || (*a)[i] == '\r' || (*a)[i] == '\t'))
-    {
+    if (i == nb && (*na == nb || (*a)[i] == ' ' || (*a)[i] == '\n' || (*a)[i] == '\r' || (*a)[i] == '\t')) {
       *a = *a + nb;
       *na = *na - nb;
       return GL_TRUE;
@@ -775,15 +762,14 @@ GLboolean __GLEW_EXT_texture_lod_bias = GL_FALSE;
 
 #ifdef GL_VERSION_1_2
 
-static GLboolean _glewInit_GL_VERSION_1_2 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_VERSION_1_2 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glCopyTexSubImage3D = (PFNGLCOPYTEXSUBIMAGE3DPROC)glewGetProcAddress((const GLubyte*)"glCopyTexSubImage3D")) == NULL) || r;
   r = ((glDrawRangeElements = (PFNGLDRAWRANGEELEMENTSPROC)glewGetProcAddress((const GLubyte*)"glDrawRangeElements")) == NULL) || r;
   r = ((glTexImage3D = (PFNGLTEXIMAGE3DPROC)glewGetProcAddress((const GLubyte*)"glTexImage3D")) == NULL) || r;
   r = ((glTexSubImage3D = (PFNGLTEXSUBIMAGE3DPROC)glewGetProcAddress((const GLubyte*)"glTexSubImage3D")) == NULL) || r;
-  
+
   return r;
 }
 
@@ -791,8 +777,7 @@ static GLboolean _glewInit_GL_VERSION_1_2 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_VERSION_1_3
 
-static GLboolean _glewInit_GL_VERSION_1_3 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_VERSION_1_3 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glActiveTexture = (PFNGLACTIVETEXTUREPROC)glewGetProcAddress((const GLubyte*)"glActiveTexture")) == NULL) || r;
@@ -849,8 +834,7 @@ static GLboolean _glewInit_GL_VERSION_1_3 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_VERSION_1_4
 
-static GLboolean _glewInit_GL_VERSION_1_4 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_VERSION_1_4 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBlendColor = (PFNGLBLENDCOLORPROC)glewGetProcAddress((const GLubyte*)"glBlendColor")) == NULL) || r;
@@ -906,8 +890,7 @@ static GLboolean _glewInit_GL_VERSION_1_4 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_VERSION_1_5
 
-static GLboolean _glewInit_GL_VERSION_1_5 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_VERSION_1_5 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBeginQuery = (PFNGLBEGINQUERYPROC)glewGetProcAddress((const GLubyte*)"glBeginQuery")) == NULL) || r;
@@ -937,8 +920,7 @@ static GLboolean _glewInit_GL_VERSION_1_5 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_VERSION_2_0
 
-static GLboolean _glewInit_GL_VERSION_2_0 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_VERSION_2_0 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glAttachShader = (PFNGLATTACHSHADERPROC)glewGetProcAddress((const GLubyte*)"glAttachShader")) == NULL) || r;
@@ -1042,8 +1024,7 @@ static GLboolean _glewInit_GL_VERSION_2_0 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_VERSION_2_1
 
-static GLboolean _glewInit_GL_VERSION_2_1 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_VERSION_2_1 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glUniformMatrix2x3fv = (PFNGLUNIFORMMATRIX2X4FVPROC)glewGetProcAddress((const GLubyte*)"glUniformMatrix2x3fv")) == NULL) || r;
@@ -1060,8 +1041,7 @@ static GLboolean _glewInit_GL_VERSION_2_1 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_draw_buffers
 
-static GLboolean _glewInit_GL_ARB_draw_buffers (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_draw_buffers (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glDrawBuffersARB = (PFNGLDRAWBUFFERSARBPROC)glewGetProcAddress((const GLubyte*)"glDrawBuffersARB")) == NULL) || r;
@@ -1085,8 +1065,7 @@ static GLboolean _glewInit_GL_ARB_draw_buffers (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_multisample
 
-static GLboolean _glewInit_GL_ARB_multisample (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_multisample (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glSampleCoverageARB = (PFNGLSAMPLECOVERAGEARBPROC)glewGetProcAddress((const GLubyte*)"glSampleCoverageARB")) == NULL) || r;
@@ -1098,8 +1077,7 @@ static GLboolean _glewInit_GL_ARB_multisample (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_multitexture
 
-static GLboolean _glewInit_GL_ARB_multitexture (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_multitexture (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)glewGetProcAddress((const GLubyte*)"glActiveTextureARB")) == NULL) || r;
@@ -1144,8 +1122,7 @@ static GLboolean _glewInit_GL_ARB_multitexture (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_occlusion_query
 
-static GLboolean _glewInit_GL_ARB_occlusion_query (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_occlusion_query (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBeginQueryARB = (PFNGLBEGINQUERYARBPROC)glewGetProcAddress((const GLubyte*)"glBeginQueryARB")) == NULL) || r;
@@ -1164,8 +1141,7 @@ static GLboolean _glewInit_GL_ARB_occlusion_query (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_shader_objects
 
-static GLboolean _glewInit_GL_ARB_shader_objects (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_shader_objects (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glAttachObjectARB = (PFNGLATTACHOBJECTARBPROC)glewGetProcAddress((const GLubyte*)"glAttachObjectARB")) == NULL) || r;
@@ -1219,8 +1195,7 @@ static GLboolean _glewInit_GL_ARB_shader_objects (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_texture_compression
 
-static GLboolean _glewInit_GL_ARB_texture_compression (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_texture_compression (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glCompressedTexImage1DARB = (PFNGLCOMPRESSEDTEXIMAGE1DARBPROC)glewGetProcAddress((const GLubyte*)"glCompressedTexImage1DARB")) == NULL) || r;
@@ -1258,8 +1233,7 @@ static GLboolean _glewInit_GL_ARB_texture_compression (GLEW_CONTEXT_ARG_DEF_INIT
 
 #ifdef GL_ARB_vertex_buffer_object
 
-static GLboolean _glewInit_GL_ARB_vertex_buffer_object (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_vertex_buffer_object (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBindBufferARB = (PFNGLBINDBUFFERARBPROC)glewGetProcAddress((const GLubyte*)"glBindBufferARB")) == NULL) || r;
@@ -1281,8 +1255,7 @@ static GLboolean _glewInit_GL_ARB_vertex_buffer_object (GLEW_CONTEXT_ARG_DEF_INI
 
 #ifdef GL_ARB_vertex_program
 
-static GLboolean _glewInit_GL_ARB_vertex_program (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_vertex_program (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBindProgramARB = (PFNGLBINDPROGRAMARBPROC)glewGetProcAddress((const GLubyte*)"glBindProgramARB")) == NULL) || r;
@@ -1355,8 +1328,7 @@ static GLboolean _glewInit_GL_ARB_vertex_program (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ARB_vertex_shader
 
-static GLboolean _glewInit_GL_ARB_vertex_shader (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ARB_vertex_shader (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBindAttribLocationARB = (PFNGLBINDATTRIBLOCATIONARBPROC)glewGetProcAddress((const GLubyte*)"glBindAttribLocationARB")) == NULL) || r;
@@ -1370,8 +1342,7 @@ static GLboolean _glewInit_GL_ARB_vertex_shader (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ATI_draw_buffers
 
-static GLboolean _glewInit_GL_ATI_draw_buffers (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ATI_draw_buffers (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glDrawBuffersATI = (PFNGLDRAWBUFFERSATIPROC)glewGetProcAddress((const GLubyte*)"glDrawBuffersATI")) == NULL) || r;
@@ -1383,8 +1354,7 @@ static GLboolean _glewInit_GL_ATI_draw_buffers (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_ATI_fragment_shader
 
-static GLboolean _glewInit_GL_ATI_fragment_shader (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_ATI_fragment_shader (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glAlphaFragmentOp1ATI = (PFNGLALPHAFRAGMENTOP1ATIPROC)glewGetProcAddress((const GLubyte*)"glAlphaFragmentOp1ATI")) == NULL) || r;
@@ -1413,8 +1383,7 @@ static GLboolean _glewInit_GL_ATI_fragment_shader (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_EXT_framebuffer_object
 
-static GLboolean _glewInit_GL_EXT_framebuffer_object (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_EXT_framebuffer_object (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBindFramebufferEXT = (PFNGLBINDFRAMEBUFFEREXTPROC)glewGetProcAddress((const GLubyte*)"glBindFramebufferEXT")) == NULL) || r;
@@ -1442,8 +1411,7 @@ static GLboolean _glewInit_GL_EXT_framebuffer_object (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_EXT_secondary_color
 
-static GLboolean _glewInit_GL_EXT_secondary_color (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_EXT_secondary_color (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glSecondaryColor3bEXT = (PFNGLSECONDARYCOLOR3BEXTPROC)glewGetProcAddress((const GLubyte*)"glSecondaryColor3bEXT")) == NULL) || r;
@@ -1471,8 +1439,7 @@ static GLboolean _glewInit_GL_EXT_secondary_color (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_EXT_stencil_two_side
 
-static GLboolean _glewInit_GL_EXT_stencil_two_side (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_EXT_stencil_two_side (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glActiveStencilFaceEXT = (PFNGLACTIVESTENCILFACEEXTPROC)glewGetProcAddress((const GLubyte*)"glActiveStencilFaceEXT")) == NULL) || r;
@@ -1508,8 +1475,7 @@ static GLboolean _glewInit_GL_EXT_stencil_two_side (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_NV_fragment_program
 
-static GLboolean _glewInit_GL_NV_fragment_program (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_NV_fragment_program (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glGetProgramNamedParameterdvNV = (PFNGLGETPROGRAMNAMEDPARAMETERDVNVPROC)glewGetProcAddress((const GLubyte*)"glGetProgramNamedParameterdvNV")) == NULL) || r;
@@ -1534,8 +1500,7 @@ static GLboolean _glewInit_GL_NV_fragment_program (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_NV_occlusion_query
 
-static GLboolean _glewInit_GL_NV_occlusion_query (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_NV_occlusion_query (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glBeginOcclusionQueryNV = (PFNGLBEGINOCCLUSIONQUERYNVPROC)glewGetProcAddress((const GLubyte*)"glBeginOcclusionQueryNV")) == NULL) || r;
@@ -1553,8 +1518,7 @@ static GLboolean _glewInit_GL_NV_occlusion_query (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_NV_register_combiners
 
-static GLboolean _glewInit_GL_NV_register_combiners (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_NV_register_combiners (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glCombinerInputNV = (PFNGLCOMBINERINPUTNVPROC)glewGetProcAddress((const GLubyte*)"glCombinerInputNV")) == NULL) || r;
@@ -1578,8 +1542,7 @@ static GLboolean _glewInit_GL_NV_register_combiners (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_NV_register_combiners2
 
-static GLboolean _glewInit_GL_NV_register_combiners2 (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_NV_register_combiners2 (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glCombinerStageParameterfvNV = (PFNGLCOMBINERSTAGEPARAMETERFVNVPROC)glewGetProcAddress((const GLubyte*)"glCombinerStageParameterfvNV")) == NULL) || r;
@@ -1600,8 +1563,7 @@ static GLboolean _glewInit_GL_NV_register_combiners2 (GLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef GL_NV_vertex_program
 
-static GLboolean _glewInit_GL_NV_vertex_program (GLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_GL_NV_vertex_program (GLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((glAreProgramsResidentNV = (PFNGLAREPROGRAMSRESIDENTNVPROC)glewGetProcAddress((const GLubyte*)"glAreProgramsResidentNV")) == NULL) || r;
@@ -1688,38 +1650,34 @@ static GLboolean _glewInit_GL_NV_vertex_program (GLEW_CONTEXT_ARG_DEF_INIT)
 
 // Begin SJS change for OGRE
 #ifdef GL_ARB_point_parameters
-static GLboolean _glewInit_GL_ARB_point_parameters (GLEW_CONTEXT_ARG_DEF_INIT)
-{
-	GLboolean r = GL_FALSE;
+static GLboolean _glewInit_GL_ARB_point_parameters (GLEW_CONTEXT_ARG_DEF_INIT) {
+  GLboolean r = GL_FALSE;
 
-	r = ((glPointParameterfARB = (PFNGLPOINTPARAMETERFPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfARB")) == NULL) || r;
-	r = ((glPointParameterfvARB = (PFNGLPOINTPARAMETERFVPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfvARB")) == NULL) || r;
-	// For convenience, if GL 1.4 not defined, assign same to non-ARB version since interface identical
-	if (!GLEW_VERSION_1_4)
-	{
-		glPointParameterf = glPointParameterfARB;
-		glPointParameterfv = glPointParameterfvARB;
-	}
+  r = ((glPointParameterfARB = (PFNGLPOINTPARAMETERFPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfARB")) == NULL) || r;
+  r = ((glPointParameterfvARB = (PFNGLPOINTPARAMETERFVPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfvARB")) == NULL) || r;
+  // For convenience, if GL 1.4 not defined, assign same to non-ARB version since interface identical
+  if (!GLEW_VERSION_1_4) {
+    glPointParameterf = glPointParameterfARB;
+    glPointParameterfv = glPointParameterfvARB;
+  }
 
-	return r;
+  return r;
 }
 #endif /* GL_ARB_point_parameters */
 
 #ifdef GL_EXT_point_parameters
-static GLboolean _glewInit_GL_EXT_point_parameters (GLEW_CONTEXT_ARG_DEF_INIT)
-{
-	GLboolean r = GL_FALSE;
+static GLboolean _glewInit_GL_EXT_point_parameters (GLEW_CONTEXT_ARG_DEF_INIT) {
+  GLboolean r = GL_FALSE;
 
-	r = ((glPointParameterfEXT = (PFNGLPOINTPARAMETERFPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfEXT")) == NULL) || r;
-	r = ((glPointParameterfvEXT = (PFNGLPOINTPARAMETERFVPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfvEXT")) == NULL) || r;
-	// For convenience, if GL 1.4 not defined, assign same to non-EXT version since interface identical
-	if (!GLEW_VERSION_1_4)
-	{
-		glPointParameterf = glPointParameterfEXT;
-		glPointParameterfv = glPointParameterfvEXT;
-	}
+  r = ((glPointParameterfEXT = (PFNGLPOINTPARAMETERFPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfEXT")) == NULL) || r;
+  r = ((glPointParameterfvEXT = (PFNGLPOINTPARAMETERFVPROC)glewGetProcAddress((const GLubyte*)"glPointParameterfvEXT")) == NULL) || r;
+  // For convenience, if GL 1.4 not defined, assign same to non-EXT version since interface identical
+  if (!GLEW_VERSION_1_4) {
+    glPointParameterf = glPointParameterfEXT;
+    glPointParameterfv = glPointParameterfvEXT;
+  }
 
-	return r;
+  return r;
 }
 #endif /* GL_EXT_point_parameters */
 
@@ -1728,22 +1686,20 @@ static GLboolean _glewInit_GL_EXT_point_parameters (GLEW_CONTEXT_ARG_DEF_INIT)
 
 /* ------------------------------------------------------------------------- */
 
-/* 
+/*
  * Search for name in the extensions string. Use of strstr()
  * is not sufficient because extension names can be prefixes of
  * other extension names. Could use strtok() but the constant
  * string returned by glGetString might be in read-only memory.
  */
-GLboolean glewGetExtension (const char* name)
-{    
+GLboolean glewGetExtension (const char* name) {
   GLubyte* p;
   GLubyte* end;
   GLuint len = _glewStrLen((const GLubyte*)name);
   p = (GLubyte*)glGetString(GL_EXTENSIONS);
   if (0 == p) return GL_FALSE;
   end = p + _glewStrLen(p);
-  while (p < end)
-  {
+  while (p < end) {
     GLuint n = _glewStrCLen(p, ' ');
     if (len == n && _glewStrSame((const GLubyte*)name, p, n)) return GL_TRUE;
     p += n+1;
@@ -1753,108 +1709,90 @@ GLboolean glewGetExtension (const char* name)
 
 /* ------------------------------------------------------------------------- */
 
-GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST)
-{
+GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST) {
   const GLubyte* s;
   GLuint major, minor;
   /* check for SiS driver */
   s = glGetString(GL_RENDERER);
-  if (s && _glewStrSame(s,(const GLubyte*)"SiS",3))
-  {
-	  GLEW_VERSION_1_1 = GL_TRUE;
-      GLEW_VERSION_1_2 = GL_FALSE;
-      GLEW_VERSION_1_3 = GL_FALSE;
-      GLEW_VERSION_1_4 = GL_FALSE;
-      GLEW_VERSION_1_5 = GL_FALSE;
-      GLEW_VERSION_2_0 = GL_FALSE;
-      GLEW_VERSION_2_1 = GL_FALSE;
-  }
-  else
-  {
-	/* query opengl version */
-	s = glGetString(GL_VERSION);
-	if (!s) return GLEW_ERROR_NO_GL_VERSION;
-	major = _glewStrCLen(s, '.')-1;
-	minor = _glewStrCLen(s, '.')+1;
-  	if (s+major == NULL
-	  || s+minor-1 == NULL || s+minor == NULL
-	  || (s[major] == 1 && s[minor] < '1'))
-	{
-	  return GLEW_ERROR_GL_VERSION_10_ONLY;
-	}
-	else
-	{
-	  if (s[major] >= '2')
-	  {
-		GLEW_VERSION_1_1 = GL_TRUE;
-		GLEW_VERSION_1_2 = GL_TRUE;
-		GLEW_VERSION_1_3 = GL_TRUE;
-		GLEW_VERSION_1_4 = GL_TRUE;
-		GLEW_VERSION_1_5 = GL_TRUE;
-		GLEW_VERSION_2_0 = GL_TRUE;
-        if (s[minor] >= '1')
-        {
+  if (s && _glewStrSame(s,(const GLubyte*)"SiS",3)) {
+    GLEW_VERSION_1_1 = GL_TRUE;
+    GLEW_VERSION_1_2 = GL_FALSE;
+    GLEW_VERSION_1_3 = GL_FALSE;
+    GLEW_VERSION_1_4 = GL_FALSE;
+    GLEW_VERSION_1_5 = GL_FALSE;
+    GLEW_VERSION_2_0 = GL_FALSE;
+    GLEW_VERSION_2_1 = GL_FALSE;
+  } else {
+    /* query opengl version */
+    s = glGetString(GL_VERSION);
+    if (!s) return GLEW_ERROR_NO_GL_VERSION;
+    major = _glewStrCLen(s, '.')-1;
+    minor = _glewStrCLen(s, '.')+1;
+    if (s+major == NULL
+        || s+minor-1 == NULL || s+minor == NULL
+        || (s[major] == 1 && s[minor] < '1')) {
+      return GLEW_ERROR_GL_VERSION_10_ONLY;
+    } else {
+      if (s[major] >= '2') {
+        GLEW_VERSION_1_1 = GL_TRUE;
+        GLEW_VERSION_1_2 = GL_TRUE;
+        GLEW_VERSION_1_3 = GL_TRUE;
+        GLEW_VERSION_1_4 = GL_TRUE;
+        GLEW_VERSION_1_5 = GL_TRUE;
+        GLEW_VERSION_2_0 = GL_TRUE;
+        if (s[minor] >= '1') {
           GLEW_VERSION_2_1 = GL_TRUE;
-        }
-        else
-        {
+        } else {
           GLEW_VERSION_2_1 = GL_FALSE;
         }
-	  }
-	  else
-	  {
-		if (s[minor] >= '5')
-		{
-		  GLEW_VERSION_1_1 = GL_TRUE;
-		  GLEW_VERSION_1_2 = GL_TRUE;
-		  GLEW_VERSION_1_3 = GL_TRUE;
-		  GLEW_VERSION_1_4 = GL_TRUE;
-		  GLEW_VERSION_1_5 = GL_TRUE;
-		  GLEW_VERSION_2_0 = GL_FALSE;
+      } else {
+        if (s[minor] >= '5') {
+          GLEW_VERSION_1_1 = GL_TRUE;
+          GLEW_VERSION_1_2 = GL_TRUE;
+          GLEW_VERSION_1_3 = GL_TRUE;
+          GLEW_VERSION_1_4 = GL_TRUE;
+          GLEW_VERSION_1_5 = GL_TRUE;
+          GLEW_VERSION_2_0 = GL_FALSE;
           GLEW_VERSION_2_1 = GL_FALSE;
-		}
-	    if (s[minor] == '4')
-		{
-		  GLEW_VERSION_1_1 = GL_TRUE;
-		  GLEW_VERSION_1_2 = GL_TRUE;
-		  GLEW_VERSION_1_3 = GL_TRUE;
-		  GLEW_VERSION_1_4 = GL_TRUE;
-		  GLEW_VERSION_1_5 = GL_FALSE;
-		  GLEW_VERSION_2_0 = GL_FALSE;
+        }
+        if (s[minor] == '4') {
+          GLEW_VERSION_1_1 = GL_TRUE;
+          GLEW_VERSION_1_2 = GL_TRUE;
+          GLEW_VERSION_1_3 = GL_TRUE;
+          GLEW_VERSION_1_4 = GL_TRUE;
+          GLEW_VERSION_1_5 = GL_FALSE;
+          GLEW_VERSION_2_0 = GL_FALSE;
           GLEW_VERSION_2_1 = GL_FALSE;
-		}
-		if (s[minor] == '3')
-		{
-		  GLEW_VERSION_1_1 = GL_TRUE;
-		  GLEW_VERSION_1_2 = GL_TRUE;
-		  GLEW_VERSION_1_3 = GL_TRUE;
-		  GLEW_VERSION_1_4 = GL_FALSE;
-		  GLEW_VERSION_1_5 = GL_FALSE;
-		  GLEW_VERSION_2_0 = GL_FALSE;
+        }
+        if (s[minor] == '3') {
+          GLEW_VERSION_1_1 = GL_TRUE;
+          GLEW_VERSION_1_2 = GL_TRUE;
+          GLEW_VERSION_1_3 = GL_TRUE;
+          GLEW_VERSION_1_4 = GL_FALSE;
+          GLEW_VERSION_1_5 = GL_FALSE;
+          GLEW_VERSION_2_0 = GL_FALSE;
           GLEW_VERSION_2_1 = GL_FALSE;
-		}
-		if (s[minor] == '2')
-		{
-		  GLEW_VERSION_1_1 = GL_TRUE;
-		  GLEW_VERSION_1_2 = GL_TRUE;
-		  GLEW_VERSION_1_3 = GL_FALSE;
-		  GLEW_VERSION_1_4 = GL_FALSE;
-		  GLEW_VERSION_1_5 = GL_FALSE;
-		  GLEW_VERSION_2_0 = GL_FALSE;
+        }
+        if (s[minor] == '2') {
+          GLEW_VERSION_1_1 = GL_TRUE;
+          GLEW_VERSION_1_2 = GL_TRUE;
+          GLEW_VERSION_1_3 = GL_FALSE;
+          GLEW_VERSION_1_4 = GL_FALSE;
+          GLEW_VERSION_1_5 = GL_FALSE;
+          GLEW_VERSION_2_0 = GL_FALSE;
           GLEW_VERSION_2_1 = GL_FALSE;
-		}
-		if (s[minor] < '2')
-		{
-		  GLEW_VERSION_1_1 = GL_TRUE;
-		  GLEW_VERSION_1_2 = GL_FALSE;
-		  GLEW_VERSION_1_3 = GL_FALSE;
-		  GLEW_VERSION_1_4 = GL_FALSE;
-		  GLEW_VERSION_1_5 = GL_FALSE;
-		  GLEW_VERSION_2_0 = GL_FALSE;
+        }
+        if (s[minor] < '2') {
+          GLEW_VERSION_1_1 = GL_TRUE;
+          GLEW_VERSION_1_2 = GL_FALSE;
+          GLEW_VERSION_1_3 = GL_FALSE;
+          GLEW_VERSION_1_4 = GL_FALSE;
+          GLEW_VERSION_1_5 = GL_FALSE;
+          GLEW_VERSION_2_0 = GL_FALSE;
           GLEW_VERSION_2_1 = GL_FALSE;
-		}
-	  }
-	}
+        }
+      }
+    }
   }
   /* initialize extensions */
 #ifdef GL_VERSION_1_2
@@ -1936,7 +1874,10 @@ GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST)
 #endif /* GL_ARB_vertex_program */
 #ifdef GL_ARB_vertex_shader
   GLEW_ARB_vertex_shader = glewGetExtension("GL_ARB_vertex_shader");
-  if (glewExperimental || GLEW_ARB_vertex_shader) { GLEW_ARB_vertex_shader = !_glewInit_GL_ARB_vertex_shader(GLEW_CONTEXT_ARG_VAR_INIT); _glewInit_GL_ARB_vertex_program(GLEW_CONTEXT_ARG_VAR_INIT); }
+  if (glewExperimental || GLEW_ARB_vertex_shader) {
+    GLEW_ARB_vertex_shader = !_glewInit_GL_ARB_vertex_shader(GLEW_CONTEXT_ARG_VAR_INIT);
+    _glewInit_GL_ARB_vertex_program(GLEW_CONTEXT_ARG_VAR_INIT);
+  }
 #endif /* GL_ARB_vertex_shader */
 #ifdef GL_ATI_draw_buffers
   GLEW_ATI_draw_buffers = glewGetExtension("GL_ATI_draw_buffers");
@@ -2086,8 +2027,7 @@ GLboolean __WGLEW_EXT_swap_control = GL_FALSE;
 
 #ifdef WGL_ARB_extensions_string
 
-static GLboolean _glewInit_WGL_ARB_extensions_string (WGLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_WGL_ARB_extensions_string (WGLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((wglGetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC)glewGetProcAddress((const GLubyte*)"wglGetExtensionsStringARB")) == NULL) || r;
@@ -2103,8 +2043,7 @@ static GLboolean _glewInit_WGL_ARB_extensions_string (WGLEW_CONTEXT_ARG_DEF_INIT
 
 #ifdef WGL_ARB_pbuffer
 
-static GLboolean _glewInit_WGL_ARB_pbuffer (WGLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_WGL_ARB_pbuffer (WGLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((wglCreatePbufferARB = (PFNWGLCREATEPBUFFERARBPROC)glewGetProcAddress((const GLubyte*)"wglCreatePbufferARB")) == NULL) || r;
@@ -2120,8 +2059,7 @@ static GLboolean _glewInit_WGL_ARB_pbuffer (WGLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef WGL_ARB_pixel_format
 
-static GLboolean _glewInit_WGL_ARB_pixel_format (WGLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_WGL_ARB_pixel_format (WGLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)glewGetProcAddress((const GLubyte*)"wglChoosePixelFormatARB")) == NULL) || r;
@@ -2139,8 +2077,7 @@ static GLboolean _glewInit_WGL_ARB_pixel_format (WGLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef WGL_ARB_render_texture
 
-static GLboolean _glewInit_WGL_ARB_render_texture (WGLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_WGL_ARB_render_texture (WGLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((wglBindTexImageARB = (PFNWGLBINDTEXIMAGEARBPROC)glewGetProcAddress((const GLubyte*)"wglBindTexImageARB")) == NULL) || r;
@@ -2158,8 +2095,7 @@ static GLboolean _glewInit_WGL_ARB_render_texture (WGLEW_CONTEXT_ARG_DEF_INIT)
 
 #ifdef WGL_EXT_extensions_string
 
-static GLboolean _glewInit_WGL_EXT_extensions_string (WGLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_WGL_EXT_extensions_string (WGLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)glewGetProcAddress((const GLubyte*)"wglGetExtensionsStringEXT")) == NULL) || r;
@@ -2171,8 +2107,7 @@ static GLboolean _glewInit_WGL_EXT_extensions_string (WGLEW_CONTEXT_ARG_DEF_INIT
 
 #ifdef WGL_EXT_swap_control
 
-static GLboolean _glewInit_WGL_EXT_swap_control (WGLEW_CONTEXT_ARG_DEF_INIT)
-{
+static GLboolean _glewInit_WGL_EXT_swap_control (WGLEW_CONTEXT_ARG_DEF_INIT) {
   GLboolean r = GL_FALSE;
 
   r = ((wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)glewGetProcAddress((const GLubyte*)"wglGetSwapIntervalEXT")) == NULL) || r;
@@ -2188,8 +2123,7 @@ static GLboolean _glewInit_WGL_EXT_swap_control (WGLEW_CONTEXT_ARG_DEF_INIT)
 static PFNWGLGETEXTENSIONSSTRINGARBPROC _wglewGetExtensionsStringARB = NULL;
 static PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglewGetExtensionsStringEXT = NULL;
 
-GLboolean wglewGetExtension (const char* name)
-{    
+GLboolean wglewGetExtension (const char* name) {
   GLubyte* p;
   GLubyte* end;
   GLuint len = _glewStrLen((const GLubyte*)name);
@@ -2202,8 +2136,7 @@ GLboolean wglewGetExtension (const char* name)
     p = (GLubyte*)_wglewGetExtensionsStringARB(wglGetCurrentDC());
   if (0 == p) return GL_FALSE;
   end = p + _glewStrLen(p);
-  while (p < end)
-  {
+  while (p < end) {
     GLuint n = _glewStrCLen(p, ' ');
     if (len == n && _glewStrSame((const GLubyte*)name, p, n)) return GL_TRUE;
     p += n+1;
@@ -2211,8 +2144,7 @@ GLboolean wglewGetExtension (const char* name)
   return GL_FALSE;
 }
 
-GLenum wglewContextInit (WGLEW_CONTEXT_ARG_DEF_LIST)
-{
+GLenum wglewContextInit (WGLEW_CONTEXT_ARG_DEF_LIST) {
   GLboolean crippled;
   /* find wgl extension string query functions */
   if (_wglewGetExtensionsStringARB == NULL)

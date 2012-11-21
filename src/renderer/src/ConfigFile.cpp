@@ -28,88 +28,76 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    ConfigFile::ConfigFile()
-    {
+//-----------------------------------------------------------------------
+ConfigFile::ConfigFile() {
+}
+//-----------------------------------------------------------------------
+void ConfigFile::load(const String& filename, const String& separators) {
+  FILE *fp;
+  char rec[100], *ret;
+  String optName, optVal;
+
+  mSettings.clear();
+
+  // Open and parse entire file
+  fp = fopen(filename.c_str(), "r");
+  if( !fp )
+    Except(
+      Exception::ERR_FILE_NOT_FOUND, "'" + filename + "' file not found!", "ConfigFile::load" );
+
+  ret = fgets(rec, 100, fp);
+  while (ret != NULL) {
+    String tst = rec;
+    StringUtil::trim(tst);
+    // Ignore comments & blanks
+    if (tst.length() > 0 && tst.at(0) != '#' && tst.at(0) != '@' && tst.at(0) != '\n') {
+      // Tokenise on tab
+      optName = strtok(rec, separators.c_str());
+      optVal = strtok(NULL, "\n");
+      if (optName.length() != 0 && optVal.c_str() != 0) {
+        StringUtil::trim(optVal);
+        StringUtil::trim(optName);
+        mSettings.insert(std::multimap<String, String>::value_type(optName, optVal));
+      }
     }
-    //-----------------------------------------------------------------------
-    void ConfigFile::load(const String& filename, const String& separators)
-    {
-        FILE *fp;
-        char rec[100], *ret;
-        String optName, optVal;
+    ret = fgets(rec, 100, fp);
+  }
 
-        mSettings.clear();
-
-        // Open and parse entire file
-        fp = fopen(filename.c_str(), "r");
-        if( !fp )
-            Except(
-                Exception::ERR_FILE_NOT_FOUND, "'" + filename + "' file not found!", "ConfigFile::load" );
-
-        ret = fgets(rec, 100, fp);
-        while (ret != NULL)
-        {
-            String tst = rec;
-            StringUtil::trim(tst);
-            // Ignore comments & blanks
-            if (tst.length() > 0 && tst.at(0) != '#' && tst.at(0) != '@' && tst.at(0) != '\n')
-            {
-                // Tokenise on tab
-                optName = strtok(rec, separators.c_str());
-                optVal = strtok(NULL, "\n");
-                if (optName.length() != 0 && optVal.c_str() != 0)
-                {
-                    StringUtil::trim(optVal);
-                    StringUtil::trim(optName);
-                    mSettings.insert(std::multimap<String, String>::value_type(optName, optVal));
-                }
-            }
-            ret = fgets(rec, 100, fp);
-        }
-
-        fclose(fp);
+  fclose(fp);
 
 
-    }
-    //-----------------------------------------------------------------------
-    String ConfigFile::getSetting(const String& key)
-    {
-        std::multimap<String, String>::iterator i;
+}
+//-----------------------------------------------------------------------
+String ConfigFile::getSetting(const String& key) {
+  std::multimap<String, String>::iterator i;
 
-        i = mSettings.find(key);
-        if (i == mSettings.end())
-        {
-            return "";
-        }
-        else
-        {
-            return i->second;
-        }
-    }
-    //-----------------------------------------------------------------------
-    StringVector ConfigFile::getMultiSetting(const String& key)
-    {
-        StringVector ret;
+  i = mSettings.find(key);
+  if (i == mSettings.end()) {
+    return "";
+  } else {
+    return i->second;
+  }
+}
+//-----------------------------------------------------------------------
+StringVector ConfigFile::getMultiSetting(const String& key) {
+  StringVector ret;
 
-        std::multimap<String, String>::iterator i;
+  std::multimap<String, String>::iterator i;
 
-        i = mSettings.find(key);
-        // Iterate over matches
-        while (i != mSettings.end() && i->first == key)
-        {
-            ret.push_back(i->second);
-            ++i;
-        }
+  i = mSettings.find(key);
+  // Iterate over matches
+  while (i != mSettings.end() && i->first == key) {
+    ret.push_back(i->second);
+    ++i;
+  }
 
-        return ret;
+  return ret;
 
 
-    }
-    //-----------------------------------------------------------------------
-    ConfigFile::SettingsIterator ConfigFile::getSettingsIterator(void)
-    {
-        return SettingsIterator(mSettings.begin(), mSettings.end());
-    }
+}
+//-----------------------------------------------------------------------
+ConfigFile::SettingsIterator ConfigFile::getSettingsIterator(void) {
+  return SettingsIterator(mSettings.begin(), mSettings.end());
+}
 
 }

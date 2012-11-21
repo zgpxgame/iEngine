@@ -27,27 +27,23 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    ZipArchiveFactory::~ZipArchiveFactory()
-    {
-    }
+ZipArchiveFactory::~ZipArchiveFactory() {
+}
 
-    //-----------------------------------------------------------------------
-    String ZipArchiveFactory::getArchiveType(void)
-    {
-        return "Zip";
-    }
+//-----------------------------------------------------------------------
+String ZipArchiveFactory::getArchiveType(void) {
+  return "Zip";
+}
 
-    //-----------------------------------------------------------------------
-    ArchiveEx *ZipArchiveFactory::createObj( const String& name )
-    {
-        return new Zip( name );
+//-----------------------------------------------------------------------
+ArchiveEx *ZipArchiveFactory::createObj( const String& name ) {
+  return new Zip( name );
 
-    }
+}
 
-    String ZipArchiveFactory::getType()
-    {
-        return "Zip";
-    }
+String ZipArchiveFactory::getType() {
+  return "Zip";
+}
 
 }
 

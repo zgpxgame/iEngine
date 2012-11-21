@@ -32,7 +32,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    typedef std::vector<String> StringVector;
+typedef std::vector<String> StringVector;
 
 }
 

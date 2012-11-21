@@ -30,29 +30,28 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Particle emitter which emits particles randomly from points inside an ellipsoid.
-    @remarks
-        This basic particle emitter emits particles from a ellipsoid area.
-        The initial direction of these particles can either be a single
-        direction (i.e. a line), a random scattering inside a cone, or a random
-        scattering in all directions, depending the 'angle' parameter, which
-        is the angle across which to scatter the particles either side of the
-        base direction of the emitter. 
-    */
-    class _ParticleFXExport EllipsoidEmitter : public AreaEmitter
-    {
-    public:
-        // See AreaEmitter
+/** Particle emitter which emits particles randomly from points inside an ellipsoid.
+@remarks
+    This basic particle emitter emits particles from a ellipsoid area.
+    The initial direction of these particles can either be a single
+    direction (i.e. a line), a random scattering inside a cone, or a random
+    scattering in all directions, depending the 'angle' parameter, which
+    is the angle across which to scatter the particles either side of the
+    base direction of the emitter.
+*/
+class _ParticleFXExport EllipsoidEmitter : public AreaEmitter {
+public:
+  // See AreaEmitter
 
-        EllipsoidEmitter();
+  EllipsoidEmitter();
 
-        /** See ParticleEmitter. */
-        void _initParticle(Particle* pParticle);
+  /** See ParticleEmitter. */
+  void _initParticle(Particle* pParticle);
 
-    protected:
-        
+protected:
 
-    };
+
+};
 
 }
 

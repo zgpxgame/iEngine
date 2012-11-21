@@ -25,21 +25,17 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "UserDefinedObject.h"
 #include "MyString.h"
 
-namespace renderer
-{
+namespace renderer {
 
-    UserDefinedObject::UserDefinedObject()
-    {
-    }
-    long UserDefinedObject::getTypeID(void)
-    {
-        return 0;
-    }
-    const String& UserDefinedObject::getTypeName(void)
-    {
-        static String sName("Unspecified");
-        return sName;
-    }
+UserDefinedObject::UserDefinedObject() {
+}
+long UserDefinedObject::getTypeID(void) {
+  return 0;
+}
+const String& UserDefinedObject::getTypeName(void) {
+  static String sName("Unspecified");
+  return sName;
+}
 
 }
 

@@ -7,17 +7,16 @@
 #include "Zip.h"
 
 namespace renderer {
-    /** Specialisation of ArchiveFactory for Zip files. */
+/** Specialisation of ArchiveFactory for Zip files. */
 
-    class ZipArchiveFactory : public ArchiveFactory
-    {
-    public:
-        virtual ~ZipArchiveFactory();
+class ZipArchiveFactory : public ArchiveFactory {
+public:
+  virtual ~ZipArchiveFactory();
 
-        String getArchiveType(void);       
-        ArchiveEx *createObj( const String& name );
-        String getType();
-    };
+  String getArchiveType(void);
+  ArchiveEx *createObj( const String& name );
+  String getType();
+};
 
 }
 

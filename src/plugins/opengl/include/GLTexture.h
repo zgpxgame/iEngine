@@ -33,54 +33,54 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    class GLTexture : public Texture
-    {
-    public:
-        // Constructor, called from SDLTextureManager
-        GLTexture( String name, TextureType texType = TEX_TYPE_2D );
-        GLTexture( String name, TextureType texType, uint width, uint height, 
-            uint num_mips, PixelFormat format, TextureUsage usage );
+class GLTexture : public Texture {
+public:
+  // Constructor, called from SDLTextureManager
+  GLTexture( String name, TextureType texType = TEX_TYPE_2D );
+  GLTexture( String name, TextureType texType, uint width, uint height,
+             uint num_mips, PixelFormat format, TextureUsage usage );
 
-        virtual ~GLTexture();        
-        
-        void load();
-        void loadImage( const Image &img );
-        void loadImages( const std::vector<Image> images );
+  virtual ~GLTexture();
 
-        void unload();
+  void load();
+  void loadImage( const Image &img );
+  void loadImages( const std::vector<Image> images );
 
-        void createRenderTexture();
+  void unload();
 
-        void blitToTexture( const Image& src, 
-            unsigned uStartX, unsigned uStartY );
+  void createRenderTexture();
 
-        GLenum getGLTextureType(void) const;
+  void blitToTexture( const Image& src,
+                      unsigned uStartX, unsigned uStartY );
 
-        GLuint getGLID() const
-        { return mTextureID; }
+  GLenum getGLTextureType(void) const;
 
-    protected:
-        void generateMipMaps( uchar *data, bool useSoftware, 
-            unsigned int faceNumber );
-        uchar* rescaleNPower2( const Image& src );
-    private:
-        GLuint mTextureID;
-    };
+  GLuint getGLID() const {
+    return mTextureID;
+  }
 
-    class GLRenderTexture : public RenderTexture
-    {
-    public:
-        GLRenderTexture(const String& name, uint width, uint height) 
-            : RenderTexture(name, width, height) 
-        {
-        }
+protected:
+  void generateMipMaps( uchar *data, bool useSoftware,
+                        unsigned int faceNumber );
+  uchar* rescaleNPower2( const Image& src );
+private:
+  GLuint mTextureID;
+};
 
-        void _copyToTexture(void);
+class GLRenderTexture : public RenderTexture {
+public:
+  GLRenderTexture(const String& name, uint width, uint height)
+    : RenderTexture(name, width, height) {
+  }
 
-        bool requiresTextureFlipping() const { return false; }
-        virtual void writeContentsToFile( const String & filename ) {}
-        virtual void outputText(int x, int y, const String& text) {}
-    };
+  void _copyToTexture(void);
+
+  bool requiresTextureFlipping() const {
+    return false;
+  }
+  virtual void writeContentsToFile( const String & filename ) {}
+  virtual void outputText(int x, int y, const String& text) {}
+};
 }
 
 #endif // __GLTEXTURE_H__

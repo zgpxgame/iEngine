@@ -50,59 +50,58 @@ typedef struct HINSTANCE__* hInstance;
 
 namespace renderer {
 
-    /** Resource holding data about a dynamic library.
-        @remarks
-            This class holds the data required to get symbols from
-            libraries loaded at run-time (i.e. from DLL's for so's)
-        @author
-            Adrian Cearnãu (cearny@cearny.ro)
-        @since
-            27 January 2002
-        @see
-            Resource
-    */
-    class _RendererExport DynLib : public Resource
-    {
-    public:
-        /** Default constructor - used by DynLibManager.
-            @warning
-                Do not call directly
-        */
-        DynLib( const String& name );
+/** Resource holding data about a dynamic library.
+    @remarks
+        This class holds the data required to get symbols from
+        libraries loaded at run-time (i.e. from DLL's for so's)
+    @author
+        Adrian Cearnãu (cearny@cearny.ro)
+    @since
+        27 January 2002
+    @see
+        Resource
+*/
+class _RendererExport DynLib : public Resource {
+public:
+  /** Default constructor - used by DynLibManager.
+      @warning
+          Do not call directly
+  */
+  DynLib( const String& name );
 
-        /** Default destructor.
-        */
-        ~DynLib();
+  /** Default destructor.
+  */
+  ~DynLib();
 
-        /** Generic load - called by DynLibManager.
-            @see
-                Resource::load
-        */
-        virtual void load();
-        /** Generic unload - called by DynLibManager.
-            @see
-                Resource::unload
-        */
-        virtual void unload();
+  /** Generic load - called by DynLibManager.
+      @see
+          Resource::load
+  */
+  virtual void load();
+  /** Generic unload - called by DynLibManager.
+      @see
+          Resource::unload
+  */
+  virtual void unload();
 
-        /**
-            Returns the adress of the given symbol from the loaded library.
-            @param
-                strName The name of the symbol to search for
-            @returns
-                If the function succeeds, the returned value is a handle to
-                the symbol.
-            @par
-                If the function fails, the returned value is <b>NULL</b>.
+  /**
+      Returns the adress of the given symbol from the loaded library.
+      @param
+          strName The name of the symbol to search for
+      @returns
+          If the function succeeds, the returned value is a handle to
+          the symbol.
+      @par
+          If the function fails, the returned value is <b>NULL</b>.
 
-        */
-        virtual void* getSymbol( const String& strName ) const throw();
+  */
+  virtual void* getSymbol( const String& strName ) const throw();
 
-    protected:
+protected:
 
-        /// Handle to the loaded library.
-        DYNLIB_HANDLE m_hInst;
-    };
+  /// Handle to the loaded library.
+  DYNLIB_HANDLE m_hInst;
+};
 
 }
 

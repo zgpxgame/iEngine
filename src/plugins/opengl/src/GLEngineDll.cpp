@@ -30,17 +30,15 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    GLRenderSystem* glRendPlugin;
+GLRenderSystem* glRendPlugin;
 
-    extern "C" EXPORT void dllStartPlugin(void) throw()
-    {
-        glRendPlugin = new GLRenderSystem();
+extern "C" EXPORT void dllStartPlugin(void) throw() {
+  glRendPlugin = new GLRenderSystem();
 
-        Root::getSingleton().addRenderSystem(glRendPlugin);
-    }
+  Root::getSingleton().addRenderSystem(glRendPlugin);
+}
 
-    extern "C" EXPORT void dllStopPlugin(void)
-    {
-        delete glRendPlugin;
-    }
+extern "C" EXPORT void dllStopPlugin(void) {
+  delete glRendPlugin;
+}
 }

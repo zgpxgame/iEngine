@@ -29,103 +29,94 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    template<> GLSupport* Singleton<GLSupport>::ms_Singleton = 0;
+template<> GLSupport* Singleton<GLSupport>::ms_Singleton = 0;
 
-	void GLSupport::setConfigOption(const String &name, const String &value)
-	{
-		ConfigOptionMap::iterator it = mOptions.find(name);
+void GLSupport::setConfigOption(const String &name, const String &value) {
+  ConfigOptionMap::iterator it = mOptions.find(name);
 
-        if (it != mOptions.end())
-            it->second.currentValue = value;
-	}
+  if (it != mOptions.end())
+    it->second.currentValue = value;
+}
 
-	ConfigOptionMap& GLSupport::getConfigOptions(void)
-	{
-		return mOptions;
-	}
+ConfigOptionMap& GLSupport::getConfigOptions(void) {
+  return mOptions;
+}
 
-    void GLSupport::initialiseExtensions(void)
-    {
-        // Set version string
-        const GLubyte* pcVer = glGetString(GL_VERSION);
+void GLSupport::initialiseExtensions(void) {
+  // Set version string
+  const GLubyte* pcVer = glGetString(GL_VERSION);
 
-        assert(pcVer && "Problems getting GL version string using glGetString");
-       
-        if(pcVer)
-        {
-          String tmpStr = (const char*)pcVer;
-          version = tmpStr.substr(0, tmpStr.find(" "));
-        }
+  assert(pcVer && "Problems getting GL version string using glGetString");
 
-        // Set extension list
-		std::stringstream ext;
-        String str;
+  if(pcVer) {
+    String tmpStr = (const char*)pcVer;
+    version = tmpStr.substr(0, tmpStr.find(" "));
+  }
 
-        const GLubyte* pcExt = glGetString(GL_EXTENSIONS);
+  // Set extension list
+  std::stringstream ext;
+  String str;
 
-        assert(pcExt && "Problems getting GL extension string using glGetString");
+  const GLubyte* pcExt = glGetString(GL_EXTENSIONS);
 
-        if (pcExt)
-        {
-            
-            ext << pcExt;
+  assert(pcExt && "Problems getting GL extension string using glGetString");
 
-            while(ext >> str)
-            {
-                extensionList.insert(str);
-            }
-        }
+  if (pcExt) {
 
-        ext.str("");
+    ext << pcExt;
+
+    while(ext >> str) {
+      extensionList.insert(str);
     }
+  }
 
-    bool GLSupport::checkMinGLVersion(const String& v)
-    {
-        unsigned int first, second, third;
-        unsigned int cardFirst, cardSecond, cardThird;
-        if(v == version)
-            return true;
+  ext.str("");
+}
 
-        String::size_type pos = v.find(".");
-        if(pos == String::npos)
-            return false;
+bool GLSupport::checkMinGLVersion(const String& v) {
+  unsigned int first, second, third;
+  unsigned int cardFirst, cardSecond, cardThird;
+  if(v == version)
+    return true;
 
-        String::size_type pos1 = v.rfind(".");
-        if(pos1 == String::npos)
-            return false;
+  String::size_type pos = v.find(".");
+  if(pos == String::npos)
+    return false;
 
-        first = ::atoi(v.substr(0, pos).c_str());
-        second = ::atoi(v.substr(pos + 1, pos1 - (pos + 1)).c_str());
-        third = ::atoi(v.substr(pos1 + 1, v.length()).c_str());
+  String::size_type pos1 = v.rfind(".");
+  if(pos1 == String::npos)
+    return false;
 
-        pos = version.find(".");
-        if(pos == String::npos)
-            return false;
+  first = ::atoi(v.substr(0, pos).c_str());
+  second = ::atoi(v.substr(pos + 1, pos1 - (pos + 1)).c_str());
+  third = ::atoi(v.substr(pos1 + 1, v.length()).c_str());
 
-        pos1 = version.rfind(".");
-        if(pos1 == String::npos)
-            return false;
+  pos = version.find(".");
+  if(pos == String::npos)
+    return false;
 
-        cardFirst  = ::atoi(version.substr(0, pos).c_str());
-        cardSecond = ::atoi(version.substr(pos + 1, pos1 - (pos + 1)).c_str());
-        cardThird  = ::atoi(version.substr(pos1 + 1, version.length()).c_str());
+  pos1 = version.rfind(".");
+  if(pos1 == String::npos)
+    return false;
 
-        if(first <= cardFirst && second <= cardSecond && third <= cardThird)
-          return true;
+  cardFirst  = ::atoi(version.substr(0, pos).c_str());
+  cardSecond = ::atoi(version.substr(pos + 1, pos1 - (pos + 1)).c_str());
+  cardThird  = ::atoi(version.substr(pos1 + 1, version.length()).c_str());
 
-        return false;
-    }
+  if(first <= cardFirst && second <= cardSecond && third <= cardThird)
+    return true;
 
-    bool GLSupport::checkExtension(const String& ext)
-    {
-        if(extensionList.find(ext) == extensionList.end())
-            return false; 
-        
-        return true;
-    }
+  return false;
+}
 
-    GLSupport& GLSupport::getSingleton(void)
-    {   
-      return Singleton<GLSupport>::getSingleton();
-    }
+bool GLSupport::checkExtension(const String& ext) {
+  if(extensionList.find(ext) == extensionList.end())
+    return false;
+
+  return true;
+}
+
+GLSupport& GLSupport::getSingleton(void) {
+  return Singleton<GLSupport>::getSingleton();
+}
 }

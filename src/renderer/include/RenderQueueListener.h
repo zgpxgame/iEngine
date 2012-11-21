@@ -30,46 +30,45 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Abstract interface which classes must implement if they wish to receive
-        events from the render queue. 
-    @remarks
-        The OGRE render queue is divided into several queue groups, as defined by
-        RenderQueueGroupID. A class may implement this interface, and register itself
-        as a listener by calling SceneManager::addRenderQueueListener. After doing so,
-        the class will receive an event before and after each queue group is sent to 
-        the rendering system.
-    @par
-        The event listeners have an option to make a queue either be skipped, or to repeat.
-        Note that if multiple listeners are registered, the one registered last has the final
-        say, although options set by previous listeners will not be changed if the latest
-        does not express a preference.
-    */
-    class _RendererExport RenderQueueListener
-    {
-    public:
-        /** Event raised before a queue group is rendered. 
-        @remarks
-            This method is called by the SceneManager before each queue group is
-            rendered. 
-            @param id The id of the queue group which is about to be rendered
-            @param skipThisQueue A boolean passed by reference which is by default set to 
-                false. If the event sets this to true, the queue will be skipped and not
-                rendered. Note that in this case the renderQueueEnded event will not be raised
-                for this queue group.
-        */
-        virtual void renderQueueStarted(RenderQueueGroupID id, bool& skipThisQueue) = 0;
-        /** Event raised after a queue group is rendered. 
-        @remarks
-            This method is called by the SceneManager after each queue group is
-            rendered. 
-            @param id The id of the queue group which has just been rendered
-            @param repeatThisQueue A boolean passed by reference which is by default set to 
-                false. If the event sets this to true, the queue which has just been
-                rendered will be repeated, and the renderQueueStarted and renderQueueEnded
-                events will also be fired for it again.
-        */
-        virtual void renderQueueEnded(RenderQueueGroupID id, bool& repeatThisQueue) = 0;
-    };
+/** Abstract interface which classes must implement if they wish to receive
+    events from the render queue.
+@remarks
+    The OGRE render queue is divided into several queue groups, as defined by
+    RenderQueueGroupID. A class may implement this interface, and register itself
+    as a listener by calling SceneManager::addRenderQueueListener. After doing so,
+    the class will receive an event before and after each queue group is sent to
+    the rendering system.
+@par
+    The event listeners have an option to make a queue either be skipped, or to repeat.
+    Note that if multiple listeners are registered, the one registered last has the final
+    say, although options set by previous listeners will not be changed if the latest
+    does not express a preference.
+*/
+class _RendererExport RenderQueueListener {
+public:
+  /** Event raised before a queue group is rendered.
+  @remarks
+      This method is called by the SceneManager before each queue group is
+      rendered.
+      @param id The id of the queue group which is about to be rendered
+      @param skipThisQueue A boolean passed by reference which is by default set to
+          false. If the event sets this to true, the queue will be skipped and not
+          rendered. Note that in this case the renderQueueEnded event will not be raised
+          for this queue group.
+  */
+  virtual void renderQueueStarted(RenderQueueGroupID id, bool& skipThisQueue) = 0;
+  /** Event raised after a queue group is rendered.
+  @remarks
+      This method is called by the SceneManager after each queue group is
+      rendered.
+      @param id The id of the queue group which has just been rendered
+      @param repeatThisQueue A boolean passed by reference which is by default set to
+          false. If the event sets this to true, the queue which has just been
+          rendered will be repeated, and the renderQueueStarted and renderQueueEnded
+          events will also be fired for it again.
+  */
+  virtual void renderQueueEnded(RenderQueueGroupID id, bool& repeatThisQueue) = 0;
+};
 
 }
 

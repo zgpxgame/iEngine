@@ -31,9 +31,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 namespace renderer {
-    // Forward declarations
-    class Win32GLSupport;
-    class Win32Window;
+// Forward declarations
+class Win32GLSupport;
+class Win32Window;
 
 }
 

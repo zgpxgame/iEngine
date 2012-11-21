@@ -29,92 +29,82 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Material.h"
 
 namespace renderer {
-    /** Class for serializing a Material to a material.script.*/
-    class _RendererExport MaterialSerializer
-    {
-    public:
-		/** default constructor*/
-		MaterialSerializer();
-		/** default destructor*/
-		virtual ~MaterialSerializer() {};
+/** Class for serializing a Material to a material.script.*/
+class _RendererExport MaterialSerializer {
+public:
+  /** default constructor*/
+  MaterialSerializer();
+  /** default destructor*/
+  virtual ~MaterialSerializer() {};
 
-		/** Queue an in-memory Material to the internal buffer for export.*/
-        void queueForExport(const Material *pMat, bool clearQueued = false, bool exportDefaults = false);
-        /** Exports queued material(s) to a named material script file. */
-		void exportQueued(const String& filename);
-        /** Exports an in-memory Material to the named material script file. */
-        void exportMaterial(const Material *pMat, const String& filename, bool exportDefaults = false);
-		/** Returns a string representing the parsed material(s) */
-		const String &getQueuedAsString() const;
-		/** Clears the internal buffer */
-		void clearQueue();
+  /** Queue an in-memory Material to the internal buffer for export.*/
+  void queueForExport(const Material *pMat, bool clearQueued = false, bool exportDefaults = false);
+  /** Exports queued material(s) to a named material script file. */
+  void exportQueued(const String& filename);
+  /** Exports an in-memory Material to the named material script file. */
+  void exportMaterial(const Material *pMat, const String& filename, bool exportDefaults = false);
+  /** Returns a string representing the parsed material(s) */
+  const String &getQueuedAsString() const;
+  /** Clears the internal buffer */
+  void clearQueue();
 
-    protected:
-		void writeMaterial(const Material *pMat);
-		void writeTextureLayer(const Material::TextureLayer *pTex);
+protected:
+  void writeMaterial(const Material *pMat);
+  void writeTextureLayer(const Material::TextureLayer *pTex);
 
-		void writeSceneBlendFactor(const SceneBlendFactor sbf_src, const SceneBlendFactor sbf_dest);
-		void writeSceneBlendFactor(const SceneBlendFactor sbf);
-		void writeCompareFunction(const CompareFunction cf);
-		void writeColourValue(const ColourValue &colour, bool writeAlpha = false);
-		void writeLayerBlendOperationEx(const LayerBlendOperationEx op);
-		void writeLayerBlendSource(const LayerBlendSource lbs);
-		
-		typedef std::multimap<Material::TextureLayer::TextureEffectType, Material::TextureLayer::TextureEffect> EffectMap;
+  void writeSceneBlendFactor(const SceneBlendFactor sbf_src, const SceneBlendFactor sbf_dest);
+  void writeSceneBlendFactor(const SceneBlendFactor sbf);
+  void writeCompareFunction(const CompareFunction cf);
+  void writeColourValue(const ColourValue &colour, bool writeAlpha = false);
+  void writeLayerBlendOperationEx(const LayerBlendOperationEx op);
+  void writeLayerBlendSource(const LayerBlendSource lbs);
 
-		void writeRotationEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
-		void writeTransformEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
-		void writeScrollEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
-		void writeEnvironmentMapEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
+  typedef std::multimap<Material::TextureLayer::TextureEffectType, Material::TextureLayer::TextureEffect> EffectMap;
 
-	private:
-		String mBuffer;
-		bool mDefaults;
+  void writeRotationEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
+  void writeTransformEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
+  void writeScrollEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
+  void writeEnvironmentMapEffect(const Material::TextureLayer::TextureEffect effect, const Material::TextureLayer *pTex);
 
-		void beginSection(void)
-		{
-			mBuffer += "\n{";
-		}
+private:
+  String mBuffer;
+  bool mDefaults;
 
-		void endSection(void)
-		{
-			mBuffer += "\n}\n";
-		}
+  void beginSection(void) {
+    mBuffer += "\n{";
+  }
 
-		void beginSubSection(void)
-		{
-			mBuffer += "\n\t{";
-		}
+  void endSection(void) {
+    mBuffer += "\n}\n";
+  }
 
-		void endSubSection(void)
-		{
-			mBuffer += "\n\t}";
-		}
+  void beginSubSection(void) {
+    mBuffer += "\n\t{";
+  }
 
-		void writeAttribute(String att)
-		{
-			mBuffer += ("\n\t" + att);
-		}
+  void endSubSection(void) {
+    mBuffer += "\n\t}";
+  }
 
-		void writeValue(String val)
-		{
-			mBuffer += (" " + val);
-		}
+  void writeAttribute(String att) {
+    mBuffer += ("\n\t" + att);
+  }
 
-		void writeSubAttribute(String att)
-		{
-			mBuffer += ("\n\t\t" + att);
-		}
+  void writeValue(String val) {
+    mBuffer += (" " + val);
+  }
 
-		void writeComment(String comment)
-		{
-			mBuffer += ("\n\t//" + comment);
-		}
+  void writeSubAttribute(String att) {
+    mBuffer += ("\n\t\t" + att);
+  }
 
-		void writeSubComment(String comment)
-		{
-			mBuffer += ("\n\t\t//" + comment);
-		}
-    };
+  void writeComment(String comment) {
+    mBuffer += ("\n\t//" + comment);
+  }
+
+  void writeSubComment(String comment) {
+    mBuffer += ("\n\t\t//" + comment);
+  }
+};
 }
 #endif

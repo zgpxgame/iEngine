@@ -26,38 +26,32 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Skeleton.h"
 
-namespace renderer
-{
-    //-----------------------------------------------------------------------
-    template<> SkeletonManager* Singleton<SkeletonManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
-    SkeletonManager::SkeletonManager()
-    {
+namespace renderer {
+//-----------------------------------------------------------------------
+template<> SkeletonManager* Singleton<SkeletonManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
+SkeletonManager::SkeletonManager() {
 
 
-    }
-    //-----------------------------------------------------------------------
-    Resource* SkeletonManager::create( const String& name)
-    {
-        return new Skeleton(name);
-    }
-    //-----------------------------------------------------------------------
-    Skeleton* SkeletonManager::load( const String& filename, int priority)
-    {
-        Skeleton* pSkeleton = (Skeleton*)(getByName(filename));
-        if (!pSkeleton)
-        {
-            pSkeleton = (Skeleton*)create(filename);
-            ResourceManager::load(pSkeleton, priority);
-        }
-        return pSkeleton;
+}
+//-----------------------------------------------------------------------
+Resource* SkeletonManager::create( const String& name) {
+  return new Skeleton(name);
+}
+//-----------------------------------------------------------------------
+Skeleton* SkeletonManager::load( const String& filename, int priority) {
+  Skeleton* pSkeleton = (Skeleton*)(getByName(filename));
+  if (!pSkeleton) {
+    pSkeleton = (Skeleton*)create(filename);
+    ResourceManager::load(pSkeleton, priority);
+  }
+  return pSkeleton;
 
-    }
-    //-----------------------------------------------------------------------
-    SkeletonManager& SkeletonManager::getSingleton(void)
-    {
-        return Singleton<SkeletonManager>::getSingleton();
-    }
+}
+//-----------------------------------------------------------------------
+SkeletonManager& SkeletonManager::getSingleton(void) {
+  return Singleton<SkeletonManager>::getSingleton();
+}
 
 
 

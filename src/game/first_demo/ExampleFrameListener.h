@@ -48,53 +48,47 @@ Description: Defines an example frame listener which responds to frame events.
 
 using namespace renderer;
 
-class ExampleFrameListener: public FrameListener
-{
+class ExampleFrameListener: public FrameListener {
 public:
-    // Constructor takes a RenderWindow because it uses that to determine input context
-    ExampleFrameListener(RenderWindow* win, Camera* cam)
-    {
-        mCamera = cam;
-        mWindow = win;
-		mNumScreenShots = 0;
-		mTimeUntilNextToggle = 0;
-    }
-    virtual ~ExampleFrameListener()
-    {
-    }
+  // Constructor takes a RenderWindow because it uses that to determine input context
+  ExampleFrameListener(RenderWindow* win, Camera* cam) {
+    mCamera = cam;
+    mWindow = win;
+    mNumScreenShots = 0;
+    mTimeUntilNextToggle = 0;
+  }
+  virtual ~ExampleFrameListener() {
+  }
 
-	virtual bool frameStarted(const FrameEvent& evt) 
-	{ 
-		return true; 
-	}
+  virtual bool frameStarted(const FrameEvent& evt) {
+    return true;
+  }
 
-    virtual bool frameEnded(const FrameEvent& evt) 
-	{ 
-		return true; 
-	}
+  virtual bool frameEnded(const FrameEvent& evt) {
+    return true;
+  }
 
 
-	void moveCamera()
-	{
+  void moveCamera() {
 
-        // Make all the changes to the camera
-        // Note that YAW direction is around a fixed axis (freelook style) rather than a natural YAW (e.g. airplane)
-        mCamera->yaw(mRotX);
-        mCamera->pitch(mRotY);
-        mCamera->moveRelative(mTranslateVector);
+    // Make all the changes to the camera
+    // Note that YAW direction is around a fixed axis (freelook style) rather than a natural YAW (e.g. airplane)
+    mCamera->yaw(mRotX);
+    mCamera->pitch(mRotY);
+    mCamera->moveRelative(mTranslateVector);
 
-	}
+  }
 
 protected:
-    Camera* mCamera;
-    Vector3 mTranslateVector;
-    RenderWindow* mWindow;
-	unsigned int mNumScreenShots;
-    float mMoveScale;
-    float mRotScale;
-    // just to stop toggles flipping too fast
-    Real mTimeUntilNextToggle ;
-    float mRotX, mRotY;
+  Camera* mCamera;
+  Vector3 mTranslateVector;
+  RenderWindow* mWindow;
+  unsigned int mNumScreenShots;
+  float mMoveScale;
+  float mRotScale;
+  // just to stop toggles flipping too fast
+  Real mTimeUntilNextToggle ;
+  float mRotX, mRotY;
 
 };
 

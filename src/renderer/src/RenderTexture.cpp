@@ -25,31 +25,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "RenderTexture.h"
 
-namespace renderer
-{
-	RenderTexture::RenderTexture( const String & name, uint width, uint height, TextureType texType )
-	{
-        if (texType != TEX_TYPE_2D &&
-			texType != TEX_TYPE_CUBE_MAP)
-		{
-			Except( Exception::UNIMPLEMENTED_FEATURE, 
-					"Render to texture is implemented only for 2D and cube textures !!!", 
-					"RenderTexture::RenderTexture" );
-		}
+namespace renderer {
+RenderTexture::RenderTexture( const String & name, uint width, uint height, TextureType texType ) {
+  if (texType != TEX_TYPE_2D &&
+      texType != TEX_TYPE_CUBE_MAP) {
+    Except( Exception::UNIMPLEMENTED_FEATURE,
+            "Render to texture is implemented only for 2D and cube textures !!!",
+            "RenderTexture::RenderTexture" );
+  }
 
-        mName = name;
-        mWidth = width;
-        mHeight = height;
-        mPriority = OGRE_REND_TO_TEX_RT_GROUP;
+  mName = name;
+  mWidth = width;
+  mHeight = height;
+  mPriority = OGRE_REND_TO_TEX_RT_GROUP;
 
-		mTexture = TextureManager::getSingleton().createManual( mName, texType, mWidth, mHeight, 0, PF_R8G8B8, TU_RENDERTARGET );
-		TextureManager::getSingleton().load( static_cast< Resource * >( mTexture ) );
-    }
+  mTexture = TextureManager::getSingleton().createManual( mName, texType, mWidth, mHeight, 0, PF_R8G8B8, TU_RENDERTARGET );
+  TextureManager::getSingleton().load( static_cast< Resource * >( mTexture ) );
+}
 
-	void RenderTexture::firePostUpdate()
-	{
-		RenderTarget::firePostUpdate();
+void RenderTexture::firePostUpdate() {
+  RenderTarget::firePostUpdate();
 
-		_copyToTexture();
-	}
+  _copyToTexture();
+}
 }

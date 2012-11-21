@@ -25,79 +25,71 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "TextureManager.h"
 
 namespace renderer {
-    //-----------------------------------------------------------------------
-    template<> TextureManager* Singleton<TextureManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
-    TextureManager::~TextureManager(){}
-    //-----------------------------------------------------------------------
-    Texture * TextureManager::load(
-        const String &name, TextureType texType, int numMipMaps, 
-        Real gamma, int priority )
-    {
-        Texture* tex = (Texture*)getByName( name );
+//-----------------------------------------------------------------------
+template<> TextureManager* Singleton<TextureManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
+TextureManager::~TextureManager() {}
+//-----------------------------------------------------------------------
+Texture * TextureManager::load(
+  const String &name, TextureType texType, int numMipMaps,
+  Real gamma, int priority ) {
+  Texture* tex = (Texture*)getByName( name );
 
-        if( tex == NULL )
-        {
-            tex = (Texture*)create( name, texType );
+  if( tex == NULL ) {
+    tex = (Texture*)create( name, texType );
 
-            if (numMipMaps == -1)
-                tex->setNumMipMaps(mDefaultNumMipMaps);
-            else
-                tex->setNumMipMaps(numMipMaps);
+    if (numMipMaps == -1)
+      tex->setNumMipMaps(mDefaultNumMipMaps);
+    else
+      tex->setNumMipMaps(numMipMaps);
 
-            tex->setGamma( gamma );
-            tex->enable32Bit( mIs32Bit );
+    tex->setGamma( gamma );
+    tex->enable32Bit( mIs32Bit );
 
-            ResourceManager::load( tex, priority );
-        }
+    ResourceManager::load( tex, priority );
+  }
 
-        return tex;
-    }
+  return tex;
+}
 
-    //-----------------------------------------------------------------------
-    Texture * TextureManager::loadImage( 
-        const String &name, const Image &img, TextureType texType,
-        int iNumMipMaps /* = -1 */, Real gamma /* = 1.0f  */, int priority /* = 1 */ )
-    {
-        Texture *tex = (Texture*)create( name, texType );
+//-----------------------------------------------------------------------
+Texture * TextureManager::loadImage(
+  const String &name, const Image &img, TextureType texType,
+  int iNumMipMaps /* = -1 */, Real gamma /* = 1.0f  */, int priority /* = 1 */ ) {
+  Texture *tex = (Texture*)create( name, texType );
 
-        if( iNumMipMaps == -1 )
-            tex->setNumMipMaps( mDefaultNumMipMaps );
-        else
-            tex->setNumMipMaps( iNumMipMaps );
+  if( iNumMipMaps == -1 )
+    tex->setNumMipMaps( mDefaultNumMipMaps );
+  else
+    tex->setNumMipMaps( iNumMipMaps );
 
-        tex->setGamma( gamma );        
-        tex->loadImage( img );
+  tex->setGamma( gamma );
+  tex->loadImage( img );
 
-        mResources[ tex->getName() ] = tex;
+  mResources[ tex->getName() ] = tex;
 
-        return tex;
-    }
-    //-----------------------------------------------------------------------
-    void TextureManager::unload( String filename )
-    {
-        Resource* res = getByName( filename );
-        ResourceManager::unload( res );
-    }
-    //-----------------------------------------------------------------------
-    void TextureManager::enable32BitTextures( bool setting )
-    {
-        // Reload all textures
-        for( ResourceMap::iterator it = mResources.begin(); it != mResources.end(); ++it )
-        {
-            ((Texture*)it->second)->unload();
-            ((Texture*)it->second)->enable32Bit(setting);
-            ((Texture*)it->second)->load();
-        }
-    }
-    //-----------------------------------------------------------------------
-    void TextureManager::setDefaultNumMipMaps( int num )
-    {
-        mDefaultNumMipMaps = num;
-    }
-    //-----------------------------------------------------------------------
-    TextureManager& TextureManager::getSingleton(void)
-    {
-        return Singleton<TextureManager>::getSingleton();
-    }
+  return tex;
+}
+//-----------------------------------------------------------------------
+void TextureManager::unload( String filename ) {
+  Resource* res = getByName( filename );
+  ResourceManager::unload( res );
+}
+//-----------------------------------------------------------------------
+void TextureManager::enable32BitTextures( bool setting ) {
+  // Reload all textures
+  for( ResourceMap::iterator it = mResources.begin(); it != mResources.end(); ++it ) {
+    ((Texture*)it->second)->unload();
+    ((Texture*)it->second)->enable32Bit(setting);
+    ((Texture*)it->second)->load();
+  }
+}
+//-----------------------------------------------------------------------
+void TextureManager::setDefaultNumMipMaps( int num ) {
+  mDefaultNumMipMaps = num;
+}
+//-----------------------------------------------------------------------
+TextureManager& TextureManager::getSingleton(void) {
+  return Singleton<TextureManager>::getSingleton();
+}
 }

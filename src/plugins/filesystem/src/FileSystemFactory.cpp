@@ -3,30 +3,25 @@
 
 namespace renderer {
 
-    FileSystemFactory::~FileSystemFactory()
-    {
-    }
+FileSystemFactory::~FileSystemFactory() {
+}
 
-    //-----------------------------------------------------------------------
-    String FileSystemFactory::getArchiveType(void)
-    {
-        return "FileSystem";
-    }
+//-----------------------------------------------------------------------
+String FileSystemFactory::getArchiveType(void) {
+  return "FileSystem";
+}
 
-    //-----------------------------------------------------------------------
-    ArchiveEx* FileSystemFactory::createArchive(const String& name)
-    {
-        return new FileSystem(name);
-    }
+//-----------------------------------------------------------------------
+ArchiveEx* FileSystemFactory::createArchive(const String& name) {
+  return new FileSystem(name);
+}
 
-    String FileSystemFactory::getType()
-    {
-        return "FileSystem";
-    }
+String FileSystemFactory::getType() {
+  return "FileSystem";
+}
 
-    ArchiveEx *FileSystemFactory::createObj( const String& name)
-    {
-        return new FileSystem(name);
-    }
+ArchiveEx *FileSystemFactory::createObj( const String& name) {
+  return new FileSystem(name);
+}
 
 }

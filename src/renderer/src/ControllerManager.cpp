@@ -29,170 +29,149 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 namespace renderer {
-    //-----------------------------------------------------------------------
-    template<> ControllerManager* Singleton<ControllerManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
-    ControllerManager::ControllerManager()
-		: mFrameTimeController(new FrameTimeControllerValue())
-    {
+//-----------------------------------------------------------------------
+template<> ControllerManager* Singleton<ControllerManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
+ControllerManager::ControllerManager()
+  : mFrameTimeController(new FrameTimeControllerValue()) {
 
+}
+//-----------------------------------------------------------------------
+ControllerManager::~ControllerManager() {
+  clearControllers();
+}
+//-----------------------------------------------------------------------
+Controller* ControllerManager::createController(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func) {
+  Controller* c = new Controller(src, dest, func);
+
+  mControllers.insert(c);
+  return c;
+}
+//-----------------------------------------------------------------------
+void ControllerManager::updateAllControllers(void) {
+  ControllerList::iterator ci;
+  for (ci = mControllers.begin(); ci != mControllers.end(); ++ci) {
+    (*ci)->update();
+  }
+}
+//-----------------------------------------------------------------------
+void ControllerManager::clearControllers(void) {
+  ControllerList::iterator ci;
+  for (ci = mControllers.begin(); ci != mControllers.end(); ++ci) {
+    delete *ci;
+  }
+  mControllers.clear();
+}
+//-----------------------------------------------------------------------
+SharedPtr<ControllerValue> ControllerManager::getFrameTimeSource(void) {
+  return mFrameTimeController;
+}
+//-----------------------------------------------------------------------
+Controller* ControllerManager::createTextureAnimator(Material::TextureLayer* layer, Real sequenceTime) {
+  SharedPtr<ControllerValue> texVal(new TextureFrameControllerValue(layer));
+  SharedPtr<ControllerFunction> animFunc(new AnimationControllerFunction(sequenceTime));
+
+  return createController(mFrameTimeController, texVal, animFunc);
+}
+//-----------------------------------------------------------------------
+Controller* ControllerManager::createTextureScroller(Material::TextureLayer* layer, Real uSpeed, Real vSpeed) {
+  Controller* ret = 0;
+
+  // Set up 1 or 2 controllers to manage the scrolling texture
+  if (uSpeed != 0) {
+    SharedPtr<ControllerValue> uVal;
+    SharedPtr<ControllerFunction> uFunc;
+
+    if (uSpeed == vSpeed) {
+      // Cool, we can do both scrolls with a single controller
+      uVal.bind(new TexCoordModifierControllerValue(layer, true, true));
+    } else {
+      // Just do u, v will take a second controller
+      uVal.bind(new TexCoordModifierControllerValue(layer, true));
     }
-    //-----------------------------------------------------------------------
-    ControllerManager::~ControllerManager()
-    {
-        clearControllers();
-    }
-    //-----------------------------------------------------------------------
-    Controller* ControllerManager::createController(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func)
-    {
-        Controller* c = new Controller(src, dest, func);
+    // Create function: use -speed since we're altering texture coords so they have reverse effect
+    uFunc.bind(new ScaleControllerFunction(-uSpeed, true));
+    ret = createController(mFrameTimeController, uVal, uFunc);
+  }
 
-        mControllers.insert(c);
-        return c;
-    }
-    //-----------------------------------------------------------------------
-    void ControllerManager::updateAllControllers(void)
-    {
-        ControllerList::iterator ci;
-        for (ci = mControllers.begin(); ci != mControllers.end(); ++ci)
-        {
-            (*ci)->update();
-        }
-    }
-    //-----------------------------------------------------------------------
-    void ControllerManager::clearControllers(void)
-    {
-        ControllerList::iterator ci;
-        for (ci = mControllers.begin(); ci != mControllers.end(); ++ci)
-        {
-            delete *ci;
-        }
-        mControllers.clear();
-    }
-    //-----------------------------------------------------------------------
-    SharedPtr<ControllerValue> ControllerManager::getFrameTimeSource(void)
-    {
-        return mFrameTimeController;
-    }
-    //-----------------------------------------------------------------------
-    Controller* ControllerManager::createTextureAnimator(Material::TextureLayer* layer, Real sequenceTime)
-    {
-        SharedPtr<ControllerValue> texVal(new TextureFrameControllerValue(layer));
-        SharedPtr<ControllerFunction> animFunc(new AnimationControllerFunction(sequenceTime));
+  if (vSpeed != 0 && (uSpeed == 0 || vSpeed != uSpeed)) {
+    SharedPtr<ControllerValue> vVal;
+    SharedPtr<ControllerFunction> vFunc;
 
-        return createController(mFrameTimeController, texVal, animFunc);
-    }
-    //-----------------------------------------------------------------------
-    Controller* ControllerManager::createTextureScroller(Material::TextureLayer* layer, Real uSpeed, Real vSpeed)
-    {
-        Controller* ret = 0;
+    // Set up a second controller for v scroll
+    vVal.bind(new TexCoordModifierControllerValue(layer, false, true));
+    // Create function: use -speed since we're altering texture coords so they have reverse effect
+    vFunc.bind(new ScaleControllerFunction(-vSpeed, true));
+    ret = createController(mFrameTimeController, vVal, vFunc);
+  }
 
-        // Set up 1 or 2 controllers to manage the scrolling texture
-        if (uSpeed != 0)
-        {
-			SharedPtr<ControllerValue> uVal;
-			SharedPtr<ControllerFunction> uFunc;
+  return ret;
+}
+//-----------------------------------------------------------------------
+Controller* ControllerManager::createTextureRotater(Material::TextureLayer* layer, Real speed) {
+  SharedPtr<ControllerValue> val;
+  SharedPtr<ControllerFunction> func;
 
-            if (uSpeed == vSpeed)
-            {
-                // Cool, we can do both scrolls with a single controller
-                uVal.bind(new TexCoordModifierControllerValue(layer, true, true));
-            }
-            else
-            {
-                // Just do u, v will take a second controller
-                uVal.bind(new TexCoordModifierControllerValue(layer, true));
-            }
-            // Create function: use -speed since we're altering texture coords so they have reverse effect
-            uFunc.bind(new ScaleControllerFunction(-uSpeed, true));
-            ret = createController(mFrameTimeController, uVal, uFunc);
-        }
+  // Target value is texture coord rotation
+  val.bind(new TexCoordModifierControllerValue(layer, false, false, false, false, true));
+  // Function is simple scale (seconds * speed)
+  // Use -speed since altering texture coords has the reverse visible effect
+  func.bind(new ScaleControllerFunction(-speed, true));
 
-        if (vSpeed != 0 && (uSpeed == 0 || vSpeed != uSpeed))
-        {
-			SharedPtr<ControllerValue> vVal;
-			SharedPtr<ControllerFunction> vFunc;
+  return createController(mFrameTimeController, val, func);
 
-            // Set up a second controller for v scroll
-            vVal.bind(new TexCoordModifierControllerValue(layer, false, true));
-            // Create function: use -speed since we're altering texture coords so they have reverse effect
-            vFunc.bind(new ScaleControllerFunction(-vSpeed, true));
-            ret = createController(mFrameTimeController, vVal, vFunc);
-        }
+}
+//-----------------------------------------------------------------------
+Controller* ControllerManager::createTextureWaveTransformer(Material::TextureLayer* layer,
+    Material::TextureLayer::TextureTransformType ttype, WaveformType waveType, Real base, Real frequency, Real phase, Real amplitude) {
+  SharedPtr<ControllerValue> val;
+  SharedPtr<ControllerFunction> func;
 
-        return ret;
-    }
-    //-----------------------------------------------------------------------
-    Controller* ControllerManager::createTextureRotater(Material::TextureLayer* layer, Real speed)
-    {
-        SharedPtr<ControllerValue> val;
-        SharedPtr<ControllerFunction> func;
+  switch (ttype) {
+  case Material::TextureLayer::TT_TRANSLATE_U:
+    // Target value is a u scroll
+    val.bind(new TexCoordModifierControllerValue(layer, true));
+    break;
+  case Material::TextureLayer::TT_TRANSLATE_V:
+    // Target value is a v scroll
+    val.bind(new TexCoordModifierControllerValue(layer, false, true));
+    break;
+  case Material::TextureLayer::TT_SCALE_U:
+    // Target value is a u scale
+    val.bind(new TexCoordModifierControllerValue(layer, false, false, true));
+    break;
+  case Material::TextureLayer::TT_SCALE_V:
+    // Target value is a v scale
+    val.bind(new TexCoordModifierControllerValue(layer, false, false, false, true));
+    break;
+  case Material::TextureLayer::TT_ROTATE:
+    // Target value is texture coord rotation
+    val.bind(new TexCoordModifierControllerValue(layer, false, false, false, false, true));
+    break;
+  }
+  // Create new wave function for alterations
+  func.bind(new WaveformControllerFunction(waveType, base, frequency, phase, amplitude, true));
 
-        // Target value is texture coord rotation
-        val.bind(new TexCoordModifierControllerValue(layer, false, false, false, false, true));
-        // Function is simple scale (seconds * speed)
-        // Use -speed since altering texture coords has the reverse visible effect
-        func.bind(new ScaleControllerFunction(-speed, true));
-
-        return createController(mFrameTimeController, val, func);
-
-    }
-    //-----------------------------------------------------------------------
-    Controller* ControllerManager::createTextureWaveTransformer(Material::TextureLayer* layer,
-        Material::TextureLayer::TextureTransformType ttype, WaveformType waveType, Real base, Real frequency, Real phase, Real amplitude)
-    {
-        SharedPtr<ControllerValue> val;
-        SharedPtr<ControllerFunction> func;
-
-        switch (ttype)
-        {
-        case Material::TextureLayer::TT_TRANSLATE_U:
-            // Target value is a u scroll
-            val.bind(new TexCoordModifierControllerValue(layer, true));
-            break;
-        case Material::TextureLayer::TT_TRANSLATE_V:
-            // Target value is a v scroll
-            val.bind(new TexCoordModifierControllerValue(layer, false, true));
-            break;
-        case Material::TextureLayer::TT_SCALE_U:
-            // Target value is a u scale
-            val.bind(new TexCoordModifierControllerValue(layer, false, false, true));
-            break;
-        case Material::TextureLayer::TT_SCALE_V:
-            // Target value is a v scale
-            val.bind(new TexCoordModifierControllerValue(layer, false, false, false, true));
-            break;
-        case Material::TextureLayer::TT_ROTATE:
-            // Target value is texture coord rotation
-            val.bind(new TexCoordModifierControllerValue(layer, false, false, false, false, true));
-            break;
-        }
-        // Create new wave function for alterations
-        func.bind(new WaveformControllerFunction(waveType, base, frequency, phase, amplitude, true));
-
-        return createController(mFrameTimeController, val, func);
-    }
-    //-----------------------------------------------------------------------
-    ControllerManager& ControllerManager::getSingleton(void)
-    {
-        return Singleton<ControllerManager>::getSingleton();
-    }
-    //-----------------------------------------------------------------------
-    void ControllerManager::destroyController(Controller* controller)
-    {
-        ControllerList::iterator i = mControllers.find(controller);
-        if (i != mControllers.end())
-        {
-            mControllers.erase(i);
-            delete controller;
-        }
-    }
-	//-----------------------------------------------------------------------
-	Real ControllerManager::getTimeFactor(void) const {
-		return static_cast<const FrameTimeControllerValue*>(mFrameTimeController.get())->getTimeFactor();
-	}
-	//-----------------------------------------------------------------------
-	void ControllerManager::setTimeFactor(Real tf) {
-		static_cast<FrameTimeControllerValue*>(mFrameTimeController.getPointer())->setTimeFactor(tf);
-	}
+  return createController(mFrameTimeController, val, func);
+}
+//-----------------------------------------------------------------------
+ControllerManager& ControllerManager::getSingleton(void) {
+  return Singleton<ControllerManager>::getSingleton();
+}
+//-----------------------------------------------------------------------
+void ControllerManager::destroyController(Controller* controller) {
+  ControllerList::iterator i = mControllers.find(controller);
+  if (i != mControllers.end()) {
+    mControllers.erase(i);
+    delete controller;
+  }
+}
+//-----------------------------------------------------------------------
+Real ControllerManager::getTimeFactor(void) const {
+  return static_cast<const FrameTimeControllerValue*>(mFrameTimeController.get())->getTimeFactor();
+}
+//-----------------------------------------------------------------------
+void ControllerManager::setTimeFactor(Real tf) {
+  static_cast<FrameTimeControllerValue*>(mFrameTimeController.getPointer())->setTimeFactor(tf);
+}
 }

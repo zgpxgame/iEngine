@@ -31,65 +31,65 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Common structure containing info about geometry.
-    */
-    struct GeometryData {
-        /// Count of the number of vertices contained herein.
-        unsigned short numVertices;
-        /// If true, vertex normals are present in the data.
-        bool hasNormals;
-        /// Number of texture coordinates sets present in the data.
-        unsigned short numTexCoords;
-        /// Number of texture dimensions in each set of texture coords.
-        unsigned short numTexCoordDimensions[OGRE_MAX_TEXTURE_COORD_SETS];
-        /// If true, vertex colours are present in the data.
-        bool hasColours;
+/** Common structure containing info about geometry.
+*/
+struct GeometryData {
+  /// Count of the number of vertices contained herein.
+  unsigned short numVertices;
+  /// If true, vertex normals are present in the data.
+  bool hasNormals;
+  /// Number of texture coordinates sets present in the data.
+  unsigned short numTexCoords;
+  /// Number of texture dimensions in each set of texture coords.
+  unsigned short numTexCoordDimensions[OGRE_MAX_TEXTURE_COORD_SETS];
+  /// If true, vertex colours are present in the data.
+  bool hasColours;
 
-        /// Position (x,y,z) components of shared vertices.
-        Real* pVertices;
-        /// Texture coordinate components of shared vertices.
-        Real* pTexCoords[OGRE_MAX_TEXTURE_COORD_SETS];
-        /// Vertex normal components of shared vertices.
-        Real* pNormals;
-        /// Vertex colour components of shared vertices - RGBA packed.
-        unsigned long* pColours;
+  /// Position (x,y,z) components of shared vertices.
+  Real* pVertices;
+  /// Texture coordinate components of shared vertices.
+  Real* pTexCoords[OGRE_MAX_TEXTURE_COORD_SETS];
+  /// Vertex normal components of shared vertices.
+  Real* pNormals;
+  /// Vertex colour components of shared vertices - RGBA packed.
+  unsigned long* pColours;
 
-        /// The 'Stride' between sets of vertex data. 0 indicates data is packed with no gaps.
-        unsigned short vertexStride;
-        /// The 'Stride' between sets of normal data. 0 indicates data is packed with no gaps.
-        unsigned short normalStride;
-        /// The 'Stride' between each set of texture data. 0 indicates data is packed with no gaps.
-        unsigned short texCoordStride[OGRE_MAX_TEXTURE_COORD_SETS];
-        /// The 'Stride' between sets of diffuse colour data. 0 indicates data is packed with no gaps.
-        unsigned short colourStride;
+  /// The 'Stride' between sets of vertex data. 0 indicates data is packed with no gaps.
+  unsigned short vertexStride;
+  /// The 'Stride' between sets of normal data. 0 indicates data is packed with no gaps.
+  unsigned short normalStride;
+  /// The 'Stride' between each set of texture data. 0 indicates data is packed with no gaps.
+  unsigned short texCoordStride[OGRE_MAX_TEXTURE_COORD_SETS];
+  /// The 'Stride' between sets of diffuse colour data. 0 indicates data is packed with no gaps.
+  unsigned short colourStride;
 
-        /// The number of vertex blending weights per vertex
-        unsigned short numBlendWeightsPerVertex;
+  /// The number of vertex blending weights per vertex
+  unsigned short numBlendWeightsPerVertex;
 
-        /** Optional pointer to a list of vertex blending details, organised in vertex order. 
-            The number of weights per vertex is recorded in numBlendWeightsPerVertex - there must
-            be this many for every vertex: set the weight to 0 for those vertices that don't 
-            use all the entries (if some vertices have more than others)
-        */
-        RenderOperation::VertexBlendData* pBlendingWeights;
+  /** Optional pointer to a list of vertex blending details, organised in vertex order.
+      The number of weights per vertex is recorded in numBlendWeightsPerVertex - there must
+      be this many for every vertex: set the weight to 0 for those vertices that don't
+      use all the entries (if some vertices have more than others)
+  */
+  RenderOperation::VertexBlendData* pBlendingWeights;
 
 
-    };
+};
 
-    /** Helper struct when dealing with buffers.
-    */
-    typedef struct _GeomVector {
-        Real x;
-        Real y;
-        Real z;
-    } GeomVertexPosition, GeomVertexNormal;
+/** Helper struct when dealing with buffers.
+*/
+typedef struct _GeomVector {
+  Real x;
+  Real y;
+  Real z;
+} GeomVertexPosition, GeomVertexNormal;
 
-    /** Helper struct when dealing with buffers.
-    */
-    struct GeomTexCoord2D {
-        Real u;
-        Real v;
-    };
+/** Helper struct when dealing with buffers.
+*/
+struct GeomTexCoord2D {
+  Real u;
+  Real v;
+};
 }// namespace
 
 #endif

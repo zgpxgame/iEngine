@@ -29,29 +29,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    /** Class for manipulating bit patterns.
-    */
-    class _RendererExport Bitwise {
-    public:
-        typedef unsigned char BYTE;
-        typedef unsigned short WORD;
-        typedef unsigned long DWORD;
+/** Class for manipulating bit patterns.
+*/
+class _RendererExport Bitwise {
+public:
+  typedef unsigned char BYTE;
+  typedef unsigned short WORD;
+  typedef unsigned long DWORD;
 
-        /** Returns the number of bits a pattern must be shifted right by to
-            remove right-hand zeroes.
-        */
-        static int getBitShift(DWORD mask);
+  /** Returns the number of bits a pattern must be shifted right by to
+      remove right-hand zeroes.
+  */
+  static int getBitShift(DWORD mask);
 
-        /** Takes a value with a given src bit mask, and produces another
-            value with a desired bit mask.
-            @remarks
-                For flexibility, values are passed in as void pointers and
-                the size of the bit patterns are determined by params.
-                This routine is useful for colour conversion.
-        */
-        static void convertBitPattern(void* srcValue, void* srcBitMask, int srcBitCount,
-                       void* destValue, void* destBitMask, int destBitCount);
-    };
+  /** Takes a value with a given src bit mask, and produces another
+      value with a desired bit mask.
+      @remarks
+          For flexibility, values are passed in as void pointers and
+          the size of the bit patterns are determined by params.
+          This routine is useful for colour conversion.
+  */
+  static void convertBitPattern(void* srcValue, void* srcBitMask, int srcBitCount,
+                                void* destValue, void* destBitMask, int destBitCount);
+};
 }
 
 #endif

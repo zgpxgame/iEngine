@@ -24,27 +24,22 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "Timer.h"
 
-namespace renderer
-{
-	Timer::Timer()
-	{
-        // SJS: removed reset call since this is not polymorphic
-		// reset();
-	}
-	
-	void Timer::Reset()
-	{
-		zeroClock = clock();
-	}
-	
-	unsigned long Timer::GetMilliseconds()
-	{
-		return getMillisecondsCPU();
-	}
-	
-	unsigned long Timer::getMillisecondsCPU()
-	{
-		clock_t newClock = clock();
-		return (unsigned long)((float)(newClock-zeroClock) / ((float)CLOCKS_PER_SEC/1000.0)) ;
-	}
+namespace renderer {
+Timer::Timer() {
+  // SJS: removed reset call since this is not polymorphic
+  // reset();
+}
+
+void Timer::Reset() {
+  zeroClock = clock();
+}
+
+unsigned long Timer::GetMilliseconds() {
+  return getMillisecondsCPU();
+}
+
+unsigned long Timer::getMillisecondsCPU() {
+  clock_t newClock = clock();
+  return (unsigned long)((float)(newClock-zeroClock) / ((float)CLOCKS_PER_SEC/1000.0)) ;
+}
 }

@@ -47,87 +47,78 @@ namespace renderer {
             2. The load() and unload() methods - mSize must be set after load()
             Each must check & update the mIsLoaded flag.
 */
-class _RendererExport Resource 
-{
+class _RendererExport Resource {
 protected:
-    String mName;
-    bool   mIsLoaded;
-    time_t mLastAccess;
-    size_t mSize;
+  String mName;
+  bool   mIsLoaded;
+  time_t mLastAccess;
+  size_t mSize;
 
 public:
-    /** Basic constructor. 
-        @warn
-            Subclasses must init mName and mSize!
-    */
-    Resource() 
-        : mIsLoaded( false ), mSize( 0 )
-    { 
-    }
+  /** Basic constructor.
+      @warn
+          Subclasses must init mName and mSize!
+  */
+  Resource()
+    : mIsLoaded( false ), mSize( 0 ) {
+  }
 
-    /** Virtual destructor. Shouldn't need to be overloaded, as the resource
-        deallocation code should reside in unload()
-        @see
-            Resource::unload()
-    */
-    virtual ~Resource() 
-    { 
-        if( mIsLoaded )
-            unload(); 
-    }
+  /** Virtual destructor. Shouldn't need to be overloaded, as the resource
+      deallocation code should reside in unload()
+      @see
+          Resource::unload()
+  */
+  virtual ~Resource() {
+    if( mIsLoaded )
+      unload();
+  }
 
-    /** Loads the resource, if it is not already.
-    */
-    virtual void load() = 0;
+  /** Loads the resource, if it is not already.
+  */
+  virtual void load() = 0;
 
-    /** Unloads the resource, but retains data to recreate.
-    */
-    virtual void unload() {};
+  /** Unloads the resource, but retains data to recreate.
+  */
+  virtual void unload() {};
 
-    /** Retrieves info about the size of the resource.
-    */
-    virtual size_t getSize(void) 
-    { 
-        return mSize; 
-    }
+  /** Retrieves info about the size of the resource.
+  */
+  virtual size_t getSize(void) {
+    return mSize;
+  }
 
-    /** 'Touches' the resource to indicate it has been used.
-    */
-    void touch(void) 
-    { 
-        mLastAccess = time(NULL); 
-    }
+  /** 'Touches' the resource to indicate it has been used.
+  */
+  void touch(void) {
+    mLastAccess = time(NULL);
+  }
 
-    /** Gets the last time the resource was 'touched'.
-    */
-    time_t getLastAccess(void) const 
-    { 
-        return mLastAccess; 
-    }
+  /** Gets the last time the resource was 'touched'.
+  */
+  time_t getLastAccess(void) const {
+    return mLastAccess;
+  }
 
-    /** Gets resource name.
-    */
-    const String& getName(void) const 
-    { 
-        return mName; 
-    }
+  /** Gets resource name.
+  */
+  const String& getName(void) const {
+    return mName;
+  }
 
-    /** Returns true if the Resource has been loaded, false otherwise.
-    */
-    bool isLoaded(void) const 
-    { 
-        return mIsLoaded; 
-    }
+  /** Returns true if the Resource has been loaded, false otherwise.
+  */
+  bool isLoaded(void) const {
+    return mIsLoaded;
+  }
 
-    /** A method to make the resource delete itself.
-        @note
-            This exists because Resource objects could be created in other processes,
-            and they need to be destroyed in the process that created them.
-    */
-    virtual void destroy()
-    {
-        delete this;
-    }
+  /** A method to make the resource delete itself.
+      @note
+          This exists because Resource objects could be created in other processes,
+          and they need to be destroyed in the process that created them.
+  */
+  virtual void destroy() {
+    delete this;
+  }
 };
 
 }
