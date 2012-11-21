@@ -27,26 +27,25 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 // Precompiler options
 #include "Win32Prerequisites.h"
-
-
 #include "ConfigDialog.h"
 
 namespace renderer {
-    /** A Windows 95/98/NT platform version of the default engine configuration dialog. */
-    class Win32ConfigDialog : public ConfigDialog
-    {
-    public:
-        Win32ConfigDialog(HINSTANCE hInst);
-        /** Overridden: see CConfigDialog.
-         */
-        bool display(void);
 
-    protected:
-        /** Callback to process window events */
-        static BOOL CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
+/** A Windows 95/98/NT platform version of the default engine configuration dialog. */
+class Win32ConfigDialog : public ConfigDialog {
+public:
+  Win32ConfigDialog(HINSTANCE hInst);
+  /** Overridden: see CConfigDialog.
+  */
+  bool Display(void);
 
-        HINSTANCE mHInstance; // HInstance of application, for dialog
+protected:
+  /** Callback to process window events */
+  static BOOL CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
-    };
+  HINSTANCE app_instance_; // HInstance of application, for dialog
+
+};
+
 }
 #endif

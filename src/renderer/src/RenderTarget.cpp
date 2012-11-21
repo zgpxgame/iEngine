@@ -221,7 +221,7 @@ namespace renderer {
 			// measure statistics
 			needUpdate = false ;
         ++numFrames;
-			unsigned long thisTime = mTimer->getMilliseconds();
+			unsigned long thisTime = mTimer->GetMilliseconds();
 
 			// check frame time
 			unsigned long frameTime = thisTime - lastTime ;
@@ -406,7 +406,7 @@ namespace renderer {
 		<< ":" << std::setw(2) << std::setfill('0') << pTime->tm_hour
         	<< ":" << std::setw(2) << std::setfill('0') << pTime->tm_min
         	<< ":" << std::setw(2) << std::setfill('0') << pTime->tm_sec
-		<< ":" << std::setw(3) << std::setfill('0') << (mTimer->getMilliseconds() % 1000);
+		<< ":" << std::setw(3) << std::setfill('0') << (mTimer->GetMilliseconds() % 1000);
 	    writeContentsToFile(filenamePrefix + String(oss.str()) + filenameSuffix);
 	    
     }

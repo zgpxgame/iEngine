@@ -48,11 +48,11 @@ namespace renderer
 		
 		/** Resets timer 
 		*/
-		virtual void reset();
+		virtual void Reset();
 		
 		/** Returns milliseconds since initialisation or last reset
 		*/
-		virtual unsigned long getMilliseconds() ;
+		virtual unsigned long GetMilliseconds() ;
 		
 		/** Returns milliseconds since initialisation or last reset, only CPU time measured
 		*/	

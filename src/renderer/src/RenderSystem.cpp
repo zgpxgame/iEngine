@@ -108,7 +108,7 @@ namespace renderer {
     //-----------------------------------------------------------------------
     bool RenderSystem::fireFrameStarted()
     {
-        unsigned long now = mTimer->getMilliseconds();
+        unsigned long now = mTimer->GetMilliseconds();
         FrameEvent evt;
         evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
         evt.timeSinceLastFrame = calculateEventTime(now, FETT_STARTED);
@@ -118,7 +118,7 @@ namespace renderer {
     //-----------------------------------------------------------------------
     bool RenderSystem::fireFrameEnded()
     {
-        unsigned long now = mTimer->getMilliseconds();
+        unsigned long now = mTimer->GetMilliseconds();
         FrameEvent evt;
         evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
         evt.timeSinceLastFrame = calculateEventTime(now, FETT_ENDED);

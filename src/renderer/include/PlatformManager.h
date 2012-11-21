@@ -30,99 +30,78 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Singleton.h"
 #include "RenderWindow.h"
 #include "ConfigDialog.h"
-#include "ErrorDialog.h"
 #include "Timer.h"
 
 
 namespace renderer {
-    typedef void (*DLL_CREATECONFIGDIALOG)(ConfigDialog** ppDlg);
-    typedef void (*DLL_CREATEERRORDIALOG)(ErrorDialog** ppDlg);
-	typedef void (*DLL_CREATETIMER)(Timer** ppTimer);
+typedef void (*DLL_CREATECONFIGDIALOG)(ConfigDialog** ppDlg);
+typedef void (*DLL_CREATETIMER)(Timer** ppTimer);
 
-    typedef void (*DLL_DESTROYCONFIGDIALOG)(ConfigDialog* ppDlg);
-    typedef void (*DLL_DESTROYERRORDIALOG)(ErrorDialog* ppDlg);
-    typedef void (*DLL_DESTROYTIMER)(Timer* ppTimer);
+typedef void (*DLL_DESTROYCONFIGDIALOG)(ConfigDialog* ppDlg);
+typedef void (*DLL_DESTROYTIMER)(Timer* ppTimer);
 
-    /** Class which manages the platform settings Ogre runs on.
-        @remarks
-            Because Ogre is designed to be platform-independent, it
-            dynamically loads a library containing all the platform-specific
-            elements like dialogs etc. 
-        @par
-            This class manages that load and provides a simple interface to
-            the platform.
-    */
-    class _RendererExport PlatformManager : public Singleton<PlatformManager>
-    {
-    protected:
-        DLL_CREATECONFIGDIALOG mpfCreateConfigDialog;
-        DLL_CREATEERRORDIALOG mpfCreateErrorDialog;
-		DLL_CREATETIMER mpfCreateTimer;
+/** Class which manages the platform settings Ogre runs on.
+    @remarks
+        Because Ogre is designed to be platform-independent, it
+        dynamically loads a library containing all the platform-specific
+        elements like dialogs etc.
+    @par
+        This class manages that load and provides a simple interface to
+        the platform.
+*/
+class _RendererExport PlatformManager : public Singleton<PlatformManager> {
+protected:
+  DLL_CREATECONFIGDIALOG mpfCreateConfigDialog;
+  DLL_CREATETIMER mpfCreateTimer;
 
-        DLL_DESTROYCONFIGDIALOG mpfDestroyConfigDialog;
-        DLL_DESTROYERRORDIALOG mpfDestroyErrorDialog;
-        DLL_DESTROYTIMER mpfDestroyTimer;
-		
-    public:
-        /** Default constructor.
-        */
-        PlatformManager();
+  DLL_DESTROYCONFIGDIALOG mpfDestroyConfigDialog;
+  DLL_DESTROYTIMER mpfDestroyTimer;
 
-        /** Gets a new instance of a platform-specific config dialog.
-            @remarks
-                The instance returned from this method will be a
-                platform-specific subclass of ConfigDialog, and must be
-                destroyed by the caller when required.
-        */
-        ConfigDialog* createConfigDialog();
+public:
+  /** Default constructor.
+  */
+  PlatformManager();
 
-        /** Destroys an instance of a platform-specific config dialog.
-            @remarks
-                Required since deletion of objects must be performed on the
-                correct heap.
-        */
-        void destroyConfigDialog(ConfigDialog* dlg);
+  /** Gets a new instance of a platform-specific config dialog.
+      @remarks
+          The instance returned from this method will be a
+          platform-specific subclass of ConfigDialog, and must be
+          destroyed by the caller when required.
+  */
+  ConfigDialog* createConfigDialog();
 
-        /** Gets a new instance of a platform-specific config dialog.
-            @remarks
-                The instance returned from this method will be a
-                platform-specific subclass of ErrorDialog, and must be
-                destroyed by the caller when required.
-        */
-        ErrorDialog* createErrorDialog();
+  /** Destroys an instance of a platform-specific config dialog.
+      @remarks
+          Required since deletion of objects must be performed on the
+          correct heap.
+  */
+  void destroyConfigDialog(ConfigDialog* dlg);
 
-        /** Destroys an instance of a platform-specific error dialog.
-            @remarks
-                Required since deletion of objects must be performed on the
-                correct heap.
-        */
-        void destroyErrorDialog(ErrorDialog* dlg);
-		
-		/** Creates a new Timer instance
-		*/
-		Timer* createTimer();
+  /** Creates a new Timer instance
+  */
+  Timer* createTimer();
 
-        /** Destroys an instance of a timer. */
-        void destroyTimer(Timer* timer);
+  /** Destroys an instance of a timer. */
+  void destroyTimer(Timer* timer);
 
 
-        /** Override standard Singleton retrieval.
-            @remarks
-                Why do we do this? Well, it's because the Singleton
-                implementation is in a .h file, which means it gets compiled
-                into anybody who includes it. This is needed for the
-                Singleton template to work, but we actually only want it
-                compiled into the implementation of the class based on the
-                Singleton, not all of them. If we don't change this, we get
-                link errors when trying to use the Singleton-based class from
-                an outside dll.
-            @par
-                This method just delegates to the template version anyway,
-                but the implementation stays in this single compilation unit,
-                preventing link errors.
-        */
-        static PlatformManager& getSingleton(void);
-    };
+  /** Override standard Singleton retrieval.
+      @remarks
+          Why do we do this? Well, it's because the Singleton
+          implementation is in a .h file, which means it gets compiled
+          into anybody who includes it. This is needed for the
+          Singleton template to work, but we actually only want it
+          compiled into the implementation of the class based on the
+          Singleton, not all of them. If we don't change this, we get
+          link errors when trying to use the Singleton-based class from
+          an outside dll.
+      @par
+          This method just delegates to the template version anyway,
+          but the implementation stays in this single compilation unit,
+          preventing link errors.
+  */
+  static PlatformManager& getSingleton(void);
+};
 
 
 }

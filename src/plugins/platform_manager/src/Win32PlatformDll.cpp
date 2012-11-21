@@ -23,7 +23,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 #include "Win32ConfigDialog.h"
-#include "Win32ErrorDialog.h"
 #include "Win32Timer.h"
 #include "Root.h"
 #include "LogManager.h"
@@ -34,7 +33,6 @@ namespace renderer {
 
 #ifdef _DEBUG
     int g_iCreatedConfigDiag = 0;
-    int g_iCreatedErrorDiag = 0;
     int g_iCreatedRenderWindow = 0;
     int g_iCreatedInputReader = 0;
 #endif
@@ -51,22 +49,11 @@ namespace renderer {
 #endif
     }
 
-    /// Retrieves an instance of an error dialog for this platform
-    extern "C" EXPORT void createPlatformErrorDialog(ErrorDialog** ppDlg)
-    {
-        HINSTANCE hInst = GetModuleHandle("plugin_platform_manager.dll");
-        *ppDlg = new Win32ErrorDialog(hInst);
-
-#ifdef _DEBUG
-        g_iCreatedErrorDiag++;
-#endif
-    }
-
 	/// Creates a Timer using default implementation
 	extern "C" EXPORT void createTimer(Timer** ppTimer)
 	{
 		*ppTimer = new Win32Timer();
-        (*ppTimer)->reset();
+        (*ppTimer)->Reset();
 	}
 
 	extern "C" EXPORT void destroyTimer(Timer* ppTimer)
@@ -84,15 +71,7 @@ namespace renderer {
         g_iCreatedConfigDiag--;
 #endif
     }
-    /// Destroys
-    extern "C" EXPORT void destroyPlatformErrorDialog(ErrorDialog* dlg)
-    {
-        delete dlg;
 
-#ifdef _DEBUG
-        g_iCreatedErrorDiag--;
-#endif
-    }
     /// Destroys
     extern "C" EXPORT void destroyPlatformRenderWindow(RenderWindow* wnd)
     {

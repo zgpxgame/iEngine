@@ -3,14 +3,12 @@ set(PROJECT_NAME plugin_platform_manager)
 set(HEADER_FILES
   include/resource.h
   include/Win32ConfigDialog.h
-  include/Win32ErrorDialog.h
   include/Win32Prerequisites.h
   include/Win32Timer.h
 )
 
 set(SOURCE_FILES
   src/Win32ConfigDialog.cpp
-  src/Win32ErrorDialog.cpp
   src/Win32PlatformDll.cpp
   src/Win32Timer.cpp
   res/OgreWin32Resources.rc

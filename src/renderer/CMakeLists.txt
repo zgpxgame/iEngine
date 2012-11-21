@@ -27,7 +27,6 @@ set(HEADER_FILES
   include/DynLib.h
   include/DynLibManager.h
   include/Entity.h
-  include/ErrorDialog.h
   include/Exception.h
   include/FactoryObj.h
   include/FrameListener.h
@@ -231,6 +230,7 @@ add_definitions(-DOGRE_NONCLIENT_BUILD)
 add_definitions(-DIL_STATIC_LIB)
 
 include_directories(include)
+include_directories(${iEngine_SOURCE_DIR}/src)
 include_directories(${iEngine_SOURCE_DIR}/src/third_party/zlib)
 include_directories(${iEngine_SOURCE_DIR}/src/third_party/devil/include)
 
@@ -238,8 +238,8 @@ add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "iEngine")
 target_link_libraries(${PROJECT_NAME} dbghelp.lib psapi.lib)
 
-add_dependencies(${PROJECT_NAME} zlib il ilu libjpeg libpng)
-target_link_libraries(${PROJECT_NAME} zlib libpng libjpeg il ilu)
+add_dependencies(${PROJECT_NAME} zlib il ilu libjpeg libpng base)
+target_link_libraries(${PROJECT_NAME} zlib libpng libjpeg il ilu base)
 
 # …Ë÷√ ‰≥ˆ¬∑æ∂
 set_target_properties(${PROJECT_NAME} PROPERTIES

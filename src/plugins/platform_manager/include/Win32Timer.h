@@ -30,17 +30,17 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    class Win32Timer : public Timer
-    {
-    private:
-        LARGE_INTEGER mStartTime;
-        LARGE_INTEGER mFrequency;
+class Win32Timer : public Timer {
+private:
+  LARGE_INTEGER start_time_;
+  LARGE_INTEGER frequency_;
 
-    public:
-        // overrides standard methods
-        virtual void reset();
-        virtual unsigned long getMilliseconds();
-    };
-} 
+public:
+  // overrides standard methods
+  virtual void Reset();
+  virtual unsigned long GetMilliseconds();
+};
+
+}
 
 #endif

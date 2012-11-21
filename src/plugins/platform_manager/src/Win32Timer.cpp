@@ -25,26 +25,24 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Win32Timer.h"
 
 namespace renderer {
-    //-------------------------------------------------------------------------
-    void Win32Timer::reset()
-    {
-        Timer::reset();
-        QueryPerformanceFrequency(&mFrequency);
-        QueryPerformanceCounter(&mStartTime);
-    }
-    //-------------------------------------------------------------------------
-    unsigned long Win32Timer::getMilliseconds()
-    {
-        LARGE_INTEGER curTime;
-        LONGLONG newTicks;
+//-------------------------------------------------------------------------
+void Win32Timer::Reset() {
+  Timer::Reset();
+  QueryPerformanceFrequency(&frequency_);
+  QueryPerformanceCounter(&start_time_);
+}
+//-------------------------------------------------------------------------
+unsigned long Win32Timer::GetMilliseconds() {
+  LARGE_INTEGER cur_time;
+  LONGLONG new_ticks;
 
-        QueryPerformanceCounter(&curTime);
+  QueryPerformanceCounter(&cur_time);
 
-        newTicks = (curTime.QuadPart - mStartTime.QuadPart);
-        // Scale by 1000 in order to get millisecond precision
-        newTicks *= 1000;
-        newTicks /= mFrequency.QuadPart;
+  new_ticks = (cur_time.QuadPart - start_time_.QuadPart);
+  // Scale by 1000 in order to get millisecond precision
+  new_ticks *= 1000;
+  new_ticks /= frequency_.QuadPart;
 
-        return (unsigned long)newTicks;
-    }
-} 
+  return (unsigned long)new_ticks;
+}
+}

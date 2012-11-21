@@ -25,6 +25,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 // Ogre includes
 #include "Root.h"
 
+#include "base/logging.h"
+
 #include "RenderSystem.h"
 #include "Exception.h"
 #include "ControllerManager.h"
@@ -40,6 +42,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "ParticleSystemManager.h"
 #include "SkeletonManager.h"
 #include "ZipArchiveFactory.h"
+
 
 #if OGRE_PLATFORM == PLATFORM_WIN32
 
@@ -63,17 +66,9 @@ namespace renderer {
 
         r.shutdown();
 
-        ErrorDialog* dlg;
-
-        dlg = PlatformManager::getSingleton().createErrorDialog();
-
         Exception* e = Exception::getLastException();
-
-        if (e)
-            dlg->display(e->getFullDescription());
-        else
-            dlg->display("Unknown");
-
+        LOG(INFO) << e->getFullDescription();
+        
         // Abort
         exit(-1);
 
@@ -310,7 +305,7 @@ namespace renderer {
 
         dlg = mPlatformManager->createConfigDialog();
 
-        isOk = dlg->display();
+        isOk = dlg->Display();
 
         mPlatformManager->destroyConfigDialog(dlg);
 
@@ -389,7 +384,7 @@ namespace renderer {
         }
 
         // Initialise timer
-        mTimer->reset();
+        mTimer->Reset();
         return retWin;
 
     }

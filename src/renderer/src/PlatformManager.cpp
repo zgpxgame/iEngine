@@ -29,80 +29,59 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace renderer {
 
-    //-----------------------------------------------------------------------
-    template<> PlatformManager* Singleton<PlatformManager>::ms_Singleton = 0;
-    //-----------------------------------------------------------------------
-    PlatformManager::PlatformManager()
-    {
-        // Load library
-        String libraryName = "plugin_platform_manager";
+//-----------------------------------------------------------------------
+template<> PlatformManager* Singleton<PlatformManager>::ms_Singleton = 0;
+//-----------------------------------------------------------------------
+PlatformManager::PlatformManager() {
+  // Load library
+  String libraryName = "plugin_platform_manager";
 
-        #if OGRE_PLATFORM == PLATFORM_WIN32
-            libraryName = libraryName + ".dll";
-        #else
-            libraryName = "lib" + libraryName + ".so";
-        #endif
+#if OGRE_PLATFORM == PLATFORM_WIN32
+  libraryName = libraryName + ".dll";
+#else
+  libraryName = "lib" + libraryName + ".so";
+#endif
 
-        DynLib* lib = DynLibManager::getSingleton().load(libraryName);
+  DynLib* lib = DynLibManager::getSingleton().load(libraryName);
 
-        mpfCreateConfigDialog = (DLL_CREATECONFIGDIALOG)lib->getSymbol("createPlatformConfigDialog");
-        mpfCreateErrorDialog = (DLL_CREATEERRORDIALOG)lib->getSymbol("createPlatformErrorDialog");
-		mpfCreateTimer = (DLL_CREATETIMER)lib->getSymbol("createTimer");
+  mpfCreateConfigDialog = (DLL_CREATECONFIGDIALOG)lib->getSymbol("createPlatformConfigDialog");
+  mpfCreateTimer = (DLL_CREATETIMER)lib->getSymbol("createTimer");
 
-        mpfDestroyConfigDialog = (DLL_DESTROYCONFIGDIALOG)lib->getSymbol("destroyPlatformConfigDialog");
-        mpfDestroyErrorDialog = (DLL_DESTROYERRORDIALOG)lib->getSymbol("destroyPlatformErrorDialog");
-        mpfDestroyTimer = (DLL_DESTROYTIMER)lib->getSymbol("destroyTimer");
+  mpfDestroyConfigDialog = (DLL_DESTROYCONFIGDIALOG)lib->getSymbol("destroyPlatformConfigDialog");
+  mpfDestroyTimer = (DLL_DESTROYTIMER)lib->getSymbol("destroyTimer");
 
-    }
-    //-----------------------------------------------------------------------
-    ConfigDialog* PlatformManager::createConfigDialog()
-    {
-        // Delegate
-        ConfigDialog* pdlg;
-        mpfCreateConfigDialog(&pdlg);
-        return pdlg;
-    }
-    //-----------------------------------------------------------------------
-    ErrorDialog* PlatformManager::createErrorDialog()
-    {
-        // Delegate
-        ErrorDialog* pdlg;
-        mpfCreateErrorDialog(&pdlg);
-        return pdlg;
-    }
-    //-----------------------------------------------------------------------
+}
+//-----------------------------------------------------------------------
+ConfigDialog* PlatformManager::createConfigDialog() {
+  // Delegate
+  ConfigDialog* pdlg;
+  mpfCreateConfigDialog(&pdlg);
+  return pdlg;
+}
 
-    //-----------------------------------------------------------------------
-    void PlatformManager::destroyConfigDialog(ConfigDialog*  dlg)
-    {
-        // Delegate
-        mpfDestroyConfigDialog(dlg);
-    }
-    //-----------------------------------------------------------------------
-    void PlatformManager::destroyErrorDialog(ErrorDialog* dlg)
-    {
-        // Delegate
-        mpfDestroyErrorDialog(dlg);
-    }
+//-----------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------
-    Timer* PlatformManager::createTimer()
-    {
-        // Delegate
-        Timer* pTimer;
-        mpfCreateTimer(&pTimer);
-        return pTimer;
-    }
-    //-----------------------------------------------------------------------
-    PlatformManager& PlatformManager::getSingleton(void)
-    {
-        return Singleton<PlatformManager>::getSingleton();
-    }
-    //-----------------------------------------------------------------------
-    void PlatformManager::destroyTimer(Timer* timer)
-    {
-        mpfDestroyTimer(timer);
-    }
+//-----------------------------------------------------------------------
+void PlatformManager::destroyConfigDialog(ConfigDialog*  dlg) {
+  // Delegate
+  mpfDestroyConfigDialog(dlg);
+}
+
+//-----------------------------------------------------------------------
+Timer* PlatformManager::createTimer() {
+  // Delegate
+  Timer* pTimer;
+  mpfCreateTimer(&pTimer);
+  return pTimer;
+}
+//-----------------------------------------------------------------------
+PlatformManager& PlatformManager::getSingleton(void) {
+  return Singleton<PlatformManager>::getSingleton();
+}
+//-----------------------------------------------------------------------
+void PlatformManager::destroyTimer(Timer* timer) {
+  mpfDestroyTimer(timer);
+}
 
 
 

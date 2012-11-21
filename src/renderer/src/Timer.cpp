@@ -32,12 +32,12 @@ namespace renderer
 		// reset();
 	}
 	
-	void Timer::reset()
+	void Timer::Reset()
 	{
 		zeroClock = clock();
 	}
 	
-	unsigned long Timer::getMilliseconds()
+	unsigned long Timer::GetMilliseconds()
 	{
 		return getMillisecondsCPU();
 	}
