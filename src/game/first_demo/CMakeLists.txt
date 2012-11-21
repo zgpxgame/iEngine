@@ -1,6 +1,6 @@
 set(PROJECT_NAME demo)
 
-add_executable(${PROJECT_NAME} WIN32
+add_executable(${PROJECT_NAME} #WIN32
   ExampleApplication.h
   ExampleFrameListener.h
   demo_main.cpp

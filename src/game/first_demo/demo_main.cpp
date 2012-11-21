@@ -137,6 +137,7 @@ protected:
 #if OGRE_PLATFORM == PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
+#endif
 
 #include "base/callback.h"
 #include "base/bind.h"
@@ -149,15 +150,12 @@ int foo3(int a, int b, int c) { return a + b + c; }
 int foo4(int a, int b, int c, int d) { return a + b + c + d; }
 int foo5(int a, int b, int c, int d, int e) { return a + b + c + d + e; }
 
-INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
-#else
 int main(int argc, char **argv)
-#endif
 {
   CommandLine::Init(0, 0);
 
   logging::InitLogging(L"demo.log",
-    logging::LOG_ONLY_TO_FILE,
+    logging::LOG_ONLY_TO_SYSTEM_DEBUG_LOG,
     logging::DONT_LOCK_LOG_FILE,
     logging::DELETE_OLD_LOG_FILE,
     logging::ENABLE_DCHECK_FOR_NON_OFFICIAL_RELEASE_BUILDS);
