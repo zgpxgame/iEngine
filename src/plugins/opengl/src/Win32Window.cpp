@@ -24,6 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 
 #include "Win32Window.h"
+#include "Camera.h"
 #include "LogManager.h"
 #include "RenderSystem.h"
 #include "ImageCodec.h"
@@ -224,8 +225,10 @@ void Win32Window::resize(int width, int height) {
   // Notify viewports of resize
   ViewportList::iterator it, itend;
   itend = mViewportList.end();
-  for( it = mViewportList.begin(); it != itend; ++it )
+  for( it = mViewportList.begin(); it != itend; ++it ) {
+    (*it).second->getCamera()->setAspectRatio(Real(width) / height);
     (*it).second->_updateDimensions();
+  }
   // TODO - resize window
 }
 

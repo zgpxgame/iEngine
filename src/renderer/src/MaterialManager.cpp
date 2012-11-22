@@ -24,6 +24,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "MaterialManager.h"
 
+#include "base/string_util.h"
+#include "base/string_split.h"
 #include "Material.h"
 #include "StringVector.h"
 #include "LogManager.h"
@@ -361,7 +363,7 @@ void parseCubicTexture(StringVector::iterator& params, int numParams, Material* 
 
   // Get final param
   bool useUVW;
-  String uvOpt = StringUtil::toLowerCase(params[numParams-1]);
+  String uvOpt = StringToLowerASCII(params[numParams-1]);
   if (uvOpt == "combineduvw")
     useUVW = true;
   else if (uvOpt == "separateuv")
@@ -887,7 +889,7 @@ void MaterialManager::parseScript(DataChunk& chunk) {
 
         } else {
           // Attribute
-          parseAttrib(StringUtil::toLowerCase(line), pMat);
+          parseAttrib(StringToLowerASCII(line), pMat);
         }
 
       }
@@ -977,7 +979,7 @@ void MaterialManager::parseAttrib( const String& line, Material* pMat) {
   StringVector vecparams;
 
   // Split params on space
-  vecparams = StringUtil::split(line, " \t");
+  base::SplitString(line, &vecparams, " \t");
   StringVector::iterator params = vecparams.begin();
 
   // Look up first param (command setting)
@@ -1001,11 +1003,11 @@ void MaterialManager::parseLayerAttrib( const String& line, Material* pMat, Mate
   StringVector vecparams;
 
   // Split params on space
-  vecparams = StringUtil::split(line, " \t");
+  base::SplitString(line, &vecparams, " \t");
   StringVector::iterator params = vecparams.begin();
 
   // Look up first param (command setting)
-  params[0] = StringUtil::toLowerCase(params[0]);
+  params[0] = StringToLowerASCII(params[0]);
   LayerAttribParserList::iterator iparsers = mLayerAttribParsers.find(params[0]);
   if (iparsers == mLayerAttribParsers.end()) {
     // BAD command. BAD!
@@ -1016,7 +1018,7 @@ void MaterialManager::parseLayerAttrib( const String& line, Material* pMat, Mate
     if (params[0] != "texture" && params[0] != "cubic_texture" && params[0] != "anim_texture") {
       // Lower case all params if not texture
       for( size_t p = 1; p < vecparams.size(); ++p )
-        params[p] = StringUtil::toLowerCase(params[p]);
+        params[p] = StringToLowerASCII(params[p]);
 
     }
     iparsers->second(params, (unsigned int)vecparams.size(), pMat, pLayer);

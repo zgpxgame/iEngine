@@ -15,6 +15,11 @@
 
 namespace base {
 
+BASE_EXPORT void SplitString(const std::string& str,
+                             std::vector<std::string>* r,
+                             const std::string& delims = "\t\n ",
+                             unsigned int max_split = 0);
+
 // Splits |str| into a vector of strings delimited by |s|. Append the results
 // into |r| as they appear. If several instances of |s| are contiguous, or if
 // |str| begins with or ends with |s|, then an empty string is inserted.

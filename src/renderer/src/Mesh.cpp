@@ -24,6 +24,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "Mesh.h"
 
+#include "base/string_split.h"
+#include "base/string_util.h"
 #include "SubMesh.h"
 #include "MaterialManager.h"
 #include "LogManager.h"
@@ -132,10 +134,11 @@ void Mesh::load() {
     MeshManager::getSingleton()._findResourceData(mName, chunk);
 
     // Determine file type
-    std::vector<String> extVec = StringUtil::split(mName, ".");
+    std::vector<String> extVec;
+    base::SplitString(mName, '.', &extVec);
 
     String& ext = extVec[extVec.size() - 1];
-    ext = StringUtil::toLowerCase(ext);
+    ext = StringToLowerASCII(ext);
 
     if (ext == "oof") {
       serializer.importLegacyOof(chunk, this);

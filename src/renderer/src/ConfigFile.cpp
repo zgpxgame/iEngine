@@ -24,6 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "ConfigFile.h"
 
+#include "base/string_util.h"
 #include "Exception.h"
 
 namespace renderer {
@@ -48,15 +49,15 @@ void ConfigFile::load(const String& filename, const String& separators) {
   ret = fgets(rec, 100, fp);
   while (ret != NULL) {
     String tst = rec;
-    StringUtil::trim(tst);
+    TrimWhitespaceASCII(tst, TRIM_ALL, &tst);
     // Ignore comments & blanks
     if (tst.length() > 0 && tst.at(0) != '#' && tst.at(0) != '@' && tst.at(0) != '\n') {
       // Tokenise on tab
       optName = strtok(rec, separators.c_str());
       optVal = strtok(NULL, "\n");
       if (optName.length() != 0 && optVal.c_str() != 0) {
-        StringUtil::trim(optVal);
-        StringUtil::trim(optName);
+        TrimWhitespaceASCII(optVal, TRIM_ALL, &optVal);
+        TrimWhitespaceASCII(optName, TRIM_ALL, &optName);
         mSettings.insert(std::multimap<String, String>::value_type(optName, optVal));
       }
     }

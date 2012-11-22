@@ -210,4 +210,34 @@ void SplitStringAlongWhitespace(const std::string& str,
   SplitStringAlongWhitespaceT(str, result);
 }
 
+void SplitString(const std::string& str,
+                 std::vector<std::string>* r,
+                 const std::string& delims,
+                 unsigned int max_split) {
+  // static unsigned dl;
+  unsigned int num_split = 0;
+
+  // Use STL methods
+  size_t start, pos;
+  start = 0;
+  do {
+    pos = str.find_first_of(delims, start);
+    if (pos == start) {
+      // Do nothing
+      start = pos + 1;
+    } else if (pos == std::string::npos || (max_split && num_split == max_split)) {
+      // Copy the rest of the string
+      r->push_back( str.substr(start) );
+    } else {
+      // Copy up to delimiter
+      r->push_back( str.substr(start, pos - start) );
+      start = pos + 1;
+    }
+    // parse up to next real data
+    start = str.find_first_not_of(delims, start);
+    ++num_split;
+
+  } while (pos != std::string::npos);
+}
+
 }  // namespace base

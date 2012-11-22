@@ -171,7 +171,6 @@ set(SOURCE_FILES
   src/MeshSerializer.cpp
   src/MovableObject.cpp
   src/MyMath.cpp
-  src/MyString.cpp
   src/Node.cpp
   src/OofModelFile.cpp
   src/ParticleEmitter.cpp

@@ -24,6 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "DataChunk.h"
 #include "Exception.h"
+#include "base/string_util.h"
 
 namespace renderer {
 
@@ -157,7 +158,7 @@ String DataChunk::getLine(bool trimAfter) {
   buf[count] = '\0';
   String ret = buf;
   if (trimAfter)
-    StringUtil::trim(ret);
+    TrimWhitespaceASCII(ret, TRIM_ALL, &ret);
   return ret;
 
 }

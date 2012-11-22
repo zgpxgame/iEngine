@@ -24,6 +24,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 
 #include "ParticleSystemManager.h"
+
+#include "base/string_split.h"
+#include "base/string_util.h"
 #include "ParticleEmitterFactory.h"
 #include "ParticleAffectorFactory.h"
 #include "Exception.h"
@@ -76,7 +79,8 @@ void ParticleSystemManager::parseScript(DataChunk& chunk) {
         } else if (line.substr(0,7) == "emitter") {
           // new emitter
           // Get typename
-          vecparams = StringUtil::split(line, "\t ");
+          vecparams.clear();
+          base::SplitString(line, &vecparams, "\t ");
           if (vecparams.size() < 2) {
             // Oops, bad emitter
             LogManager::getSingleton().logMessage("Bad particle system emitter line: '"
@@ -90,7 +94,8 @@ void ParticleSystemManager::parseScript(DataChunk& chunk) {
         } else if (line.substr(0,8) == "affector") {
           // new affector
           // Get typename
-          vecparams = StringUtil::split(line, "\t ");
+          vecparams.clear();
+          base::SplitString(line, &vecparams, "\t ");
           if (vecparams.size() < 2) {
             // Oops, bad emitter
             LogManager::getSingleton().logMessage("Bad particle system affector line: '"
@@ -307,7 +312,7 @@ void ParticleSystemManager::parseNewEmitter(const String& type, DataChunk& chunk
         break;
       } else {
         // Attribute
-        parseEmitterAttrib(StringUtil::toLowerCase(line), pEmit);
+        parseEmitterAttrib(StringToLowerASCII(line), pEmit);
       }
     }
   }
@@ -331,7 +336,7 @@ void ParticleSystemManager::parseNewAffector(const String& type, DataChunk& chun
         break;
       } else {
         // Attribute
-        parseAffectorAttrib(StringUtil::toLowerCase(line), pAff);
+        parseAffectorAttrib(StringToLowerASCII(line), pAff);
       }
     }
   }
@@ -341,7 +346,7 @@ void ParticleSystemManager::parseAttrib(const String& line, ParticleSystem* sys)
   std::vector<String> vecparams;
 
   // Split params on space
-  vecparams = StringUtil::split(line, "\t ", 1);
+  base::SplitString(line, &vecparams, "\t ", 1);
 
   // Look up first param (command setting)
   if (!sys->setParameter(vecparams[0], vecparams[1])) {
@@ -355,7 +360,7 @@ void ParticleSystemManager::parseEmitterAttrib(const String& line, ParticleEmitt
   std::vector<String> vecparams;
 
   // Split params on first space
-  vecparams = StringUtil::split(line, "\t ", 1);
+  base::SplitString(line, &vecparams, "\t ", 1);
 
   // Look up first param (command setting)
   if (!emit->setParameter(vecparams[0], vecparams[1])) {
@@ -369,7 +374,7 @@ void ParticleSystemManager::parseAffectorAttrib(const String& line, ParticleAffe
   std::vector<String> vecparams;
 
   // Split params on space
-  vecparams = StringUtil::split(line, "\t ", 1);
+  base::SplitString(line, &vecparams, "\t ", 1);
 
   // Look up first param (command setting)
   if (!aff->setParameter(vecparams[0], vecparams[1])) {

@@ -23,6 +23,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 #include "StringConverter.h"
+#include "base/string_split.h"
 #include "Vector3.h"
 #include "Matrix3.h"
 #include "Matrix4.h"
@@ -152,7 +153,8 @@ bool StringConverter::parseBool(const String& val) {
 //-----------------------------------------------------------------------
 Vector3 StringConverter::parseVector3(const String& val) {
   // Split on space
-  std::vector<String> vec = StringUtil::split(val);
+  std::vector<String> vec;
+  base::SplitString(val, &vec);
 
   if (vec.size() != 3) {
     return Vector3::ZERO;
@@ -164,7 +166,8 @@ Vector3 StringConverter::parseVector3(const String& val) {
 //-----------------------------------------------------------------------
 Matrix3 StringConverter::parseMatrix3(const String& val) {
   // Split on space
-  std::vector<String> vec = StringUtil::split(val);
+  std::vector<String> vec;
+  base::SplitString(val, &vec);
 
   if (vec.size() != 9) {
     return Matrix3::IDENTITY;
@@ -177,7 +180,8 @@ Matrix3 StringConverter::parseMatrix3(const String& val) {
 //-----------------------------------------------------------------------
 Matrix4 StringConverter::parseMatrix4(const String& val) {
   // Split on space
-  std::vector<String> vec = StringUtil::split(val);
+  std::vector<String> vec;
+  base::SplitString(val, &vec);
 
   if (vec.size() != 16) {
     return Matrix4::IDENTITY;
@@ -191,7 +195,8 @@ Matrix4 StringConverter::parseMatrix4(const String& val) {
 //-----------------------------------------------------------------------
 Quaternion StringConverter::parseQuaternion(const String& val) {
   // Split on space
-  std::vector<String> vec = StringUtil::split(val);
+  std::vector<String> vec;
+  base::SplitString(val, &vec);
 
   if (vec.size() != 4) {
     return Quaternion::IDENTITY;
@@ -202,7 +207,8 @@ Quaternion StringConverter::parseQuaternion(const String& val) {
 //-----------------------------------------------------------------------
 ColourValue StringConverter::parseColourValue(const String& val) {
   // Split on space
-  std::vector<String> vec = StringUtil::split(val);
+  std::vector<String> vec;
+  base::SplitString(val, &vec);
 
   if (vec.size() == 4) {
     return ColourValue(parseReal(vec[0]),parseReal(vec[1]),parseReal(vec[2]), parseReal(vec[3]));

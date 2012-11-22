@@ -23,6 +23,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 #include "Skeleton.h"
+
+#include "base/string_split.h"
+#include "base/string_util.h"
 #include "Bone.h"
 #include "Animation.h"
 #include "AnimationState.h"
@@ -73,10 +76,11 @@ void Skeleton::load(void) {
   SkeletonManager::getSingleton()._findResourceData(mName, chunk);
 
   // Determine file type
-  std::vector<String> extVec = StringUtil::split(mName, ".");
+  std::vector<String> extVec;
+  base::SplitString(mName, '.', &extVec);
 
   String& ext = extVec[extVec.size() - 1];
-  ext = StringUtil::toLowerCase(ext);
+  ext = StringToLowerASCII(ext);
 
   if (ext == "skeleton") {
     serializer.importSkeleton(chunk, this);

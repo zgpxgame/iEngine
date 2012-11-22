@@ -27,15 +27,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Prerequisites.h"
 
-namespace renderer {
-
-//#if OGRE_WCHAR_T_STRINGS
-//    typedef std::wstring String;
-//#else
-//    typedef std::string String;
-//#endif
-}
-
 // If we're using the GCC 3.1 C++ Std lib
 #if defined( GCC_3_1 )
 
@@ -73,106 +64,7 @@ template<> size_t hash_compare< String, std::less< String > >::operator ()( cons
 #endif
 
 namespace renderer {
-class StringUtil {
-public:
-  static void trim(String& str, bool left = true, bool right = true);
-  static std::vector< String > split(const String& str, const String& delims = "\t\n ", unsigned int maxSplits = 0);
-  static String toLowerCase( String& str );
-  static String toUpperCase( String& str );
-};
-#if 0
-/** Wrapper object for String to allow DLL export.
-    @note
-        Derived from std::string.
-*/
-class _RendererExport String : public _StringBase {
-public:
-  typedef std::stringstream StrStreamType;
-public:
-  /** Default constructor.
-  */
-  String() : _StringBase() {}
 
-  String(const String& rhs) : _StringBase( static_cast< const _StringBase& >( rhs ) ) {}
-
-  /** Copy constructor for std::string's.
-  */
-  String( const _StringBase& rhs ) : _StringBase( rhs ) {}
-
-  /** Copy-constructor for C-style strings.
-  */
-  String( const char* rhs ) : _StringBase( rhs ) {}
-
-  /** Used for interaction with functions that require the old C-style
-      strings.
-  */
-  operator const char* () const {
-    return c_str();
-  }
-
-  /** Removes any whitespace characters, be it standard space or
-      TABs and so on.
-      @remarks
-          The user may specify wether they want to trim only the
-          beginning or the end of the String ( the default action is
-          to trim both).
-  */
-  void trim( bool left = true, bool right = true );
-
-  /** Returns a StringVector that contains all the substrings delimited
-      by the characters in the passed <code>delims</code> argument.
-      @param
-          delims A list of delimiter characters to split by
-      @param
-          maxSplits The maximum number of splits to perform (0 for unlimited splits). If this
-          parameters is > 0, the splitting process will stop after this many splits, left to right.
-  */
-  std::vector< String > split( const String& delims = "\t\n ", unsigned int maxSplits = 0) const;
-
-  /** Upper-cases all the characters in the string.
-  */
-  String toLowerCase( void );
-
-  /** Lower-cases all the characters in the string.
-  */
-  String toUpperCase( void );
-
-  /** Converts the contents of the string to a Real.
-  @remarks
-      Assumes the only contents of the string are a valid parsable Real. Defaults to  a
-      value of 0.0 if conversion is not possible.
-  */
-  Real toReal(void) const;
-
-  /*
-  operator _StringBase()
-        {
-            return *this;
-        }
-  */
-
-  /** Template operator for appending another type into the string.
-      @remarks
-          Because this operator is templated, you can append any value into a string as
-          long as there is an operator<<(std::basic_iostream, type) or similar method defined somewhere.
-          All the primitive types have this already, and many of the Ogre types do too (see Vector3
-          for an example).
-  */
-  template< typename T > String& operator << (T value) {
-    // Create stringstream based on *this contents
-    StrStreamType sstr;
-    sstr.str(*this);
-    // Seek to end
-    sstr.seekp(0, std::ios_base::end);
-    // Write
-    sstr << value;
-    // Assign back
-    *this = _StringBase( sstr.str() );
-
-    return *this;
-  }
-};
-#endif
 
 #ifdef GCC_3_1
 typedef ::__gnu_cxx::hash< String > _StringHash;

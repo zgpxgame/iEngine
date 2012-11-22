@@ -24,6 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "Zip.h"
 
+#include "base/string_util.h"
 #include "ArchiveManager.h"
 #include "LogManager.h"
 #include "Exception.h"
@@ -158,7 +159,7 @@ StringVector Zip::getAllNamesLike( const String& strStartPath, const String& str
   char comment[260];
 
   szPattern = strPattern;
-  szPattern = StringUtil::toLowerCase(szPattern);
+  szPattern = StringToLowerASCII(szPattern);
 
   int iRes = unzGoToFirstFile(mArchive);
   while( iRes == UNZ_OK ) {
@@ -172,7 +173,7 @@ StringVector Zip::getAllNamesLike( const String& strStartPath, const String& str
     filename = tmpFilename;
 
     if( info.uncompressed_size > 0 ) {
-      filename = StringUtil::toLowerCase(filename);
+      filename = StringToLowerASCII(filename);
 
       if( static_cast<int>(filename.find(szPattern)) >= 0 ) {
         retVec.push_back( filename );
