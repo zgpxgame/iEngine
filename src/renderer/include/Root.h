@@ -83,6 +83,7 @@ private:
   ParticleSystemManager* mParticleManager;
   SkeletonManager* mSkeletonManager;
   ArchiveFactory *mZipArchiveFactory;
+  ArchiveFactory* os_file_system_;
   Codec* mPNGCodec, *mJPGCodec, *mJPEGCodec, *mTGACodec;
   Timer* mTimer;
 

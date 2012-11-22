@@ -29,25 +29,9 @@
 /*#ifdef _INC_STDIO
 #endif*/
 
-#define EXPORT __declspec(dllexport)
-
 namespace renderer {
 //-----------------------------------------------------------------------
 FileSystemFactory* pFSFactory = NULL;
-//-----------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-extern "C" EXPORT void dllStartPlugin(void) {
-  SET_TERM_HANDLER;
-
-  pFSFactory = new FileSystemFactory();
-  ArchiveManager::getSingleton().addArchiveFactory(pFSFactory);
-}
-
-//-----------------------------------------------------------------------
-extern "C" EXPORT void dllStopPlugin(void) {
-  delete pFSFactory;
-}
 
 //-----------------------------------------------------------------------
 bool FileSystem::fileOpen( const String& strFile, FILE **ppFile ) const {

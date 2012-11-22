@@ -29,6 +29,8 @@ set(HEADER_FILES
   include/Entity.h
   include/Exception.h
   include/FactoryObj.h
+  include/FileSystem.h
+  include/FileSystemFactory.h
   include/FrameListener.h
   include/GeometryData.h
   include/Image.h
@@ -153,6 +155,8 @@ set(SOURCE_FILES
   src/DynLibManager.cpp
   src/Entity.cpp
   src/Exception.cpp
+  src/FileSystem.cpp
+  src/FileSystemFactory.cpp
   src/Image.cpp
   src/ImageCodec.cpp
   src/KeyFrame.cpp

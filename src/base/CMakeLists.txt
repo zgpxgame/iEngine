@@ -17,6 +17,7 @@ set(HEADER_FILES
   callback_internal.h
   command_line.h
   compiler_specific.h
+  cpu.h
   debug/alias.h
   debug/debugger.h
   debug/stack_trace.h
@@ -65,6 +66,7 @@ set(HEADER_FILES
   threading/thread_collision_warner.h
   threading/thread_local.h
   threading/thread_restrictions.h
+  time.h
   tuple.h
   utf_string_conversions.h
   utf_string_conversion_utils.h
@@ -78,6 +80,7 @@ set(SOURCE_FILES
   base_switches.cc
   callback_internal.cc
   command_line.cc
+  cpu.cc
   debug/alias.cc
   debug/debugger.cc
   debug/debugger_win.cc
@@ -112,6 +115,8 @@ set(SOURCE_FILES
   threading/thread_collision_warner.cc
   threading/thread_local_win.cc
   threading/thread_restrictions.cc
+  time.cc
+  time_win.cc
   utf_string_conversions.cc
   utf_string_conversion_utils.cc
   vlog.cc
@@ -207,6 +212,7 @@ SOURCE_GROUP("misc" FILES
   callback_internal.h
   command_line.h
   compiler_specific.h
+  cpu.h
   eintr_wrapper.h
   file_descriptor_shuffle.h
   file_path.h
@@ -229,6 +235,7 @@ SOURCE_GROUP("misc" FILES
   sys_string_conversions.h
   task.h
   template_util.h
+  time.h
   tuple.h
   utf_string_conversions.h
   utf_string_conversion_utils.h
@@ -237,6 +244,7 @@ SOURCE_GROUP("misc" FILES
   base_switches.cc
   callback_internal.cc
   command_line.cc
+  cpu.cc
   file_path.cc
   lazy_instance.cc
   logging.cc
@@ -252,6 +260,8 @@ SOURCE_GROUP("misc" FILES
   sys_info_win.cc
   sys_string_conversions_win.cc
   task.cc
+  time.cc
+  time_win.cc
   utf_string_conversions.cc
   utf_string_conversion_utils.cc
   vlog.cc

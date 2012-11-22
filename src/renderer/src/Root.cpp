@@ -42,7 +42,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "ParticleSystemManager.h"
 #include "SkeletonManager.h"
 #include "ZipArchiveFactory.h"
-
+#include "FileSystemFactory.h"
 
 #if OGRE_PLATFORM == PLATFORM_WIN32
 
@@ -124,6 +124,9 @@ Root::Root(const String& pluginFileName) {
   mZipArchiveFactory = new ZipArchiveFactory();
   ArchiveManager::getSingleton().addArchiveFactory( mZipArchiveFactory );
 
+  os_file_system_ = new FileSystemFactory();
+  ArchiveManager::getSingleton().addArchiveFactory(os_file_system_);
+
   // Load plugins
   loadPlugins(pluginFileName);
 
@@ -179,6 +182,7 @@ Root::~Root() {
   delete mMaterialManager;
   delete mMath;
   delete mParticleManager;
+  delete os_file_system_;
   if( mControllerManager )
     delete mControllerManager;
 
