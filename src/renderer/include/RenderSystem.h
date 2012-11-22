@@ -39,6 +39,10 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "FrameListener.h"
 #include "ConfigOptionMap.h"
 
+namespace base {
+class TimeTicks;
+}
+
 namespace renderer {
 typedef std::map< String, RenderTarget * > RenderTargetMap;
 typedef std::multimap<uchar, RenderTarget * > RenderTargetPriorityMap;
@@ -805,8 +809,6 @@ protected:
   /** Internal method for raising frame ended events. */
   bool fireFrameEnded(FrameEvent& evt);
 
-  /** Internal timer */
-  Timer *mTimer ;
   /** Internal method for raising frame started events. */
   bool fireFrameStarted();
   /** Internal method for raising frame ended events. */
@@ -821,7 +823,7 @@ protected:
   @param now The current time in ms.
   @param type The type of event to be considered.
   */
-  Real calculateEventTime(unsigned long now, FrameEventTimeType type);
+  Real calculateEventTime(uint32 now, FrameEventTimeType type);
 
   /** The render targets. */
   RenderTargetMap mRenderTargets;

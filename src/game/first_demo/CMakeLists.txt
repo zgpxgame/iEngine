@@ -10,7 +10,7 @@ include_directories(${iEngine_SOURCE_DIR}/src/renderer/include)
 include_directories(${iEngine_SOURCE_DIR}/src/)
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "game")
 add_dependencies(${PROJECT_NAME} renderer base engine)
-add_dependencies(${PROJECT_NAME} plugin_filesystem plugin_opengl plugin_particle plugin_platform_manager)
+add_dependencies(${PROJECT_NAME} plugin_opengl plugin_particle)
 target_link_libraries(${PROJECT_NAME} base)
 target_link_libraries(${PROJECT_NAME} renderer)
 

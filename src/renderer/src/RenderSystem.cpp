@@ -37,7 +37,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "RenderWindow.h"
 #include "MeshManager.h"
 #include "Material.h"
-#include "Timer.h"
+#include "base/time.h"
 
 namespace renderer {
 //-----------------------------------------------------------------------
@@ -56,9 +56,6 @@ RenderSystem::RenderSystem() {
   // Enough for 5000 vertices
   mTempVertexBlendBuffer.resize(5000 * 3);
   mTempNormalBlendBuffer.resize(5000 * 3);
-
-  // get a Timer
-  mTimer = Root::getSingleton().getTimer();
 }
 
 //-----------------------------------------------------------------------
@@ -99,7 +96,7 @@ bool RenderSystem::fireFrameEnded(FrameEvent& evt) {
 }
 //-----------------------------------------------------------------------
 bool RenderSystem::fireFrameStarted() {
-  unsigned long now = mTimer->GetMilliseconds();
+  uint32 now = Root::getSingleton().GetTickCount();
   FrameEvent evt;
   evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
   evt.timeSinceLastFrame = calculateEventTime(now, FETT_STARTED);
@@ -108,7 +105,7 @@ bool RenderSystem::fireFrameStarted() {
 }
 //-----------------------------------------------------------------------
 bool RenderSystem::fireFrameEnded() {
-  unsigned long now = mTimer->GetMilliseconds();
+  uint32 now = Root::getSingleton().GetTickCount();
   FrameEvent evt;
   evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
   evt.timeSinceLastFrame = calculateEventTime(now, FETT_ENDED);
@@ -116,7 +113,7 @@ bool RenderSystem::fireFrameEnded() {
   return fireFrameEnded(evt);
 }
 //-----------------------------------------------------------------------
-Real RenderSystem::calculateEventTime(unsigned long now, FrameEventTimeType type) {
+Real RenderSystem::calculateEventTime(uint32 now, FrameEventTimeType type) {
   // Calculate the average time passed between events of the given type
   // during the last 0.1 seconds.
 

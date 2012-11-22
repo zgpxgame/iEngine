@@ -34,7 +34,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "MeshManager.h"
 #include "TextureManager.h"
 #include "DynLibManager.h"
-#include "PlatformManager.h"
 #include "ArchiveManager.h"
 
 #include <exception>
@@ -44,6 +43,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 #else
 #   define SET_TERM_HANDLER { std::set_terminate( &renderer::Root::termHandler ); }
 #endif
+
+
+namespace base {
+class TimeTicks;
+}
 
 namespace renderer {
 typedef std::vector<RenderSystem*> RenderSystemList;
@@ -76,7 +80,6 @@ private:
   ControllerManager* mControllerManager;
   SceneManagerEnumerator* mSceneManagerEnum;
   DynLibManager* mDynLibManager;
-  PlatformManager* mPlatformManager;
   ArchiveManager* mArchiveManager;
   MaterialManager* mMaterialManager;
   MeshManager* mMeshManager;
@@ -85,7 +88,7 @@ private:
   ArchiveFactory *mZipArchiveFactory;
   ArchiveFactory* os_file_system_;
   Codec* mPNGCodec, *mJPGCodec, *mJPEGCodec, *mTGACodec;
-  Timer* mTimer;
+  base::TimeTicks* init_time_ticks_;
 
   std::vector<DynLib*> mPluginLibs;
   /** Method reads a plugins configuration file and instantiates all
@@ -131,24 +134,6 @@ public:
           with the last config settings, <b>false</b> is returned.
   */
   bool restoreConfig(void);
-
-  /** Displays a dialog asking the user to choose system settings.
-      @remarks
-          This method displays the default dialog allowing the user to
-          choose the renderering system, video mode etc. If there is are
-          any settings saved already, they will be restored automatically
-          before displaying the dialogue. When the user accepts a group of
-          settings, this will automatically call Root::setRenderSystem,
-          RenderSystem::setConfigOption and Root::saveConfig with the
-          user's choices. This is the easiest way to get the system
-          configured.
-      @returns
-          If the user clicked 'Ok', <b>true</b> is returned.
-      @par
-          If they clicked 'Cancel' (in which case the app should
-          strongly consider terminating), <b>false</b> is returned.
-   */
-  bool showConfigDialog(void);
 
   /** Adds a new rendering subsystem to the list of available renderers.
       @remarks
@@ -478,7 +463,9 @@ public:
   void unloadPlugin(String pluginName);
 
   /** Gets a pointer to the central timer used for all OGRE timings */
-  Timer* getTimer(void);
+  base::TimeTicks* getTimer(void);
+
+  uint32 GetTickCount() const;
 
 };
 } // Namespace Ogre

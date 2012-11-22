@@ -166,7 +166,7 @@ int main(int argc, char **argv) {
   CommandLine::Init(0, 0);
 
   logging::InitLogging(L"demo.log",
-                       logging::LOG_ONLY_TO_SYSTEM_DEBUG_LOG,
+                       logging::LOG_TO_BOTH_FILE_AND_SYSTEM_DEBUG_LOG,
                        logging::DONT_LOCK_LOG_FILE,
                        logging::DELETE_OLD_LOG_FILE,
                        logging::ENABLE_DCHECK_FOR_NON_OFFICIAL_RELEASE_BUILDS);

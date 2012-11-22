@@ -29,7 +29,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Exception.h"
 #include "LogManager.h"
 #include "RenderTargetListener.h"
-#include "PlatformManager.h"
 #include "Root.h"
 
 namespace renderer {
@@ -38,7 +37,6 @@ RenderTarget::RenderTarget() {
   // Default to no stats display
   mActive = true;
   mPriority = OGRE_DEFAULT_RT_GROUP;
-  mTimer = Root::getSingleton().getTimer();
   resetStatistics();
 }
 
@@ -198,7 +196,7 @@ void RenderTarget::updateStats(void) {
     // measure statistics
     needUpdate = false ;
     ++numFrames;
-    unsigned long thisTime = mTimer->GetMilliseconds();
+    uint32 thisTime = Root::getSingleton().GetTickCount();
 
     // check frame time
     unsigned long frameTime = thisTime - lastTime ;
@@ -363,7 +361,7 @@ void RenderTarget::writeContentsToTimestampedFile(const String& filenamePrefix, 
       << ":" << std::setw(2) << std::setfill('0') << pTime->tm_hour
       << ":" << std::setw(2) << std::setfill('0') << pTime->tm_min
       << ":" << std::setw(2) << std::setfill('0') << pTime->tm_sec
-      << ":" << std::setw(3) << std::setfill('0') << (mTimer->GetMilliseconds() % 1000);
+      << ":" << std::setw(3) << std::setfill('0') << (Root::getSingleton().GetTickCount() % 1000);
   writeContentsToFile(filenamePrefix + String(oss.str()) + filenameSuffix);
 
 }

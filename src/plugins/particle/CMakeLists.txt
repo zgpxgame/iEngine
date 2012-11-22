@@ -41,6 +41,7 @@ set(SOURCE_FILES
 )
 
 include_directories(include)
+include_directories(${iEngine_SOURCE_DIR}/src)
 include_directories(${iEngine_SOURCE_DIR}/src/renderer/include)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)

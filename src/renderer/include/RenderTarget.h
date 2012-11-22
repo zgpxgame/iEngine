@@ -30,7 +30,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "MyString.h"
 #include "TextureManager.h"
 #include "Viewport.h"
-#include "Timer.h"
 
 /* Define the number of priority groups for the render system's render targets. */
 #ifndef OGRE_NUM_RENDERTARGET_GROUPS
@@ -257,7 +256,6 @@ protected:
   bool mIsDepthBuffered;
 
   // Stats
-  Timer* mTimer ;
   float mLastFPS;
   float mAvgFPS;
   float mBestFPS;

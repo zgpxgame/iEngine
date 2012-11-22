@@ -23,6 +23,7 @@ set(SOURCE_FILES
 )
 
 include_directories(include)
+include_directories(${iEngine_SOURCE_DIR}/src)
 include_directories(${iEngine_SOURCE_DIR}/src/renderer/include)
 
 add_definitions(-DOGRE_GL_USE_MULTITEXTURING)

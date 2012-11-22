@@ -26,6 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Root.h"
 
 #include "base/logging.h"
+#include "base/time.h"
 
 #include "RenderSystem.h"
 #include "Exception.h"
@@ -115,11 +116,9 @@ Root::Root(const String& pluginFileName) {
   // ..particle system manager
   mParticleManager = new ParticleSystemManager();
 
-  // Platform manager
-  mPlatformManager = new PlatformManager();
-
   // Timer
-  mTimer = mPlatformManager->createTimer();
+  init_time_ticks_ = new base::TimeTicks();
+  *init_time_ticks_ = base::TimeTicks::Now();
 
   mZipArchiveFactory = new ZipArchiveFactory();
   ArchiveManager::getSingleton().addArchiveFactory( mZipArchiveFactory );
@@ -188,8 +187,7 @@ Root::~Root() {
 
   unloadPlugins();
 
-  mPlatformManager->destroyTimer(mTimer);
-  delete mPlatformManager;
+  delete init_time_ticks_;
   delete mDynLibManager;
   delete mLogManager;
 }
@@ -276,24 +274,6 @@ bool Root::restoreConfig(void) {
 
   // Successful load
   return true;
-
-}
-
-//-----------------------------------------------------------------------
-bool Root::showConfigDialog(void) {
-  // Displays the standard config dialog
-  // Will use stored defaults if available
-  ConfigDialog* dlg;
-  bool isOk;
-
-  dlg = mPlatformManager->createConfigDialog();
-
-  isOk = dlg->Display();
-
-  mPlatformManager->destroyConfigDialog(dlg);
-
-  return isOk;
-
 }
 
 //-----------------------------------------------------------------------
@@ -359,7 +339,7 @@ RenderWindow* Root::initialise(bool autoCreateWindow) {
   }
 
   // Initialise timer
-  mTimer->Reset();
+  *init_time_ticks_ = base::TimeTicks::Now();
   return retWin;
 
 }
@@ -573,7 +553,14 @@ void Root::unloadPlugin(String pluginName) {
   }
 }
 //-----------------------------------------------------------------------
-Timer* Root::getTimer(void) {
-  return mTimer;
+base::TimeTicks* Root::getTimer(void) {
+  return init_time_ticks_;
 }
+
+uint32 Root::GetTickCount() const {
+  // FIXME!
+  base::TimeDelta escaped = (base::TimeTicks::Now() - *init_time_ticks_);
+  return (uint32)(escaped.InMilliseconds());
+}
+
 }

@@ -18,7 +18,6 @@ set(HEADER_FILES
   include/ColourValue.h
   include/Common.h
   include/Config.h
-  include/ConfigDialog.h
   include/ConfigFile.h
   include/ConfigOptionMap.h
   include/Controller.h
@@ -70,7 +69,6 @@ set(HEADER_FILES
   include/PatchSurface.h
   include/Plane.h
   include/Platform.h
-  include/PlatformManager.h
   include/PositionTarget.h
   include/PredefinedControllers.h
   include/Prerequisites.h
@@ -120,7 +118,6 @@ set(HEADER_FILES
   include/TagPoint.h
   include/Texture.h
   include/TextureManager.h
-  include/Timer.h
   include/unzip.h
   include/UserDefinedObject.h
   include/Vector3.h
@@ -184,7 +181,6 @@ set(SOURCE_FILES
   src/ParticleSystemManager.cpp
   src/PatchSurface.cpp
   src/Plane.cpp
-  src/PlatformManager.cpp
   src/PredefinedControllers.cpp
   src/ProgressiveMesh.cpp
   src/Quaternion.cpp
