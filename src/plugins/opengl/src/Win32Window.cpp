@@ -222,14 +222,17 @@ void Win32Window::resize(int width, int height) {
   mHeight = height;
 
   // Notify viewports of resize
-  ViewportList::iterator it = mViewportList.begin();
-  while( it != mViewportList.end() )
+  ViewportList::iterator it, itend;
+  itend = mViewportList.end();
+  for( it = mViewportList.begin(); it != itend; ++it )
     (*it).second->_updateDimensions();
   // TODO - resize window
 }
 
 void Win32Window::WindowMovedOrResized() {
-  // TODO
+  RECT temprect;
+  ::GetClientRect(getWindowHandle(), &temprect);
+  resize(temprect.right - temprect.left, temprect.bottom - temprect.top);
 }
 
 void Win32Window::swapBuffers(bool waitForVSync) {

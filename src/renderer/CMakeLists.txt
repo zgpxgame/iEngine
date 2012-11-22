@@ -214,7 +214,6 @@ set(SOURCE_FILES
   src/Texture.cpp
   src/TextureLayer.cpp
   src/TextureManager.cpp
-  src/Timer.cpp
   src/unzip.c
   src/UserDefinedObject.cpp
   src/Vector3.cpp
