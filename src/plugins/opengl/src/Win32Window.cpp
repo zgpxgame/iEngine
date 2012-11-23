@@ -50,7 +50,7 @@ void Win32Window::create(String name, int width, int height, int colourDepth,
                          bool fullScreen, int left, int top, bool depthBuffer,
                          void* miscParam, ...) {
   HWND parentHWnd;
-  HINSTANCE hInst = GetModuleHandle(_T("RenderSystem_GL.dll"));
+  HINSTANCE hInst = GetModuleHandle(_T("plugin_opengl.dll"));
   long tempPtr;
 
   // Get variable-length params
