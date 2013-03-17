@@ -52,7 +52,7 @@ bool GameApp::Launch() {
 			break;
 
     last_tick = now_tick;
-    Sleep(20);
+    //Sleep(20);
 	}
   return true;
 }
