@@ -45,7 +45,8 @@ protected:
 
 public:
   FrameTimeControllerValue();
-  bool RunFrame(int t);
+  ~FrameTimeControllerValue();
+  bool RunFrame(Real t);
   //bool frameEnded(const FrameEvent &evt);
   //bool frameStarted(const FrameEvent &evt);
   Real getValue(void) const;

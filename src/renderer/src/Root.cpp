@@ -548,7 +548,7 @@ uint32 Root::GetTickCount() const {
   return (uint32)(escaped.InMilliseconds());
 }
 
-void Root::RunFrame(int delta_time) {
+void Root::RunFrame(Real delta_time) {
   mControllerManager->RunFrame(delta_time);
   getRenderSystem()->UpdateRenderTargets(delta_time);
 }

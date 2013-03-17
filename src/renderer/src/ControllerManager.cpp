@@ -66,7 +66,7 @@ void ControllerManager::clearControllers(void) {
   mControllers.clear();
 }
 //-----------------------------------------------------------------------
-SharedPtr<FrameTimeControllerValue> ControllerManager::getFrameTimeSource(void) {
+SharedPtr<ControllerValue> ControllerManager::getFrameTimeSource(void) {
   return mFrameTimeController;
 }
 //-----------------------------------------------------------------------
@@ -74,10 +74,7 @@ Controller* ControllerManager::createTextureAnimator(
 	Material::TextureLayer* layer, Real sequenceTime) {
   SharedPtr<ControllerValue> texVal(new TextureFrameControllerValue(layer));
   SharedPtr<ControllerFunction> animFunc(new AnimationControllerFunction(sequenceTime));
-  
-  // FIXME!
-  SharedPtr<ControllerValue> fc(mFrameTimeController.get());
-  return createController(fc, texVal, animFunc);
+  return createController(mFrameTimeController, texVal, animFunc);
 }
 //-----------------------------------------------------------------------
 Controller* ControllerManager::createTextureScroller(
@@ -99,9 +96,7 @@ Controller* ControllerManager::createTextureScroller(
     // Create function: use -speed since we're altering texture coords so they have reverse effect
     uFunc.bind(new ScaleControllerFunction(-uSpeed, true));
 
-    // FIXME!
-    SharedPtr<ControllerValue> fc(mFrameTimeController.get());
-    ret = createController(fc, uVal, uFunc);
+    ret = createController(mFrameTimeController, uVal, uFunc);
   }
 
   if (vSpeed != 0 && (uSpeed == 0 || vSpeed != uSpeed)) {
@@ -113,9 +108,7 @@ Controller* ControllerManager::createTextureScroller(
     // Create function: use -speed since we're altering texture coords so they have reverse effect
     vFunc.bind(new ScaleControllerFunction(-vSpeed, true));
 
-    // FIXME!
-    SharedPtr<ControllerValue> fc(mFrameTimeController.get());
-    ret = createController(fc, vVal, vFunc);
+    ret = createController(mFrameTimeController, vVal, vFunc);
   }
 
   return ret;
@@ -131,9 +124,7 @@ Controller* ControllerManager::createTextureRotater(Material::TextureLayer* laye
   // Use -speed since altering texture coords has the reverse visible effect
   func.bind(new ScaleControllerFunction(-speed, true));
 
-  // FIXME!
-  SharedPtr<ControllerValue> fc(mFrameTimeController.get());
-  return createController(fc, val, func);
+  return createController(mFrameTimeController, val, func);
 
 }
 //-----------------------------------------------------------------------
@@ -170,9 +161,7 @@ Controller* ControllerManager::createTextureWaveTransformer(
   // Create new wave function for alterations
   func.bind(new WaveformControllerFunction(waveType, base, frequency, phase, amplitude, true));
 
-  // FIXME!
-  SharedPtr<ControllerValue> fc(mFrameTimeController.get());
-  return createController(fc, val, func);
+  return createController(mFrameTimeController, val, func);
 }
 //-----------------------------------------------------------------------
 ControllerManager& ControllerManager::getSingleton(void) {
@@ -197,7 +186,7 @@ void ControllerManager::setTimeFactor(Real tf) {
 	  mFrameTimeController.getPointer())->setTimeFactor(tf);
 }
 
-void ControllerManager::RunFrame(int t) {
+void ControllerManager::RunFrame(Real t) {
   mFrameTimeController->RunFrame(t);
 }
 

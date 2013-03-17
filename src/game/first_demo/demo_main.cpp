@@ -43,10 +43,16 @@ bool GameApp::Init() {
 }
 
 bool GameApp::Launch() {
+  int last_tick = GetTickCount();
 	while (1) {
-		//GameFrame();
-		if (engine::iEngine::GetInstance()->RunFrame())
+    int now_tick = GetTickCount();
+    float delta_time = (now_tick - last_tick) / 1000.0f;
+		game_scene_->UpdateFrame(delta_time);
+		if (engine::iEngine::GetInstance()->RunFrame(delta_time))
 			break;
+
+    last_tick = now_tick;
+    Sleep(20);
 	}
   return true;
 }

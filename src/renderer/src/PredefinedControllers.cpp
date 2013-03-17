@@ -40,7 +40,7 @@ FrameTimeControllerValue::FrameTimeControllerValue() {
 
 }
 //-----------------------------------------------------------------------
-bool FrameTimeControllerValue::RunFrame(int t/*const FrameEvent &evt*/) {
+bool FrameTimeControllerValue::RunFrame(Real t/*const FrameEvent &evt*/) {
   // Save the time value after applying time factor
   // FIXME!
   mFrameTime = mTimeFactor * t; //evt.timeSinceLastFrame;
@@ -66,6 +66,11 @@ Real FrameTimeControllerValue::getTimeFactor(void) const {
 void FrameTimeControllerValue::setTimeFactor(Real tf) {
   if(tf >= 0) mTimeFactor = tf;
 }
+
+FrameTimeControllerValue::~FrameTimeControllerValue() {
+
+}
+
 //-----------------------------------------------------------------------
 // TextureFrameControllerValue
 //-----------------------------------------------------------------------

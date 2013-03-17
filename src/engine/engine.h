@@ -28,7 +28,7 @@ public:
   ~iEngine();
 
   bool Init();
-  bool RunFrame();
+  bool RunFrame(float delta_time);
   void Exit();
   void RequestExit();
 

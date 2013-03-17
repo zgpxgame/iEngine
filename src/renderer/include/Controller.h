@@ -80,6 +80,8 @@ public:
 class _RendererExport ControllerValue {
 
 public:
+  ~ControllerValue() { }
+  virtual bool RunFrame(Real t) { return false; } // FIXME!
   virtual Real getValue(void) const = 0;
   virtual void setValue(Real value) = 0;
 

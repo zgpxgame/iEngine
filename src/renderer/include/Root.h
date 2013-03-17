@@ -409,7 +409,7 @@ public:
 
   uint32 GetTickCount() const;
 
-  void RunFrame(int delta_time);
+  void RunFrame(Real delta_time);
 };
 } // Namespace Ogre
 #endif

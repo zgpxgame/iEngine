@@ -28,6 +28,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "renderer/include/LogManager.h"
 #include "renderer/include/RenderSystem.h"
 #include "renderer/include/ImageCodec.h"
+#include "engine/engine.h"
 #include <tchar.h>
 
 using namespace renderer;
@@ -371,6 +372,7 @@ LRESULT OSWindow::WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 
     DestroyWindow( win->mHWnd );
     win->mClosed = true;
+    engine::iEngine::GetInstance()->RequestExit();
     return 0;
   }
 

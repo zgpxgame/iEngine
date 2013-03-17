@@ -29,7 +29,7 @@ iEngine::~iEngine() {
 }
 
 bool iEngine::Init() {
-  lua_State* L = lua_open();
+  L = lua_open();
 
   renderer_root_ = new renderer::Root();
   renderer_root_->restoreConfig();
@@ -64,7 +64,7 @@ bool iEngine::Init() {
   return true;
 }
 
-bool iEngine::RunFrame() {
+bool iEngine::RunFrame(float delta_time) {
   if (!exit_) {
     //ClearEventTimes();
 
@@ -77,8 +77,8 @@ bool iEngine::RunFrame() {
     // 物理系统
     // AI
     // GUI
-    renderer_root_->RunFrame(30);
-    Sleep(33);
+    renderer_root_->RunFrame(delta_time);
+    
   }
 
   return exit_;
@@ -87,7 +87,7 @@ bool iEngine::RunFrame() {
 void iEngine::Exit() {
   renderer_root_->shutdown();
   delete renderer_root_;
-  delete render_window_;
+  //delete render_window_;
   renderer_root_ = NULL;
   render_window_ = NULL;
   lua_close(L);

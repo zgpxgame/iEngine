@@ -267,7 +267,7 @@ void ParticleSystemManager::_destroyAffector(ParticleAffector* affector) {
   pFact->second->destroyAffector(affector);
 }
 //-----------------------------------------------------------------------
-bool ParticleSystemManager::RunFrame(int t) {
+bool ParticleSystemManager::RunFrame(Real t) {
   // Apply time factor
   Real timeSinceLastFrame = mTimeFactor * t;// evt.timeSinceLastFrame;
 

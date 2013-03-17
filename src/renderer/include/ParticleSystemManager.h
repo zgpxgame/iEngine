@@ -269,7 +269,7 @@ public:
   void _destroyAffector(ParticleAffector* affector);
 
   /** Frame event */
-  bool RunFrame(int t);
+  bool RunFrame(Real t);
 
   /** Frame event */
   //bool frameEnded(const FrameEvent &evt);
