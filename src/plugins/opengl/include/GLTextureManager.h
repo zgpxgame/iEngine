@@ -48,9 +48,8 @@ public:
     return NULL;
   }
 
-  virtual Texture * createManual( const String& name, TextureType texType,
-                                  uint width, uint height, uint num_mips, PixelFormat format,
-                                  TextureUsage usage );
+  virtual Texture * createManual(const String& name, TextureType texType,
+    uint width, uint height, uint num_mips, PixelFormat format, TextureUsage usage);
 
   /** Unloads & destroys textures. */
   void unloadAndDestroyAll();

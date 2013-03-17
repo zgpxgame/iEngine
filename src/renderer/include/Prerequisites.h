@@ -75,8 +75,6 @@ http://www.gnu.org/copyleft/lesser.txt
 #include "StdHeaders.h"
 
 
-#include "MemoryManager.h"
-
 // define the real number values to be used
 // default to use 'float' unless precompiler option set
 namespace renderer {

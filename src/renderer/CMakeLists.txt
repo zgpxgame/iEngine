@@ -43,8 +43,6 @@ set(HEADER_FILES
   include/MaterialSerializer.h
   include/Matrix3.h
   include/Matrix4.h
-  include/MemoryMacros.h
-  include/MemoryManager.h
   include/Mesh.h
   include/MeshFileFormat.h
   include/MeshManager.h
@@ -53,7 +51,6 @@ set(HEADER_FILES
   include/MyMath.h
   include/MyString.h
   include/Node.h
-  include/NoMemoryMacros.h
   include/OofFile.h
   include/OofModelFile.h
   include/Particle.h
@@ -164,7 +161,6 @@ set(SOURCE_FILES
   src/MaterialSerializer.cpp
   src/Matrix3.cpp
   src/Matrix4.cpp
-  src/MemoryManager.cpp
   src/Mesh.cpp
   src/MeshManager.cpp
   src/MeshSerializer.cpp
