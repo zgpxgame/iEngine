@@ -7,6 +7,7 @@
 #include <set>
 #include <deque>
 
+struct lua_State;
 template <typename Type>
 struct StaticMemorySingletonTraits;
 
@@ -70,6 +71,9 @@ private:
   renderer::Root *renderer_root_;
   renderer::RenderWindow* render_window_;
   bool exit_;
+  
+  // test
+  lua_State* L;
 
   friend struct StaticMemorySingletonTraits<iEngine>;
   DISALLOW_COPY_AND_ASSIGN(iEngine);

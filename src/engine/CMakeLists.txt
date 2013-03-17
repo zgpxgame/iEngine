@@ -17,8 +17,8 @@ add_definitions(-D"COMPONENT_BUILD" -D"BASE_IMPLEMENTATION")
 
 add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "iEngine")
-add_dependencies(${PROJECT_NAME} renderer)
-target_link_libraries(${PROJECT_NAME} renderer base)
+add_dependencies(${PROJECT_NAME} renderer lua5.1)
+target_link_libraries(${PROJECT_NAME} renderer base lua5.1)
 target_link_libraries(${PROJECT_NAME} opengl32.lib glu32.lib)
 
 # …Ë÷√ ‰≥ˆ¬∑æ∂

@@ -4,6 +4,7 @@
 #include "renderer/include/Root.h"
 #include "renderer/include/RenderSystem.h"
 #include "renderer/include/ConfigFile.h"
+#include "third_party/lua5.1/lua.hpp"
 
 //#if PLATFORM == WIN32
 #include "engine/window_win32.h"
@@ -28,6 +29,8 @@ iEngine::~iEngine() {
 }
 
 bool iEngine::Init() {
+  lua_State* L = lua_open();
+
   renderer_root_ = new renderer::Root();
   renderer_root_->restoreConfig();
 
@@ -87,6 +90,7 @@ void iEngine::Exit() {
   delete render_window_;
   renderer_root_ = NULL;
   render_window_ = NULL;
+  lua_close(L);
 }
 
 void iEngine::SetupResource() {
