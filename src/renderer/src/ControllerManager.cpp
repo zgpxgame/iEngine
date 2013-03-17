@@ -41,7 +41,10 @@ ControllerManager::~ControllerManager() {
   clearControllers();
 }
 //-----------------------------------------------------------------------
-Controller* ControllerManager::createController(SharedPtr<ControllerValue> src, SharedPtr<ControllerValue> dest, SharedPtr<ControllerFunction> func) {
+Controller* ControllerManager::createController(
+	SharedPtr<ControllerValue> src,
+	SharedPtr<ControllerValue> dest,
+	SharedPtr<ControllerFunction> func) {
   Controller* c = new Controller(src, dest, func);
 
   mControllers.insert(c);
@@ -63,18 +66,22 @@ void ControllerManager::clearControllers(void) {
   mControllers.clear();
 }
 //-----------------------------------------------------------------------
-SharedPtr<ControllerValue> ControllerManager::getFrameTimeSource(void) {
+SharedPtr<FrameTimeControllerValue> ControllerManager::getFrameTimeSource(void) {
   return mFrameTimeController;
 }
 //-----------------------------------------------------------------------
-Controller* ControllerManager::createTextureAnimator(Material::TextureLayer* layer, Real sequenceTime) {
+Controller* ControllerManager::createTextureAnimator(
+	Material::TextureLayer* layer, Real sequenceTime) {
   SharedPtr<ControllerValue> texVal(new TextureFrameControllerValue(layer));
   SharedPtr<ControllerFunction> animFunc(new AnimationControllerFunction(sequenceTime));
-
-  return createController(mFrameTimeController, texVal, animFunc);
+  
+  // FIXME!
+  SharedPtr<ControllerValue> fc(mFrameTimeController.get());
+  return createController(fc, texVal, animFunc);
 }
 //-----------------------------------------------------------------------
-Controller* ControllerManager::createTextureScroller(Material::TextureLayer* layer, Real uSpeed, Real vSpeed) {
+Controller* ControllerManager::createTextureScroller(
+	Material::TextureLayer* layer, Real uSpeed, Real vSpeed) {
   Controller* ret = 0;
 
   // Set up 1 or 2 controllers to manage the scrolling texture
@@ -91,7 +98,10 @@ Controller* ControllerManager::createTextureScroller(Material::TextureLayer* lay
     }
     // Create function: use -speed since we're altering texture coords so they have reverse effect
     uFunc.bind(new ScaleControllerFunction(-uSpeed, true));
-    ret = createController(mFrameTimeController, uVal, uFunc);
+
+    // FIXME!
+    SharedPtr<ControllerValue> fc(mFrameTimeController.get());
+    ret = createController(fc, uVal, uFunc);
   }
 
   if (vSpeed != 0 && (uSpeed == 0 || vSpeed != uSpeed)) {
@@ -102,7 +112,10 @@ Controller* ControllerManager::createTextureScroller(Material::TextureLayer* lay
     vVal.bind(new TexCoordModifierControllerValue(layer, false, true));
     // Create function: use -speed since we're altering texture coords so they have reverse effect
     vFunc.bind(new ScaleControllerFunction(-vSpeed, true));
-    ret = createController(mFrameTimeController, vVal, vFunc);
+
+    // FIXME!
+    SharedPtr<ControllerValue> fc(mFrameTimeController.get());
+    ret = createController(fc, vVal, vFunc);
   }
 
   return ret;
@@ -118,12 +131,17 @@ Controller* ControllerManager::createTextureRotater(Material::TextureLayer* laye
   // Use -speed since altering texture coords has the reverse visible effect
   func.bind(new ScaleControllerFunction(-speed, true));
 
-  return createController(mFrameTimeController, val, func);
+  // FIXME!
+  SharedPtr<ControllerValue> fc(mFrameTimeController.get());
+  return createController(fc, val, func);
 
 }
 //-----------------------------------------------------------------------
-Controller* ControllerManager::createTextureWaveTransformer(Material::TextureLayer* layer,
-    Material::TextureLayer::TextureTransformType ttype, WaveformType waveType, Real base, Real frequency, Real phase, Real amplitude) {
+Controller* ControllerManager::createTextureWaveTransformer(
+	Material::TextureLayer* layer, 
+	Material::TextureLayer::TextureTransformType ttype, 
+	WaveformType waveType, 
+	Real base, Real frequency, Real phase, Real amplitude) {
   SharedPtr<ControllerValue> val;
   SharedPtr<ControllerFunction> func;
 
@@ -152,7 +170,9 @@ Controller* ControllerManager::createTextureWaveTransformer(Material::TextureLay
   // Create new wave function for alterations
   func.bind(new WaveformControllerFunction(waveType, base, frequency, phase, amplitude, true));
 
-  return createController(mFrameTimeController, val, func);
+  // FIXME!
+  SharedPtr<ControllerValue> fc(mFrameTimeController.get());
+  return createController(fc, val, func);
 }
 //-----------------------------------------------------------------------
 ControllerManager& ControllerManager::getSingleton(void) {
@@ -168,10 +188,17 @@ void ControllerManager::destroyController(Controller* controller) {
 }
 //-----------------------------------------------------------------------
 Real ControllerManager::getTimeFactor(void) const {
-  return static_cast<const FrameTimeControllerValue*>(mFrameTimeController.get())->getTimeFactor();
+  return static_cast<const FrameTimeControllerValue*>(
+	  mFrameTimeController.get())->getTimeFactor();
 }
 //-----------------------------------------------------------------------
 void ControllerManager::setTimeFactor(Real tf) {
-  static_cast<FrameTimeControllerValue*>(mFrameTimeController.getPointer())->setTimeFactor(tf);
+  static_cast<FrameTimeControllerValue*>(
+	  mFrameTimeController.getPointer())->setTimeFactor(tf);
 }
+
+void ControllerManager::RunFrame(int t) {
+  mFrameTimeController->RunFrame(t);
+}
+
 }

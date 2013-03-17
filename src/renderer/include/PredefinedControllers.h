@@ -29,7 +29,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Prerequisites.h"
 
 #include "Controller.h"
-#include "FrameListener.h"
 #include "Material.h"
 
 namespace renderer {
@@ -39,15 +38,16 @@ namespace renderer {
 //-----------------------------------------------------------------------
 /** Predefined controller value for getting the latest frame time.
 */
-class _RendererExport FrameTimeControllerValue : public ControllerValue, public FrameListener {
+class _RendererExport FrameTimeControllerValue : public ControllerValue { //, public FrameListener {
 protected:
   Real mFrameTime;
   Real mTimeFactor;
 
 public:
   FrameTimeControllerValue();
-  bool frameEnded(const FrameEvent &evt);
-  bool frameStarted(const FrameEvent &evt);
+  bool RunFrame(int t);
+  //bool frameEnded(const FrameEvent &evt);
+  //bool frameStarted(const FrameEvent &evt);
   Real getValue(void) const;
   void setValue(Real value);
   Real getTimeFactor(void) const;

@@ -26,8 +26,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define __Controller_H__
 
 #include "Prerequisites.h"
-
-#include "FrameListener.h"
 #include "SharedPtr.h"
 
 namespace renderer {

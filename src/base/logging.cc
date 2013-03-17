@@ -173,7 +173,7 @@ void CloseFile(FileHandle log) {
 
 void DeleteFilePath(const PathString& log_name) {
 #if defined(OS_WIN)
-  DeleteFile(log_name.c_str());
+  DeleteFileW(log_name.c_str());
 #else
   unlink(log_name.c_str());
 #endif
@@ -183,7 +183,7 @@ PathString GetDefaultLogFile() {
 #if defined(OS_WIN)
   // On Windows we use the same path as the exe.
   wchar_t module_name[MAX_PATH];
-  GetModuleFileName(NULL, module_name, MAX_PATH);
+  GetModuleFileNameW(NULL, module_name, MAX_PATH);
 
   PathString log_file = module_name;
   PathString::size_type last_backslash =
@@ -230,7 +230,7 @@ class LoggingLock {
         std::replace(safe_name.begin(), safe_name.end(), '\\', '/');
         std::wstring t(L"Global\\");
         t.append(safe_name);
-        log_mutex = ::CreateMutex(NULL, FALSE, t.c_str());
+        log_mutex = ::CreateMutexW(NULL, FALSE, t.c_str());
 
         if (log_mutex == NULL) {
 #if DEBUG
@@ -327,12 +327,12 @@ bool InitializeLogFileHandle() {
   if (logging_destination == LOG_ONLY_TO_FILE ||
       logging_destination == LOG_TO_BOTH_FILE_AND_SYSTEM_DEBUG_LOG) {
 #if defined(OS_WIN)
-    log_file = CreateFile(log_file_name->c_str(), GENERIC_WRITE,
+    log_file = CreateFileW(log_file_name->c_str(), GENERIC_WRITE,
                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                           OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (log_file == INVALID_HANDLE_VALUE || log_file == NULL) {
       // try the current directory
-      log_file = CreateFile(L".\\debug.log", GENERIC_WRITE,
+      log_file = CreateFileW(L".\\debug.log", GENERIC_WRITE,
                             FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                             OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
       if (log_file == INVALID_HANDLE_VALUE || log_file == NULL) {
@@ -489,7 +489,7 @@ void DisplayDebugMessageInDialog(const std::string& str) {
   if (cmdline.empty())
     return;
 
-  STARTUPINFO startup_info;
+  STARTUPINFOW startup_info;
   memset(&startup_info, 0, sizeof(startup_info));
   startup_info.cb = sizeof(startup_info);
 

@@ -82,7 +82,7 @@ public:
           actual requirements must be defined by the implementing subclasses.
   */
   virtual void create(String name, int width, int height, int colourDepth,
-                      bool fullScreen, int left, int top, bool depthBuffer, void* miscParam, ...) = 0;
+                      bool fullScreen, int left, int top, bool depthBuffer) = 0;
 
   /** Destroys the window.
   */
@@ -139,6 +139,7 @@ public:
   */
   virtual void getMetrics(int &width, int &height, int &colourDepth, int &left, int &top);
 
+  virtual void RunMessageLoop() = 0;
 
 protected:
   bool mIsFullScreen;

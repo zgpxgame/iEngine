@@ -72,6 +72,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "RenderQueueListener.h"
 #include "RenderTexture.h"
 #include "UserDefinedObject.h"
+#include "AnimationState.h"
 // .... more to come
 
 #endif

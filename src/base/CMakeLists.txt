@@ -270,7 +270,7 @@ SOURCE_GROUP("misc" FILES
 get_property(PROJECT_PARENT_DIR DIRECTORY PROPERTY PARENT_DIRECTORY)
 include_directories(${PROJECT_PARENT_DIR})
 
-add_definitions(-D "UNICODE" -D"_UNICODE")
+#add_definitions(-D "UNICODE" -D"_UNICODE")
 add_definitions(-D "COMPONENT_BUILD")
 add_definitions(-D "BASE_IMPLEMENTATION")
 add_definitions(-D "NOMINMAX")

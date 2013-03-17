@@ -193,17 +193,11 @@ public:
           This method can only be called after a renderer has been
           selected with Root::setRenderSystem, and it will initialise
           the selected rendering system ready for use.
-      @param
-          autoCreateWindow If true, a rendering window will
-          automatically be created (saving a call to
-          RenderSystem::createRenderWindow). The window will be
-          created based on the options currently set on the render
-          system.
       @returns
           A pointer to the automatically created window, if
           requested, otherwise <b>NULL</b>.
   */
-  RenderWindow* initialise(bool autoCreateWindow);
+  void initialise();
 
   /** Gets a reference to a SceneManager object.
       @remarks
@@ -261,58 +255,6 @@ public:
       code.
   */
   String getErrorDescription(long errorNumber);
-
-  /** Registers a FrameListener which will be called back every frame.
-      @remarks
-          A FrameListener is a class which implements methods which
-          will be called during Ogre's automatic rendering loop
-          (started with RenderSystem::startRendering).
-      @par
-          See the FrameListener class for more details on the specifics
-          It is imperitive that the instance passed to this method is
-          not destroyed before iether the rendering loop ends, or the
-          class is removed from the listening list using
-          removeFrameListener.
-      @note
-          <br>This method can only be called after Root::initialise has
-          been called.
-      @see
-          FrameListener, Root::removeFrameListener
-  */
-  void addFrameListener(FrameListener* newListener);
-
-  /** Removes a FrameListener from the list of listening classes.
-      @see
-          FrameListener, Root::addFrameListener
-  */
-  void removeFrameListener(FrameListener* oldListener);
-
-  /** Starts / restarts the automatic rendering cycle.
-      @remarks
-          This method begins the automatic rendering of the scene. It
-          will <b>NOT</b> return until the rendering cycle is halted.
-      @par
-          During rendering, any FrameListener classes registered using
-          addFrameListener will be called back for each frame that is
-          to be rendered, These classes can tell OGRE to halt the
-          rendering if required, which will cause this method to
-          return.
-      @note
-          <br>Users of the OGRE library do not have to use this
-          automatic rendering loop. It is there as a convenience and is
-          most useful for high frame rate applications e.g. games. For
-          applications that don't need to constantly refresh the
-          rendering targets (e.g. an editor utility), it is better to
-          manually refresh each render target only when required by
-          calling RenderTarget::update.
-      @note
-          This frees up the CPU to do other things in between
-          refreshes, since in this case frame rate is less important.
-      @note
-          This method can only be called after Root::initialise has
-          been called.
-  */
-  void startRendering(void);
 
   /** Shuts down the system manually.
       @remarks
@@ -467,6 +409,7 @@ public:
 
   uint32 GetTickCount() const;
 
+  void RunFrame(int delta_time);
 };
 } // Namespace Ogre
 #endif

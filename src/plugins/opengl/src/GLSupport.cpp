@@ -119,4 +119,9 @@ bool GLSupport::checkExtension(const String& ext) {
 GLSupport& GLSupport::getSingleton(void) {
   return Singleton<GLSupport>::getSingleton();
 }
+
+void* GLSupport::getProcAddress(const String& procname) {
+  return (void*)wglGetProcAddress( procname.c_str() );
+}
+
 }

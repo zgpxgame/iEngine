@@ -36,7 +36,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "RenderOperation.h"
 #include "RenderTarget.h"
 #include "RenderTexture.h"
-#include "FrameListener.h"
 #include "ConfigOptionMap.h"
 
 namespace base {
@@ -166,11 +165,6 @@ public:
       @remarks
           Called by Root::setRenderSystem. Shouldn't really be called
           directly, although  this can be done if the app wants to.
-      @param
-          autoCreateWindow If true, creates a render window
-          automatically, based on settings chosen so far. This saves
-          an extra call to RenderSystem::createRenderWindow
-          for the main render window.
       @par
           If an application has more specific window requirements,
           however (e.g. a level design app), it should specify false
@@ -178,7 +172,7 @@ public:
       @returns
           A pointer to the automatically created window, if requested, otherwise null.
   */
-  virtual RenderWindow* initialise(bool autoCreateWindow);
+  virtual void initialise();
 
   /** Restart the renderer (normally following a change in settings).
   */
@@ -188,47 +182,16 @@ public:
   */
   virtual void shutdown(void);
 
-  /** Registers a FrameListener which will be called back every frame.
+  /** 更新所有添加到RenderSystem的RenderTarget
       @remarks
-          A FrameListener is a class which implements methods which
-          will be called during Ogre's automatic rendering loop (started
-          with RenderSystem::startRendering).
-      @par
-          See the FrameListener class for more details on the specifics.
-          It is imperitive that the instance passed to this method is
-          not destroyed before iether the rendering loop ends, or the
-          class is removed from the listening list using removeFrameListener.
-      @see
-          FrameListener
+          如果只需要更新某一个RenderTarget，则直接调用对应RenderTarget的update
+          进行更新
   */
-  virtual void addFrameListener(FrameListener* newListener);
+  virtual void UpdateRenderTargets(float delta_time);
 
-  /** Removes a FrameListener from the list of listening classes.
+  /** 清理RenderTarget的统计信息
   */
-  virtual void removeFrameListener(FrameListener* oldListener);
-
-  /** Starts / restarts the automatic rendering cycle.
-      @remarks
-          This method begins the automatic rendering of the scene.
-          This method will NOT RETURN until the rendering
-          cycle is halted.
-      @par
-          During rendering, any FrameListener classes registered using
-          addFrameListener will be called back for each frame that is to be rendered,
-          These classes can tell OGRE to halt the rendering if required,
-          which will cause this method to return.
-      @par
-          Note - users of the OGRE library do not have to use this
-          automatic rendering loop. It is there as a convenience and is most
-          useful for high frame rate applications e.g. games. For applications that
-          don't need to constantly refresh the rendering targets (e.g. an editor
-          utility), it is better to manually refresh each render target only when
-          required by calling RenderTarget::update.
-      @par
-          This frees up the CPU to do other things in between refreshes, since in
-          this case frame rate is less important.
-   */
-  virtual void startRendering(void);
+  void ResetStatistics();
 
   /** Sets the colour & strength of the ambient (global directionless) light in the world.
   */
@@ -293,9 +256,9 @@ public:
           stand-alone. Otherwise, specify a pointer to a RenderWindow
           which represents the parent window.
   */
-  virtual RenderWindow* createRenderWindow(const String &name, int width, int height, int colourDepth,
-      bool fullScreen, int left = 0, int top = 0, bool depthBuffer = true,
-      RenderWindow* parentWindowHandle = 0) = 0;
+  //virtual RenderWindow* createRenderWindow(const String &name, int width, int height, int colourDepth,
+  //    bool fullScreen, int left = 0, int top = 0, bool depthBuffer = true,
+  //    RenderWindow* parentWindowHandle = 0) = 0;
 
   /** Creates and registers a render texture object.
   	@param name
@@ -800,31 +763,6 @@ public:
 
 
 protected:
-
-  /** Set of registered frame listeners */
-  std::set<FrameListener*> mFrameListeners;
-
-  /** Internal method for raising frame started events. */
-  bool fireFrameStarted(FrameEvent& evt);
-  /** Internal method for raising frame ended events. */
-  bool fireFrameEnded(FrameEvent& evt);
-
-  /** Internal method for raising frame started events. */
-  bool fireFrameStarted();
-  /** Internal method for raising frame ended events. */
-  bool fireFrameEnded();
-
-  /** Indicates the type of event to be considered by calculateEventTime(). */
-  enum FrameEventTimeType {
-    FETT_ANY, FETT_STARTED, FETT_ENDED
-  };
-
-  /** Internal method for calculating the average time between recently fired events.
-  @param now The current time in ms.
-  @param type The type of event to be considered.
-  */
-  Real calculateEventTime(uint32 now, FrameEventTimeType type);
-
   /** The render targets. */
   RenderTargetMap mRenderTargets;
   /** The render targets, ordered by priority. */
@@ -857,9 +795,6 @@ protected:
   /// Temporary buffer for vertex blending in software
   std::vector<Real> mTempVertexBlendBuffer;
   std::vector<Real> mTempNormalBlendBuffer;
-
-  /// Contains the times of recently fired events
-  std::deque<unsigned long> mEventTimes[3];
 };
 }
 

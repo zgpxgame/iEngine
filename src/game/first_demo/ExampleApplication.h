@@ -96,60 +96,7 @@ protected:
     return true;
 
   }
-  /** Configures the application - returns false if the user chooses to abandon configuration. */
-  virtual bool configure(void) {
-    // ´Órenderer.cfg¶ÁÈ¡ÉèÖÃ
-    mRoot->restoreConfig();
-    // If returned true, user clicked OK so initialise
-    // Here we choose to let the system create a default rendering window by passing 'true'
-    mWindow = mRoot->initialise(true);
-    return true;
-  }
 
-  virtual void chooseSceneManager(void) {
-    // Get the SceneManager, in this case a generic one
-    mSceneMgr = mRoot->getSceneManager(ST_GENERIC);
-  }
-  virtual void createCamera(void) {
-    // Create the camera
-    mCamera = mSceneMgr->createCamera("PlayerCam");
-
-    // Position it at 500 in Z direction
-    mCamera->setPosition(Vector3(0,0,500));
-    // Look back along -Z
-    mCamera->lookAt(Vector3(0,0,-300));
-    mCamera->setNearClipDistance(5);
-
-  }
-  virtual void createFrameListener(void) {
-    mFrameListener= new ExampleFrameListener(mWindow, mCamera);
-    mRoot->addFrameListener(mFrameListener);
-  }
-
-  virtual void createScene(void) = 0;    // pure virtual - this has to be overridden
-
-  virtual void createViewports(void) {
-    // Create one viewport, entire window
-    Viewport* vp = mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
-  }
-
-  /// Method which will define the source of resources (other than current folder)
-  virtual void setupResources(void) {
-    // Load resource paths from config file
-    ConfigFile cf;
-    cf.load("resources.cfg");
-
-    // Go through all settings in the file
-    ConfigFile::SettingsIterator i = cf.getSettingsIterator();
-
-    String typeName, archName;
-    while (i.hasMoreElements()) {
-      typeName = i.peekNextKey();
-      archName = i.getNext();
-      ResourceManager::addCommonArchiveEx( archName, typeName );
-    }
-  }
 
 
 

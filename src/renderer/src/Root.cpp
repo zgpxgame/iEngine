@@ -318,7 +318,7 @@ RenderSystem* Root::getRenderSystem(void) {
 }
 
 //-----------------------------------------------------------------------
-RenderWindow* Root::initialise(bool autoCreateWindow) {
+void Root::initialise() {
   if (!mActiveRenderer)
     Except(Exception::ERR_NO_RENDERSYSTEM_SELECTED,
            "Cannot initialise - no render "
@@ -329,19 +329,20 @@ RenderWindow* Root::initialise(bool autoCreateWindow) {
   // Parse all material scripts
   mMaterialManager->parseAllSources();
 
+  mActiveRenderer->initialise();
 
-
-  RenderWindow *retWin =  mActiveRenderer->initialise(autoCreateWindow);
-
+#if 0 // FIXME!
   if (autoCreateWindow) {
     // Init particle systems manager
     mParticleManager->_initialise();
   }
+#else
+  // Init particle systems manager
+  mParticleManager->_initialise();
+#endif
 
   // Initialise timer
   *init_time_ticks_ = base::TimeTicks::Now();
-  return retWin;
-
 }
 //-----------------------------------------------------------------------
 String Root::getErrorDescription(long errorNumber) {
@@ -366,23 +367,7 @@ TextureManager* Root::getTextureManager(void) {
 MeshManager* Root::getMeshManager(void) {
   return &MeshManager::getSingleton();
 }
-//-----------------------------------------------------------------------
-void Root::addFrameListener(FrameListener* newListener) {
-  assert(mActiveRenderer != 0);
-  mActiveRenderer->addFrameListener(newListener);
 
-}
-
-//-----------------------------------------------------------------------
-void Root::removeFrameListener(FrameListener* oldListener) {
-  assert(mActiveRenderer != 0);
-  mActiveRenderer->removeFrameListener(oldListener);
-}
-//-----------------------------------------------------------------------
-void Root::startRendering(void) {
-  assert(mActiveRenderer != 0);
-  mActiveRenderer->startRendering();
-}
 //-----------------------------------------------------------------------
 void Root::shutdown(void) {
   if (mActiveRenderer) {
@@ -466,28 +451,28 @@ void Root::convertColourValue(const ColourValue& colour, unsigned long* pDest) {
   mActiveRenderer->convertColourValue(colour, pDest);
 }
 //-----------------------------------------------------------------------
-RenderWindow* Root::createRenderWindow(const String &name, int width, int height, int colourDepth,
-                                       bool fullScreen, int left, int top, bool depthBuffer,RenderWindow* parentWindowHandle) {
-  if (!mActiveRenderer) {
-    Except(Exception::ERR_NO_RENDERSYSTEM_SELECTED,
-           "Cannot create window - no render "
-           "system has been selected.", "Root::createRenderWindow");
-  }
-  RenderWindow* ret;
-  ret = mActiveRenderer->createRenderWindow(name, width, height, colourDepth, fullScreen, left, top,
-        depthBuffer, parentWindowHandle);
-
-  // Initialisation for classes dependent on first window created
-  static bool firstOne = true;
-  if (firstOne) {
-    // Init particle systems manager
-    mParticleManager->_initialise();
-    firstOne = false;
-  }
-
-  return ret;
-
-}
+//RenderWindow* Root::createRenderWindow(const String &name, int width, int height, int colourDepth,
+//                                       bool fullScreen, int left, int top, bool depthBuffer,RenderWindow* parentWindowHandle) {
+//  if (!mActiveRenderer) {
+//    Except(Exception::ERR_NO_RENDERSYSTEM_SELECTED,
+//           "Cannot create window - no render "
+//           "system has been selected.", "Root::createRenderWindow");
+//  }
+//  RenderWindow* ret;
+//  ret = mActiveRenderer->createRenderWindow(name, width, height, colourDepth, fullScreen, left, top,
+//        depthBuffer, parentWindowHandle);
+//
+//  // Initialisation for classes dependent on first window created
+//  static bool firstOne = true;
+//  if (firstOne) {
+//    // Init particle systems manager
+//    mParticleManager->_initialise();
+//    firstOne = false;
+//  }
+//
+//  return ret;
+//
+//}
 //-----------------------------------------------------------------------
 void Root::detachRenderTarget(RenderTarget* target) {
   if (!mActiveRenderer) {
@@ -561,6 +546,11 @@ uint32 Root::GetTickCount() const {
   // FIXME!
   base::TimeDelta escaped = (base::TimeTicks::Now() - *init_time_ticks_);
   return (uint32)(escaped.InMilliseconds());
+}
+
+void Root::RunFrame(int delta_time) {
+  mControllerManager->RunFrame(delta_time);
+  getRenderSystem()->UpdateRenderTargets(delta_time);
 }
 
 }

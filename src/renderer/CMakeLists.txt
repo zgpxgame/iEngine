@@ -30,7 +30,6 @@ set(HEADER_FILES
   include/FactoryObj.h
   include/FileSystem.h
   include/FileSystemFactory.h
-  include/FrameListener.h
   include/GeometryData.h
   include/Image.h
   include/ImageCodec.h

@@ -35,7 +35,6 @@
 #include <GL/wglew.h>
 #endif
 
-#include "GLSupport.h"
 /*
  * Define glewGetContext and related helper macros.
  */
@@ -56,11 +55,11 @@
 #  endif /* _WIN32 */
 #  define GLEW_CONTEXT_ARG_DEF_LIST GLEWContext* ctx
 #else /* GLEW_MX */
-#  define GLEW_CONTEXT_ARG_DEF_INIT renderer::GLSupport *glSupport
-#  define GLEW_CONTEXT_ARG_VAR_INIT glSupport
-#  define GLEW_CONTEXT_ARG_DEF_LIST renderer::GLSupport *glSupport
-#  define WGLEW_CONTEXT_ARG_DEF_INIT renderer::GLSupport *glSupport
-#  define WGLEW_CONTEXT_ARG_DEF_LIST renderer::GLSupport *glSupport
+#  define GLEW_CONTEXT_ARG_DEF_INIT void //renderer::GLSupport *glSupport
+#  define GLEW_CONTEXT_ARG_VAR_INIT  //glSupport
+#  define GLEW_CONTEXT_ARG_DEF_LIST  void //renderer::GLSupport *glSupport
+#  define WGLEW_CONTEXT_ARG_DEF_INIT void //renderer::GLSupport *glSupport
+#  define WGLEW_CONTEXT_ARG_DEF_LIST void //renderer::GLSupport *glSupport
 #  define GLXEW_CONTEXT_ARG_DEF_INIT void
 #  define GLXEW_CONTEXT_ARG_DEF_LIST void
 #endif /* GLEW_MX */
@@ -132,7 +131,7 @@ static GLboolean _glewStrSame3 (GLubyte** a, GLuint* na, const GLubyte* b, GLuin
 }
 
 // Define procedure address
-#define glewGetProcAddress(name) glSupport->getProcAddress((const char*)(name))
+#define glewGetProcAddress(name) wglGetProcAddress( (LPCSTR)name )
 // Not experimental
 #define glewExperimental 0
 

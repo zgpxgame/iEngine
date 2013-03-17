@@ -28,7 +28,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Prerequisites.h"
 #include "ParticleSystem.h"
-#include "FrameListener.h"
 
 namespace renderer {
 
@@ -50,7 +49,7 @@ namespace renderer {
     describing named particle system templates. Instances of particle systems using these templates can
     then be created easily through the createParticleSystem method.
 */
-class _RendererExport ParticleSystemManager: public Singleton<ParticleSystemManager>, public FrameListener {
+class _RendererExport ParticleSystemManager: public Singleton<ParticleSystemManager>{//, public FrameListener {
 protected:
   typedef std::map<String, ParticleSystem> ParticleTemplateMap;
   /// Templates based on scripts
@@ -270,10 +269,10 @@ public:
   void _destroyAffector(ParticleAffector* affector);
 
   /** Frame event */
-  bool frameStarted(const FrameEvent &evt);
+  bool RunFrame(int t);
 
   /** Frame event */
-  bool frameEnded(const FrameEvent &evt);
+  //bool frameEnded(const FrameEvent &evt);
 
   /** Init method to be called by OGRE system.
   @remarks

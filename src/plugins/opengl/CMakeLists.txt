@@ -6,9 +6,7 @@ set(HEADER_FILES
   include/GLSupport.h
   include/GLTexture.h
   include/GLTextureManager.h
-  include/Win32GLSupport.h
   include/Win32Prerequisites.h
-  include/Win32Window.h
 )
 
 set(SOURCE_FILES
@@ -18,8 +16,6 @@ set(SOURCE_FILES
   src/GLSupport.cpp
   src/GLTexture.cpp
   src/GLTextureManager.cpp
-  src/Win32GLSupport.cpp
-  src/Win32Window.cpp
 )
 
 include_directories(include)

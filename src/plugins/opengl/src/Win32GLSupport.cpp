@@ -16,6 +16,7 @@ template<class C> void remove_duplicates(C& c) {
   c.erase(p, c.end());
 }
 
+// 添加渲染器选项
 void Win32GLSupport::addConfig() {
   //TODO: EnumDisplayDevices http://msdn.microsoft.com/library/en-us/gdi/devcons_2303.asp
   /*vector<string> DisplayDevices;
@@ -93,6 +94,7 @@ void Win32GLSupport::refreshConfig() {
     Except(999, "Invalid Video Mode provided", "Win32GLSupport::refreshConfig");
   int width = atoi(val.substr(0, pos).c_str());
 
+  // 根据当前的显示模式，刷新“位深”和“刷新频率”选项
   for(std::vector<DEVMODE>::const_iterator i = mDevModes.begin(); i != mDevModes.end(); ++i) {
     if (i->dmPelsWidth != width)
       continue;
@@ -102,8 +104,12 @@ void Win32GLSupport::refreshConfig() {
     sprintf(buf, "%d", i->dmDisplayFrequency);
     optDisplayFrequency->possibleValues.push_back(buf);
   }
+
+  // 删除重复的位深和刷新频率选项
   remove_duplicates(optColourDepth->possibleValues);
   remove_duplicates(optDisplayFrequency->possibleValues);
+
+  // 第一个值作为当前选项
   optColourDepth->currentValue = optColourDepth->possibleValues.front();
   optDisplayFrequency->currentValue = optDisplayFrequency->possibleValues.front();
 }
@@ -199,7 +205,7 @@ void Win32GLSupport::stop() {
 }
 
 void* Win32GLSupport::getProcAddress(const String& procname) {
-  return (void*)wglGetProcAddress( procname.c_str() );;
+  return (void*)wglGetProcAddress( procname.c_str() );
 }
 
 }

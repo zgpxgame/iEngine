@@ -5,7 +5,7 @@ This source file is part of OGRE
 For the latest info, see http://ogre.sourceforge.net/
 
 Copyright (c)2000-2002 The OGRE Team
-Also see acknowledgements in Readme.html
+Also see acknowledgments in Readme.html
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
@@ -29,14 +29,14 @@ http://www.gnu.org/copyleft/lesser.txt.s
 #include "Light.h"
 #include "Camera.h"
 #include "GLTextureManager.h"
-#include "Win32GLSupport.h"
+//#include "Win32GLSupport.h"
 
 
 #ifdef HAVE_CONFIG_H
 #   include "config.h"
 #endif
 
-GLenum glewContextInit (renderer::GLSupport *glSupport);
+GLenum glewContextInit (void);
 
 namespace renderer {
 
@@ -46,7 +46,7 @@ GLRenderSystem::GLRenderSystem() {
   LogManager::getSingleton().logMessage(getName() + " created.");
 
   // Get our GLSupport
-  mGLSupport = new Win32GLSupport();
+  mGLSupport = new GLSupport();
 
   for( int i=0; i<MAX_LIGHTS; i++ )
     mLights[i] = NULL;
@@ -98,15 +98,16 @@ void GLRenderSystem::setConfigOption(const String &name, const String &value) {
 
 String GLRenderSystem::validateConfigOptions(void) {
   // XXX Return an error string if something is invalid
-  return mGLSupport->validateConfig();
+  //return mGLSupport->validateConfig();
+  return "";
 }
 
-RenderWindow* GLRenderSystem::initialise(bool autoCreateWindow) {
+void GLRenderSystem::initialise() {
   //The main startup
-  RenderSystem::initialise(autoCreateWindow);
+  RenderSystem::initialise();
 
-  mGLSupport->start();
-  RenderWindow* autoWindow = mGLSupport->createWindow(autoCreateWindow, this);
+  //mGLSupport->start();
+  //RenderWindow* autoWindow = mGLSupport->createWindow(autoCreateWindow, this);
   mGLSupport->initialiseExtensions();
 
   LogManager::getSingleton().logMessage(
@@ -115,63 +116,21 @@ RenderWindow* GLRenderSystem::initialise(bool autoCreateWindow) {
     "***************************");
 
   // Get extension function pointers
-  glewContextInit(mGLSupport);
+  glewContextInit();
 
   _setCullingMode( mCullingMode );
 
-  return autoWindow;
+  mTextureManager = new GLTextureManager();
 }
 
 void GLRenderSystem::reinitialise(void) {
   this->shutdown();
-  this->initialise(true);
+  this->initialise();
 }
 
 void GLRenderSystem::shutdown(void) {
   RenderSystem::shutdown();
-
-  mGLSupport->stop();
-  mStopRendering = true;
-}
-
-void GLRenderSystem::startRendering(void) {
-  OgreGuard("GLRenderSystem::startRendering");
-
-  RenderTargetMap::iterator i;
-
-  MSG  msg;
-
-  RenderSystem::startRendering();
-
-  // Render this window
-  PeekMessage( &msg, NULL, 0U, 0U, PM_NOREMOVE );
-
-  mStopRendering = false;
-  while( mRenderTargets.size() && !mStopRendering ) {
-    if( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) ) {
-      if (msg.message == WM_QUIT)
-        break;
-      TranslateMessage( &msg );
-      DispatchMessage( &msg );
-    } else {
-      if(!fireFrameStarted())
-        return;
-
-      // Render a frame during idle time (no messages are waiting)
-      RenderTargetPriorityMap::iterator itarg, itargend;
-      itargend = mPrioritisedRenderTargets.end();
-      for( itarg = mPrioritisedRenderTargets.begin(); itarg != itargend; ++itarg ) {
-        if( itarg->second->isActive() ) {
-          itarg->second->update();
-        }
-      }
-
-      if(!fireFrameEnded())
-        return;
-    }
-  }
-
-  OgreUnguard();
+  //mGLSupport->stop();
 }
 
 void GLRenderSystem::setAmbientLight(float r, float g, float b) {
@@ -201,51 +160,52 @@ void GLRenderSystem::setTextureFiltering(TextureFilterOptions fo) {
   OgreUnguard();
 }
 
-RenderWindow* GLRenderSystem::createRenderWindow(
-  const String & name, int width, int height, int colourDepth,
-  bool fullScreen, int left, int top, bool depthBuffer,
-  RenderWindow* parentWindowHandle) {
-  if (mRenderTargets.find(name) != mRenderTargets.end()) {
-    Except(
-      Exception::ERR_INVALIDPARAMS,
-      "Window with name '" + name + "' already exists",
-      "GLRenderSystem::createRenderWindow" );
-  }
+//RenderWindow* GLRenderSystem::createRenderWindow(
+//  const String & name, int width, int height, int colourDepth,
+//  bool fullScreen, int left, int top, bool depthBuffer,
+//  RenderWindow* parentWindowHandle) {
+//  if (mRenderTargets.find(name) != mRenderTargets.end()) {
+//    Except(
+//      Exception::ERR_INVALIDPARAMS,
+//      "Window with name '" + name + "' already exists",
+//      "GLRenderSystem::createRenderWindow" );
+//  }
+//
+//  // Create the window
+//  RenderWindow* win = mGLSupport->newWindow(name, width, height, colourDepth, fullScreen,
+//                      left, top, depthBuffer, parentWindowHandle, mVSync);
+//
+//  attachRenderTarget( *win );
+//
+//  if (parentWindowHandle == NULL) {
+//    mTextureManager = new GLTextureManager();
+//  }
+//
+//  // XXX Do more?
+//
+//  return win;
+//}
 
-  // Create the window
-  RenderWindow* win = mGLSupport->newWindow(name, width, height, colourDepth, fullScreen,
-                      left, top, depthBuffer, parentWindowHandle, mVSync);
-
-  attachRenderTarget( *win );
-
-  if (parentWindowHandle == NULL) {
-    mTextureManager = new GLTextureManager();
-  }
-
-  // XXX Do more?
-
-  return win;
-}
-
-RenderTexture * GLRenderSystem::createRenderTexture( const String & name, int width, int height ) {
+RenderTexture * GLRenderSystem::createRenderTexture(
+                                  const String & name, int width, int height) {
   RenderTexture* rt = new GLRenderTexture(name, width, height);
   attachRenderTarget(*rt);
   return rt;
 }
 
 //-----------------------------------------------------------------------
-void GLRenderSystem::destroyRenderWindow(RenderWindow* pWin) {
-  // Find it to remove from list
-  RenderTargetMap::iterator i = mRenderTargets.begin();
-
-  while (i != mRenderTargets.end()) {
-    if (i->second == pWin) {
-      mRenderTargets.erase(i);
-      delete pWin;
-      break;
-    }
-  }
-}
+//void GLRenderSystem::destroyRenderWindow(RenderWindow* pWin) {
+//  // Find it to remove from list
+//  RenderTargetMap::iterator i = mRenderTargets.begin();
+//
+//  while (i != mRenderTargets.end()) {
+//    if (i->second == pWin) {
+//      mRenderTargets.erase(i);
+//      delete pWin;
+//      break;
+//    }
+//  }
+//}
 
 void GLRenderSystem::_addLight(Light *lt) {
   // Find first free slot
@@ -418,8 +378,10 @@ void GLRenderSystem::_setProjectionMatrix(const Matrix4 &m) {
 }
 //-----------------------------------------------------------------------------
 void GLRenderSystem::_setSurfaceParams(const ColourValue &ambient,
-                                       const ColourValue &diffuse, const ColourValue &specular,
-                                       const ColourValue &emissive, Real shininess) {
+                                       const ColourValue &diffuse, 
+                                       const ColourValue &specular,
+                                       const ColourValue &emissive, 
+                                       Real shininess) {
   // XXX Cache previous values?
   // XXX Front or Front and Back?
 
@@ -517,7 +479,8 @@ void GLRenderSystem::_setTextureCoordCalculation(int stage, TexCoordCalcMethod m
   glActiveTextureARB( GL_TEXTURE0 );
 }
 //-----------------------------------------------------------------------------
-void GLRenderSystem::_setTextureAddressingMode(int stage, Material::TextureLayer::TextureAddressingMode tam) {
+void GLRenderSystem::_setTextureAddressingMode(int stage, 
+                          Material::TextureLayer::TextureAddressingMode tam) {
   GLint type;
   switch(tam) {
   case Material::TextureLayer::TAM_WRAP:

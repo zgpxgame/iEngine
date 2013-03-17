@@ -267,9 +267,9 @@ void ParticleSystemManager::_destroyAffector(ParticleAffector* affector) {
   pFact->second->destroyAffector(affector);
 }
 //-----------------------------------------------------------------------
-bool ParticleSystemManager::frameStarted(const FrameEvent &evt) {
+bool ParticleSystemManager::RunFrame(int t) {
   // Apply time factor
-  Real timeSinceLastFrame = mTimeFactor * evt.timeSinceLastFrame;
+  Real timeSinceLastFrame = mTimeFactor * t;// evt.timeSinceLastFrame;
 
   // update systems
   // TODO: only do this for visible systems
@@ -280,14 +280,14 @@ bool ParticleSystemManager::frameStarted(const FrameEvent &evt) {
 
   return true;
 }
-//-----------------------------------------------------------------------
-bool ParticleSystemManager::frameEnded(const FrameEvent &evt) {
-  return true;
-}
+////-----------------------------------------------------------------------
+//bool ParticleSystemManager::frameEnded(const FrameEvent &evt) {
+//  return true;
+//}
 //-----------------------------------------------------------------------
 void ParticleSystemManager::_initialise(void) {
   // Register self as a frame listener
-  Root::getSingleton().addFrameListener(this);
+  //Root::getSingleton().addFrameListener(this);
 
   // Parse all scripts
   parseAllSources();

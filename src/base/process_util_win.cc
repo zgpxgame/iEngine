@@ -229,7 +229,7 @@ bool GetProcessIntegrityLevel(ProcessHandle process, IntegrityLevel *level) {
 bool LaunchProcess(const string16& cmdline,
                    const LaunchOptions& options,
                    ProcessHandle* process_handle) {
-  STARTUPINFO startup_info = {};
+  STARTUPINFOW startup_info = {};
   startup_info.cb = sizeof(startup_info);
   if (options.empty_desktop_name)
     startup_info.lpDesktop = L"";
@@ -256,7 +256,7 @@ bool LaunchProcess(const string16& cmdline,
       return false;
 
     BOOL launched =
-        CreateProcessAsUser(options.as_user, NULL,
+        CreateProcessAsUserW(options.as_user, NULL,
                             const_cast<wchar_t*>(cmdline.c_str()),
                             NULL, NULL, options.inherit_handles, flags,
                             enviroment_block, NULL, &startup_info,
@@ -265,7 +265,7 @@ bool LaunchProcess(const string16& cmdline,
     if (!launched)
       return false;
   } else {
-    if (!CreateProcess(NULL,
+    if (!CreateProcessW(NULL,
                        const_cast<wchar_t*>(cmdline.c_str()), NULL, NULL,
                        options.inherit_handles, flags, NULL, NULL,
                        &startup_info, &process_info)) {
@@ -351,7 +351,7 @@ bool GetAppOutput(const CommandLine& cl, std::string* output) {
   std::wstring writable_command_line_string(cl.GetCommandLineString());
 
   PROCESS_INFORMATION proc_info = { 0 };
-  STARTUPINFO start_info = { 0 };
+  STARTUPINFOW start_info = { 0 };
 
   start_info.cb = sizeof(STARTUPINFO);
   start_info.hStdOutput = out_write;
@@ -361,7 +361,7 @@ bool GetAppOutput(const CommandLine& cl, std::string* output) {
   start_info.dwFlags |= STARTF_USESTDHANDLES;
 
   // Create the child process.
-  if (!CreateProcess(NULL,
+  if (!CreateProcessW(NULL,
                      &writable_command_line_string[0],
                      NULL, NULL,
                      TRUE,  // Handles are inherited.
@@ -495,10 +495,10 @@ bool ProcessIterator::CheckForNextProcess() {
 
   if (!started_iteration_) {
     started_iteration_ = true;
-    return !!Process32First(snapshot_, &entry_);
+    return !!Process32FirstW(snapshot_, &entry_);
   }
 
-  return !!Process32Next(snapshot_, &entry_);
+  return !!Process32NextW(snapshot_, &entry_);
 }
 
 void ProcessIterator::InitProcessEntry(ProcessEntry* entry) {
@@ -814,7 +814,7 @@ bool ProcessMetrics::CalculateFreeMemory(FreeMBytes* free) const {
 }
 
 bool EnableLowFragmentationHeap() {
-  HMODULE kernel32 = GetModuleHandle(L"kernel32.dll");
+  HMODULE kernel32 = GetModuleHandleW(L"kernel32.dll");
   HeapSetFn heap_set = reinterpret_cast<HeapSetFn>(GetProcAddress(
       kernel32,
       "HeapSetInformation"));
@@ -881,7 +881,7 @@ static BOOL InternalGetPerformanceInfo(
     PPERFORMANCE_INFORMATION pPerformanceInformation, DWORD cb) {
   static GetPerformanceInfoFunction GetPerformanceInfo_func = NULL;
   if (!GetPerformanceInfo_func) {
-    HMODULE psapi_dll = ::GetModuleHandle(kPsapiDllName);
+    HMODULE psapi_dll = ::GetModuleHandleW(kPsapiDllName);
     if (psapi_dll)
       GetPerformanceInfo_func = reinterpret_cast<GetPerformanceInfoFunction>(
           GetProcAddress(psapi_dll, "GetPerformanceInfo"));

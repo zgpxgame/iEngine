@@ -26,7 +26,7 @@ public:
   * Must have a "Full Screen" value that is a bool and a "Video Mode" value
   * that is a string in the form of wxh
   */
-  virtual void addConfig() = 0;
+  virtual void addConfig() { }
 
   virtual void setConfigOption(const String &name, const String &value);
 
@@ -34,28 +34,28 @@ public:
   * Make sure all the extra options are valid
   * @return string with error message
   */
-  virtual String validateConfig() = 0;
+  //virtual String validateConfig() = 0;
 
   virtual ConfigOptionMap& getConfigOptions(void);
 
 
-  virtual RenderWindow* createWindow(bool autoCreateWindow, GLRenderSystem* renderSystem) = 0;
+  //virtual RenderWindow* createWindow(bool autoCreateWindow, GLRenderSystem* renderSystem) = 0;
 
   /**
     * Create a specific instance of a render window
     */
-  virtual RenderWindow* newWindow(const String& name, int width, int height, int colourDepth,
-                                  bool fullScreen, int left, int top, bool depthBuffer, RenderWindow* parentWindowHandle,
-                                  bool vsync) = 0;
+  //virtual RenderWindow* newWindow(const String& name, int width, int height, int colourDepth,
+  //                                bool fullScreen, int left, int top, bool depthBuffer, RenderWindow* parentWindowHandle,
+  //                                bool vsync) = 0;
 
   /**
   * Start anything special
   */
-  virtual void start() = 0;
+  //virtual void start() = 0;
   /**
   * Stop anything special
   */
-  virtual void stop() = 0;
+  //virtual void stop() = 0;
 
 
   /**
@@ -77,7 +77,7 @@ public:
   /**
   * Get the address of a function
   */
-  virtual void* getProcAddress(const String& procname) = 0;
+  virtual void* getProcAddress(const String& procname);
   /** Intialises GL extensions, must be done AFTER the GL context has been
       established.
   */

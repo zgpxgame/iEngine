@@ -49,7 +49,7 @@ protected:
   ControllerList mControllers;
 
   /// Global predefined controller
-  SharedPtr<ControllerValue> mFrameTimeController;
+  SharedPtr<FrameTimeControllerValue> mFrameTimeController;
 
 public:
   ControllerManager();
@@ -77,7 +77,7 @@ public:
       @see
           RenderSystem::beginFrame
   */
-  SharedPtr<ControllerValue> getFrameTimeSource(void);
+  SharedPtr<FrameTimeControllerValue> getFrameTimeSource(void);
 
   /** Creates a texture layer animator controller.
       @remarks
@@ -169,6 +169,8 @@ public:
       @param tf The virtual speed of time (1.0 is real time).
   */
   void setTimeFactor(Real tf);
+
+  void RunFrame(int t);
 };
 
 

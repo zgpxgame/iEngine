@@ -43,7 +43,7 @@ class CommandLine;
 namespace base {
 
 #if defined(OS_WIN)
-struct ProcessEntry : public PROCESSENTRY32 {
+struct ProcessEntry : public PROCESSENTRY32W {
   ProcessId pid() const { return th32ProcessID; }
   ProcessId parent_pid() const { return th32ParentProcessID; }
   const wchar_t* exe_file() const { return szExeFile; }

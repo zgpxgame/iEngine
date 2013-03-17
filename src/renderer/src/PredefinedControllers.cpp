@@ -34,21 +34,22 @@ namespace renderer {
 //-----------------------------------------------------------------------
 FrameTimeControllerValue::FrameTimeControllerValue() {
   // Register self
-  Root::getSingleton().addFrameListener(this);
+  //Root::getSingleton().addFrameListener(this);
   mFrameTime = 0;
   mTimeFactor = 1;
 
 }
 //-----------------------------------------------------------------------
-bool FrameTimeControllerValue::frameStarted(const FrameEvent &evt) {
+bool FrameTimeControllerValue::RunFrame(int t/*const FrameEvent &evt*/) {
   // Save the time value after applying time factor
-  mFrameTime = mTimeFactor * evt.timeSinceLastFrame;
+  // FIXME!
+  mFrameTime = mTimeFactor * t; //evt.timeSinceLastFrame;
   return true;
 }
 //-----------------------------------------------------------------------
-bool FrameTimeControllerValue::frameEnded(const FrameEvent &evt) {
-  return true;
-}
+// bool FrameTimeControllerValue::frameEnded(const FrameEvent &evt) {
+//   return true;
+// }
 //-----------------------------------------------------------------------
 Real FrameTimeControllerValue::getValue() const {
   return mFrameTime;

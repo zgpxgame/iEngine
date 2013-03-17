@@ -28,7 +28,7 @@ void Process::Terminate(int result_code) {
   // Call NtTerminateProcess directly, without going through the import table,
   // which might have been hooked with a buggy replacement by third party
   // software. http://crbug.com/81449.
-  HMODULE module = GetModuleHandle(L"ntdll.dll");
+  HMODULE module = GetModuleHandleW(L"ntdll.dll");
   typedef UINT (WINAPI *TerminateProcessPtr)(HANDLE handle, UINT code);
   TerminateProcessPtr terminate_process = reinterpret_cast<TerminateProcessPtr>(
       GetProcAddress(module, "NtTerminateProcess"));

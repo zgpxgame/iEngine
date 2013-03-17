@@ -78,7 +78,7 @@ OSInfo::~OSInfo() {
 OSInfo::WOW64Status OSInfo::GetWOW64StatusForProcess(HANDLE process_handle) {
   typedef BOOL (WINAPI* IsWow64ProcessFunc)(HANDLE, PBOOL);
   IsWow64ProcessFunc is_wow64_process = reinterpret_cast<IsWow64ProcessFunc>(
-      GetProcAddress(GetModuleHandle(L"kernel32.dll"), "IsWow64Process"));
+      GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "IsWow64Process"));
   if (!is_wow64_process)
     return WOW64_DISABLED;
   BOOL is_wow64 = FALSE;

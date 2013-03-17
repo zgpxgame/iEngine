@@ -63,101 +63,26 @@ RenderSystem::~RenderSystem() {
   shutdown();
 }
 //-----------------------------------------------------------------------
-void RenderSystem::addFrameListener(FrameListener* newListener) {
-  // Insert, unique only (set)
-  mFrameListeners.insert(newListener);
-}
-//-----------------------------------------------------------------------
-void RenderSystem::removeFrameListener(FrameListener* oldListener) {
-  // Remove, 1 only (set)
-  mFrameListeners.erase(oldListener);
-}
-//-----------------------------------------------------------------------
-bool RenderSystem::fireFrameStarted(FrameEvent& evt) {
-  // Tell all listeners
-  std::set<FrameListener*>::iterator i;
-  for (i= mFrameListeners.begin(); i != mFrameListeners.end(); ++i) {
-    if (!(*i)->frameStarted(evt))
-      return false;
+void RenderSystem::UpdateRenderTargets(float delta_time) {
+
+  ResetStatistics();
+
+
+  RenderTargetMap::iterator i;
+  // Render a frame during idle time (no messages are waiting)
+  RenderTargetPriorityMap::iterator itarg, itargend;
+  itargend = mPrioritisedRenderTargets.end();
+  for( itarg = mPrioritisedRenderTargets.begin(); itarg != itargend; ++itarg ) {
+    if( itarg->second->isActive() ) {
+      itarg->second->update();
+    }
   }
 
-  return true;
-
 }
+
+
 //-----------------------------------------------------------------------
-bool RenderSystem::fireFrameEnded(FrameEvent& evt) {
-  // Tell all listeners
-  std::set<FrameListener*>::iterator i;
-  for (i= mFrameListeners.begin(); i != mFrameListeners.end(); ++i) {
-    if (!(*i)->frameEnded(evt))
-      return false;
-  }
-  return true;
-}
-//-----------------------------------------------------------------------
-bool RenderSystem::fireFrameStarted() {
-  uint32 now = Root::getSingleton().GetTickCount();
-  FrameEvent evt;
-  evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
-  evt.timeSinceLastFrame = calculateEventTime(now, FETT_STARTED);
-
-  return fireFrameStarted(evt);
-}
-//-----------------------------------------------------------------------
-bool RenderSystem::fireFrameEnded() {
-  uint32 now = Root::getSingleton().GetTickCount();
-  FrameEvent evt;
-  evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
-  evt.timeSinceLastFrame = calculateEventTime(now, FETT_ENDED);
-
-  return fireFrameEnded(evt);
-}
-//-----------------------------------------------------------------------
-Real RenderSystem::calculateEventTime(uint32 now, FrameEventTimeType type) {
-  // Calculate the average time passed between events of the given type
-  // during the last 0.1 seconds.
-
-  std::deque<unsigned long>& times = mEventTimes[type];
-  times.push_back(now);
-
-  if(times.size() == 1)
-    return 0;
-
-  // Times up to 0.1 seconds old should be kept
-  unsigned long discardLimit = now - 100;
-
-  // Find the oldest time to keep
-  std::deque<unsigned long>::iterator it = times.begin(),
-                                      end = times.end()-2; // We need at least two times
-  while(it != end) {
-    if(*it < discardLimit)
-      ++it;
-    else
-      break;
-  }
-
-  // Remove old times
-  times.erase(times.begin(), it);
-
-  return Real(times.back() - times.front()) / ((times.size()-1) * 1000);
-}
-//-----------------------------------------------------------------------
-void RenderSystem::startRendering(void) {
-
-  // Init stats
-  for(
-    RenderTargetMap::iterator it = mRenderTargets.begin();
-    it != mRenderTargets.end();
-    ++it ) {
-    it->second->resetStatistics();
-  }
-
-  // Clear event times
-  for(int i=0; i!=3; ++i)
-    mEventTimes[i].clear();
-}
-//-----------------------------------------------------------------------
-RenderWindow* RenderSystem::initialise(bool autoCreateWindow) {
+void RenderSystem::initialise() {
   // Have I been registered by call to Root::setRenderSystem?
   /** Don't do this anymore, just allow via Root
       RenderSystem* regPtr = Root::getSingleton().getRenderSystem();
@@ -172,8 +97,6 @@ RenderWindow* RenderSystem::initialise(bool autoCreateWindow) {
   // Subclasses should take it from here
   // They should ALL call this superclass method from
   //   their own initialise() implementations.
-
-  return 0;
 }
 //---------------------------------------------------------------------------------------------
 void RenderSystem::attachRenderTarget( RenderTarget &target ) {
@@ -591,6 +514,15 @@ void RenderSystem::setStencilBufferParams(CompareFunction func, ulong refValue,
   setStencilBufferFailOperation(stencilFailOp);
   setStencilBufferDepthFailOperation(depthFailOp);
   setStencilBufferPassOperation(passOp);
+}
+
+void RenderSystem::ResetStatistics() {
+  // Init stats
+  for (RenderTargetMap::iterator it = mRenderTargets.begin();
+    it != mRenderTargets.end();
+    ++it) {
+    it->second->resetStatistics();
+  }
 }
 
 }

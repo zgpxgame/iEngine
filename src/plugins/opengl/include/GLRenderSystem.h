@@ -37,9 +37,6 @@ namespace renderer {
  */
 class GLRenderSystem : public RenderSystem {
 private:
-  // Rendering loop control
-  bool mStopRendering;
-
   // Array of up to 8 lights, indexed as per API
   // Note that a null value indicates a free slot
 #define MAX_LIGHTS 8
@@ -110,7 +107,7 @@ public:
   /** See
     RenderSystem
    */
-  RenderWindow* initialise(bool autoCreateWindow);
+  void initialise();
   /** See
     RenderSystem
    */
@@ -120,10 +117,6 @@ public:
    */
   void shutdown(void);
 
-  /** See
-    RenderSystem
-   */
-  void startRendering(void);
   /** See
     RenderSystem
    */
@@ -143,9 +136,9 @@ public:
   /** See
     RenderSystem
    */
-  RenderWindow* createRenderWindow(const String &name, int width, int height, int colourDepth,
-                                   bool fullScreen, int left = 0, int top = 0, bool depthBuffer = true,
-                                   RenderWindow* parentWindowHandle = 0);
+  //RenderWindow* createRenderWindow(const String &name, int width, int height, int colourDepth,
+  //                                 bool fullScreen, int left = 0, int top = 0, bool depthBuffer = true,
+  //                                 RenderWindow* parentWindowHandle = 0);
 
   RenderTexture * createRenderTexture( const String & name, int width, int height );
 
