@@ -231,14 +231,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR *lpCmdLin
 		has to contain key/value pairs, terminated with EGL_NONE.
 	*/
 	i = 0;
+    pi32ConfigAttribs[i++] = EGL_BUFFER_SIZE;
+    pi32ConfigAttribs[i++] = 32;
 	pi32ConfigAttribs[i++] = EGL_RED_SIZE;
-	pi32ConfigAttribs[i++] = 5;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_GREEN_SIZE;
-	pi32ConfigAttribs[i++] = 6;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_BLUE_SIZE;
-	pi32ConfigAttribs[i++] = 5;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_ALPHA_SIZE;
-	pi32ConfigAttribs[i++] = 0;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_SURFACE_TYPE;
 	pi32ConfigAttribs[i++] = EGL_WINDOW_BIT;
 	pi32ConfigAttribs[i++] = EGL_NONE;
