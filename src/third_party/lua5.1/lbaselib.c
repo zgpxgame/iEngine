@@ -36,7 +36,7 @@ static int luaB_print (lua_State *L) {
     const char *s;
     lua_pushvalue(L, -1);  /* function to be called */
     lua_pushvalue(L, i);   /* value to print */
-    lua_call(L, 1, 1);
+    lua_call(L, 1, 1); /* µ÷ÓÃtostring */
     s = lua_tostring(L, -1);  /* get result */
     if (s == NULL)
       return luaL_error(L, LUA_QL("tostring") " must return a string to "
