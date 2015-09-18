@@ -104,7 +104,7 @@
 
 /* Define if you want to build ILU part of DevIL (used in DevIL
    examples/tests) */
-#define ILU_ENABLED
+#undef ILU_ENABLED
 
 /* Define if you can support at least some ASM */
 #undef IL_INLINE_ASM
@@ -168,7 +168,7 @@
 #define IL_NO_JP2
 
 /* jpeg support (JPEG is most common lossy format. libjpeg powered) */
-#undef IL_NO_JPG
+#define IL_NO_JPG
 
 /* lcms support () */
 #define IL_NO_LCMS
